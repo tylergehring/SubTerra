@@ -42,3 +42,6 @@ cd SubTerra
 - Pull the latest changes from `main` regularly to avoid conflicts.
 - Use the `/Docs` folder for documentation and design notes.
 
+## Local Development Folders
+
+You may create a `.devfolder` in the project root for local testing, experiments, or temporary files. This folder is listed in `.gitignore` and will not be pushed to the repository, so you can safely use it for personal development without affecting the shared codebase.
