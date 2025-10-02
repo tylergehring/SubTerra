@@ -163,7 +163,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 255062935}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0287b41a3c6f154086bc91221e1b17d, type: 3}
+  m_Script: {fileID: 11500000, guid: 3136a363be4ba87499be77a1a3f9a36c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::StaticChunk
   noiseHandler: {fileID: 1334624811}
@@ -201,7 +201,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a7676d0f8420a8341a8b45f96d395948, type: 2}
+  - {fileID: 2100000, guid: e6c01471836b7dd40a2393e64cbe1218, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -233,7 +233,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 255062935}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b54c86611cf39614da4e35d5fa776b2e, type: 3}
+  m_Script: {fileID: 11500000, guid: 5883c06b7d11b0243adc917f76c10a8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChunkCollider
 --- !u!1 &1266373918
@@ -359,19 +359,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1334624810}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ce9dd30ac037fa4e96da4a5d1bd3f9e, type: 3}
+  m_Script: {fileID: 11500000, guid: 3aea03dbbb4558a429a884765b314563, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::NoiseHandler
   noise:
-  - frequency: 30
+  - frequency: 16
     intensity: 1
-  - frequency: 24.2
-    intensity: 0.839
-  - frequency: 17.9
-    intensity: 0.639
-  - frequency: 14
-    intensity: 0.616
-  noiseThreshold: 0.299
+  noiseThreshold: 0.5
   seed: 10000
 --- !u!4 &1334624812
 Transform:
@@ -654,7 +648,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2006698051}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 46e27a6242cd33844b0f444a8f6ba5b2, type: 3}
+  m_Script: {fileID: 11500000, guid: ae102984a454e3846941c262c8091973, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::DestroyTest
   chunk: {fileID: 255062938}
