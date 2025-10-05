@@ -35,7 +35,8 @@ public class Inventory
             return true;
         }
 
-        return false;
+        _inventory.Add(newItem);
+        return true;
     }
 
     // this funciton is helpful for setting a certain item at an index or removing an item at an index (ie, use arguments (indexNumber, null))

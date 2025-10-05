@@ -8,6 +8,8 @@ public class PlayerController : MonoBehaviour
     public KeyCode mvRightKey;
     public KeyCode mvLeftKey;
     public KeyCode jumpKey;
+    //    public KeyCode pickUpKey; // picking up actions moved to ItemBox script/GameObject
+    public KeyCode dropKey;
 
     [SerializeField] private float _jumpStrength;
     [SerializeField] private float _moveSpeed;
@@ -22,16 +24,20 @@ public class PlayerController : MonoBehaviour
     private bool _isPaused = false;
     private bool _isJumping = false;
     private float _horizontalMovement;
-
+    private QuickAccess _inventory = new QuickAccess();
 
     void Start()
     {
-        if (mvRightKey == KeyCode.None)
+        if (mvRightKey == KeyCode.None) // right: D
             mvRightKey = KeyCode.D;
-        if (mvLeftKey == KeyCode.None)
+        if (mvLeftKey == KeyCode.None) // left: A
             mvLeftKey = KeyCode.A;
-        if (jumpKey == KeyCode.None)
+        if (jumpKey == KeyCode.None) // jump: SPACE
             jumpKey = KeyCode.Space;
+        //      if (pickUpKey == KeyCode.None) // pickUp: E
+        //          pickUpKey = KeyCode.E;
+        if (dropKey == KeyCode.None) // drop: Q
+            dropKey = KeyCode.Q;
 
         if (!rb)
             rb = GetComponent<Rigidbody2D>();
@@ -76,6 +82,11 @@ public class PlayerController : MonoBehaviour
 
         Debug.Log("_isJumping == " + _isJumping);
 
+        if (Input.GetKey(dropKey))
+        {
+            _Drop();
+        }
+
     }
 
     private void _GoundMove()
@@ -96,6 +107,19 @@ public class PlayerController : MonoBehaviour
         Debug.Log("_groundCollider.IsTouchingLayers(LayerMask.GetMask(\"Environment\")) == " + _groundCollider.IsTouchingLayers(LayerMask.GetMask("Environment")));
     }
 
+    private void _Drop()
+    {
+        /*
+         * code for dropping item
+         */
+        _inventory.SetItem(null);
+    }
+
     // PublicFunctions //
     public void Pause(bool newPause) { _isPaused = newPause; }    
+
+    public void PickUp(GameObject newItem)
+    {
+        _inventory.SetItem(newItem);
+    }
 }
