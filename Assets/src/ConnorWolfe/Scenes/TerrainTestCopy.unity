@@ -727,7 +727,7 @@ Transform:
   m_GameObject: {fileID: 3203949819259576212}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.2, y: -1.93, z: 0}
+  m_LocalPosition: {x: -24.83, y: 46.50499, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -769,12 +769,18 @@ MonoBehaviour:
   mvRightKey: 0
   mvLeftKey: 0
   jumpKey: 0
+  pickUpKey: 101
+  dropKey: 113
+  tabKey: 9
+  invenHotKeys: 31000000320000003300000034000000
   _jumpStrength: 10
   _moveSpeed: 5
+  _health: 3
   rb: {fileID: 0}
   _groundCollider: {fileID: 0}
   _leftWallCol: {fileID: 0}
   _rightWallCol: {fileID: 0}
+  _itemHandlerPrefab: {fileID: 0}
 --- !u!61 &7999094055442268094
 BoxCollider2D:
   m_ObjectHideFlags: 0
