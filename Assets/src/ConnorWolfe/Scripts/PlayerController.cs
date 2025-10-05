@@ -166,13 +166,16 @@ public class PlayerController : MonoBehaviour
     // PublicFunctions //
     public void Pause(bool newPause) { _isPaused = newPause; }
 
-    public bool ChangeHealth (int amount)
+    public void ChangeHealth (int amount)
     {
-        if (_health + amount < 0 || _health + amount > 255)
-            return false;
+        if (_health + amount < 0)
+            _health = 0;
+        if (_health + amount > 255)
+            _health = 255;
 
         _health +=  (byte)amount;
-        return true;
+
+
     }
 
     public GameObject PickUp(GameObject newItem)
