@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
+using System.Text;
 
 public class PlayerController : MonoBehaviour
 {
@@ -17,6 +18,7 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField] private float _jumpStrength;
     [SerializeField] private float _moveSpeed;
+    [SerializeField] private byte _health = (byte)3; // Unsigned 8bit integer (0 to 255)
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private BoxCollider2D _groundCollider;
     [SerializeField] private BoxCollider2D _leftWallCol;
@@ -60,6 +62,8 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         _GetInput();
+        if (_health == 0)
+            Pause(true);
     }
 
     void FixedUpdate()
@@ -160,7 +164,16 @@ public class PlayerController : MonoBehaviour
     }
 
     // PublicFunctions //
-    public void Pause(bool newPause) { _isPaused = newPause; }    
+    public void Pause(bool newPause) { _isPaused = newPause; }
+
+    public bool ChangeHealth (int amount)
+    {
+        if (_health + amount < 0 || _health + amount > 255)
+            return false;
+
+        _health +=  (byte)amount;
+        return true;
+    }
 
     public GameObject PickUp(GameObject newItem)
     {
