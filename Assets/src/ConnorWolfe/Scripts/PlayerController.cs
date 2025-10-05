@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UIElements;
 
 public class PlayerController : MonoBehaviour
 {
@@ -9,7 +10,7 @@ public class PlayerController : MonoBehaviour
     public KeyCode mvRightKey = KeyCode.D;
     public KeyCode mvLeftKey = KeyCode.A;
     public KeyCode jumpKey = KeyCode.Space;
-    //    public KeyCode pickUpKey = KeyCode.E; // picking up actions moved to ItemHandler script/GameObject
+    public KeyCode pickUpKey = KeyCode.E; // picking up actions moved to ItemHandler script/GameObject
     public KeyCode dropKey = KeyCode.Q;
     public KeyCode tabKey = KeyCode.Tab;
     public List<KeyCode> invenHotKeys = new List<KeyCode> { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4 };
@@ -20,7 +21,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private BoxCollider2D _groundCollider;
     [SerializeField] private BoxCollider2D _leftWallCol;
     [SerializeField] private BoxCollider2D _rightWallCol;
-
+    [SerializeField] private GameObject _itemHandlerPrefab;
 
     private bool _onGround = false;
     private bool _onWall = false;
@@ -38,8 +39,8 @@ public class PlayerController : MonoBehaviour
             mvLeftKey = KeyCode.A;
         if (jumpKey == KeyCode.None) // jump: SPACE
             jumpKey = KeyCode.Space;
-        //      if (pickUpKey == KeyCode.None) // pickUp: E
-        //          pickUpKey = KeyCode.E;
+        if (pickUpKey == KeyCode.None) // pickUp: E
+            pickUpKey = KeyCode.E;
         if (dropKey == KeyCode.None) // drop: Q
             dropKey = KeyCode.Q;
         if (tabKey == KeyCode.None) // tab: TAB
@@ -100,15 +101,15 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            int _tempIndex = 0;
+            int tempIndex = 0;
             foreach (KeyCode key in invenHotKeys)
             {
                 if (Input.GetKeyDown(key))
                 {
-                    _inventory.Tab(_tempIndex);
+                    _inventory.Tab(tempIndex);
                     break;
                 }
-                _tempIndex++;
+                tempIndex++;
             }
         }
     }
@@ -133,10 +134,29 @@ public class PlayerController : MonoBehaviour
 
     private void _Drop()
     {
-        /*
-         * code for dropping item
-         */
-        _inventory.SetItem(null);
+        if (!_itemHandlerPrefab)
+            return;
+
+        GameObject temp = _inventory.SetItem(null);
+
+        if (!temp)
+            return;
+
+        temp.SetActive(false);
+
+        Vector3 pos = transform.position;
+        GameObject newHandler = Instantiate(_itemHandlerPrefab, pos, Quaternion.identity);
+        newHandler.SetActive(true);
+        ItemHandler handler = newHandler.GetComponent<ItemHandler>();
+        if (handler)
+        {
+            handler.SetInteractKey(pickUpKey);
+            handler.SetHeldItem(temp);
+            handler.SetPickupCooldown(1f);
+            handler.UpdateSprite();
+        }
+
+
     }
 
     // PublicFunctions //

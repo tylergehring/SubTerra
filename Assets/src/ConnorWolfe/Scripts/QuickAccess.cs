@@ -38,9 +38,11 @@ public class QuickAccess : Inventory
         // safety check the _invenIndex is in a valid slot
         _invenIndex = _invenIndex < 0 || _invenIndex >= _maxCapacity ? 0 : _invenIndex;
 
+       
         GameObject temp = _inventory[_invenIndex];
         _inventory[_invenIndex] = newItem;
-        Debug.Log($"INFORMATION: Added {newItem.name} to inventory at slot {_invenIndex}");
+        if (newItem)
+            Debug.Log($"INFORMATION: Added {newItem.name} to inventory at slot {_invenIndex}");
         if (temp)
             temp.SetActive(false);
         if (newItem)

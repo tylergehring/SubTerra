@@ -12,6 +12,15 @@ public class ItemHandler : MonoBehaviour
     private float _cooldownTime = 0f;
     private bool _onCooldown = false;
 
+
+    // constructor
+    public ItemHandler(KeyCode interactKey, GameObject heldItem, float pickUpCooldown)
+    {
+        _interactKey = interactKey;
+        _heldItem = heldItem;
+        _cooldownTime = pickUpCooldown;
+    }
+
     // built in / Unity functions //
     private void Awake()
     {
@@ -58,8 +67,12 @@ public class ItemHandler : MonoBehaviour
         }        
     }
 
-    // Private functions //
-    private void UpdateSprite()
+    // public functions //
+    public void SetInteractKey(KeyCode key) { _interactKey = key; }
+    public void SetHeldItem(GameObject item) { _heldItem = item; }
+    public void SetPickupCooldown(float cooldown) { _pickUpCooldown = cooldown; }
+
+    public void UpdateSprite()
     {
         if (!_heldItem || !_heldItem.GetComponent<SpriteRenderer>().sprite)
             return;
@@ -82,11 +95,6 @@ public class ItemHandler : MonoBehaviour
         if (itemRen.material)
             spriteRen.material = itemRen.material;
 
-
-//        Sprite newSprite = _heldItem.GetComponent<SpriteRenderer>().sprite;
-  //      spriteRen.sprite = newSprite;
-        
-    
     }
 
 }

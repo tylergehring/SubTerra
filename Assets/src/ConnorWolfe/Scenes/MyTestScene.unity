@@ -2253,6 +2253,7 @@ MonoBehaviour:
   mvRightKey: 0
   mvLeftKey: 0
   jumpKey: 0
+  pickUpKey: 101
   dropKey: 0
   tabKey: 0
   invenHotKeys: 31000000320000003300000034000000
@@ -2262,6 +2263,7 @@ MonoBehaviour:
   _groundCollider: {fileID: 0}
   _leftWallCol: {fileID: 0}
   _rightWallCol: {fileID: 0}
+  _itemHandlerPrefab: {fileID: 7548606447075148978, guid: 66a9cc21f34a7ab408f36f3b7b2f5b3b, type: 3}
 --- !u!58 &4185329105980366602
 CircleCollider2D:
   m_ObjectHideFlags: 0
