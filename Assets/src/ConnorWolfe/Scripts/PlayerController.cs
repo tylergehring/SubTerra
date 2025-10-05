@@ -6,6 +6,8 @@ using System.Text;
 
 public class PlayerController : MonoBehaviour
 {
+    // this script handles systems for the player (Arjun)
+
     // public as to be able to change the key binds in other scripts
     // using Old Unity Input systems
     public KeyCode mvRightKey = KeyCode.D;

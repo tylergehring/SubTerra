@@ -51,6 +51,7 @@ public class ItemHandler : MonoBehaviour
         }
     }
 
+    // swap item / give item with/to player
     private void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.CompareTag("Player") && Input.GetKey(_interactKey) && !_onCooldown)
@@ -61,6 +62,7 @@ public class ItemHandler : MonoBehaviour
                 this.gameObject.SetActive(false);
             else
             {
+                this.transform.position = collision.transform.position;
                 UpdateSprite();
                 Debug.Log($"INFORMATION: {this.name} is now holding {_heldItem.name}");
             }
