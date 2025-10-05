@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class QuickAccess : Inventory
@@ -39,7 +40,24 @@ public class QuickAccess : Inventory
 
         GameObject temp = _inventory[_invenIndex];
         _inventory[_invenIndex] = newItem;
+        Debug.Log($"INFORMATION: Added {newItem.name} to inventory at slot {_invenIndex}");
+        if (temp)
+            temp.SetActive(false);
+        if (newItem)
+            newItem.SetActive(true);
         return temp;
+    }
+
+    public GameObject GetItem()
+    {
+        _invenIndex = _invenIndex < 0 || _invenIndex >= _maxCapacity ? 0 : _invenIndex;
+
+        return _inventory[_invenIndex];
+    }
+
+    public int GetCapacity()
+    {
+        return _maxCapacity;
     }
 }
 

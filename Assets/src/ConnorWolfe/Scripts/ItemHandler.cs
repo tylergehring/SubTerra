@@ -1,3 +1,4 @@
+using System.Runtime.InteropServices;
 using UnityEngine;
 
 public class ItemHandler : MonoBehaviour
@@ -6,8 +7,12 @@ public class ItemHandler : MonoBehaviour
 
     [SerializeField] private KeyCode _interactKey;
     [SerializeField] private GameObject _heldItem;
+    [SerializeField] private float _pickUpCooldown = 1f;
 
-    // built in / Unity functions
+    private float _cooldownTime = 0f;
+    private bool _onCooldown = false;
+
+    // built in / Unity functions //
     private void Awake()
     {
         if (_interactKey == KeyCode.None)
@@ -17,15 +22,71 @@ public class ItemHandler : MonoBehaviour
             _heldItem.SetActive(false);
         else
             this.gameObject.SetActive(false);
+
+        UpdateSprite();
     }
 
-    // Private functions
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void Update()
     {
-        if (collision.CompareTag("Player") && Input.GetKey(_interactKey))
+        if (_onCooldown)
         {
-            //
+            if (_cooldownTime < _pickUpCooldown)
+            {
+                _cooldownTime += Time.deltaTime;
+            }
+            else
+            {
+                _cooldownTime = 0f;
+                _onCooldown= false;
+            }
+        }
+    }
+
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Player") && Input.GetKey(_interactKey) && !_onCooldown)
+        {
+            _onCooldown = true;
+            _heldItem = collision.GetComponent<PlayerController>().PickUp(_heldItem);
+            if (!_heldItem)
+                this.gameObject.SetActive(false);
+            else
+            {
+                UpdateSprite();
+                Debug.Log($"INFORMATION: {this.name} is now holding {_heldItem.name}");
+            }
         }        
+    }
+
+    // Private functions //
+    private void UpdateSprite()
+    {
+        if (!_heldItem || !_heldItem.GetComponent<SpriteRenderer>().sprite)
+            return;
+        SpriteRenderer itemRen = _heldItem.GetComponent<SpriteRenderer>();
+
+
+            SpriteRenderer spriteRen = this.GetComponent<SpriteRenderer>();
+        if (!spriteRen)
+        {
+            this.gameObject.AddComponent<SpriteRenderer>();
+            spriteRen = this.GetComponent<SpriteRenderer>();
+        }
+
+        // copy sprite and details
+        spriteRen.sprite = itemRen.sprite;
+        spriteRen.size = itemRen.size;
+        spriteRen.color = itemRen.color;
+        spriteRen.flipX = itemRen.flipX;
+        spriteRen.flipY = itemRen.flipY;
+        if (itemRen.material)
+            spriteRen.material = itemRen.material;
+
+
+//        Sprite newSprite = _heldItem.GetComponent<SpriteRenderer>().sprite;
+  //      spriteRen.sprite = newSprite;
+        
+    
     }
 
 }

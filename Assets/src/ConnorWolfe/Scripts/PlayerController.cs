@@ -4,12 +4,15 @@ using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour
 {
+    // public as to be able to change the key binds in other scripts
     // using Old Unity Input systems
-    public KeyCode mvRightKey;
-    public KeyCode mvLeftKey;
-    public KeyCode jumpKey;
-    //    public KeyCode pickUpKey; // picking up actions moved to ItemBox script/GameObject
-    public KeyCode dropKey;
+    public KeyCode mvRightKey = KeyCode.D;
+    public KeyCode mvLeftKey = KeyCode.A;
+    public KeyCode jumpKey = KeyCode.Space;
+    //    public KeyCode pickUpKey = KeyCode.E; // picking up actions moved to ItemHandler script/GameObject
+    public KeyCode dropKey = KeyCode.Q;
+    public KeyCode tabKey = KeyCode.Tab;
+    public List<KeyCode> invenHotKeys = new List<KeyCode> { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4 };
 
     [SerializeField] private float _jumpStrength;
     [SerializeField] private float _moveSpeed;
@@ -28,6 +31,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+
         if (mvRightKey == KeyCode.None) // right: D
             mvRightKey = KeyCode.D;
         if (mvLeftKey == KeyCode.None) // left: A
@@ -38,6 +42,8 @@ public class PlayerController : MonoBehaviour
         //          pickUpKey = KeyCode.E;
         if (dropKey == KeyCode.None) // drop: Q
             dropKey = KeyCode.Q;
+        if (tabKey == KeyCode.None) // tab: TAB
+            tabKey = KeyCode.Tab;
 
         if (!rb)
             rb = GetComponent<Rigidbody2D>();
@@ -47,6 +53,7 @@ public class PlayerController : MonoBehaviour
             _groundCollider = obj.GetComponent<BoxCollider2D>();
         }
            
+   
     }
 
     void Update()
@@ -73,27 +80,44 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(mvLeftKey))
             leftMv = 1f;
         _horizontalMovement = rightMv - leftMv;
-        Debug.Log("_horizontalMovement == " + _horizontalMovement);
+     //   Debug.Log("_horizontalMovement == " + _horizontalMovement);
 
         if (Input.GetKey(jumpKey))
             _isJumping = true;
         else
             _isJumping= false;
 
-        Debug.Log("_isJumping == " + _isJumping);
+        //    Debug.Log("_isJumping == " + _isJumping);
 
-        if (Input.GetKey(dropKey))
+        // inventory actions
+        if (Input.GetKeyDown(dropKey))
         {
             _Drop();
         }
-
+        else if (Input.GetKeyDown(tabKey))
+        {
+            _inventory.Tab();
+        }
+        else
+        {
+            int _tempIndex = 0;
+            foreach (KeyCode key in invenHotKeys)
+            {
+                if (Input.GetKeyDown(key))
+                {
+                    _inventory.Tab(_tempIndex);
+                    break;
+                }
+                _tempIndex++;
+            }
+        }
     }
 
     private void _GoundMove()
     {
         //if (_onWall) return;
         rb.linearVelocityX = _horizontalMovement * _moveSpeed;
-        Debug.Log("rb.linearVelocityX == " + rb.linearVelocityX);
+       // Debug.Log("rb.linearVelocityX == " + rb.linearVelocityX);
 
         if (_isJumping && _onGround)
             rb.linearVelocityY = _jumpStrength;
@@ -104,7 +128,7 @@ public class PlayerController : MonoBehaviour
     private void _CheckSurface()
     {
         _onGround = _groundCollider.IsTouchingLayers(LayerMask.GetMask("Environment"));
-        Debug.Log("_groundCollider.IsTouchingLayers(LayerMask.GetMask(\"Environment\")) == " + _groundCollider.IsTouchingLayers(LayerMask.GetMask("Environment")));
+      //  Debug.Log("_groundCollider.IsTouchingLayers(LayerMask.GetMask(\"Environment\")) == " + _groundCollider.IsTouchingLayers(LayerMask.GetMask("Environment")));
     }
 
     private void _Drop()
@@ -118,8 +142,8 @@ public class PlayerController : MonoBehaviour
     // PublicFunctions //
     public void Pause(bool newPause) { _isPaused = newPause; }    
 
-    public void PickUp(GameObject newItem)
+    public GameObject PickUp(GameObject newItem)
     {
-        _inventory.SetItem(newItem);
+        return _inventory.SetItem(newItem);
     }
 }

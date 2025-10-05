@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 public class Inventory
 {
+    // This script is a generic Inventory system that may work for many systems in the game if needed
+
     protected List<GameObject> _inventory = new List<GameObject>();
     protected int _maxCapacity = 4;
     protected int _invenIndex = 0;
@@ -56,6 +58,7 @@ public class Inventory
 
         GameObject temp = _inventory[index];
         _inventory[index] = newItem;
+        Debug.Log($"INFORMATION: Added {newItem.name} to inventory at slot {index}");
         return temp;
 
     }
