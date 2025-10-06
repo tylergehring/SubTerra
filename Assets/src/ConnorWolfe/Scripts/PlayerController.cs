@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     public KeyCode pickUpKey = KeyCode.E; // picking up actions moved to ItemHandler script/GameObject
     public KeyCode dropKey = KeyCode.Q;
     public KeyCode tabKey = KeyCode.Tab;
+    public KeyCode useKey = KeyCode.F;
     public List<KeyCode> invenHotKeys = new List<KeyCode> { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4 };
 
     [SerializeField] private float _jumpStrength;
@@ -49,6 +50,8 @@ public class PlayerController : MonoBehaviour
             dropKey = KeyCode.Q;
         if (tabKey == KeyCode.None) // tab: TAB
             tabKey = KeyCode.Tab;
+        if (useKey == KeyCode.None) // use tool: F
+            useKey = KeyCode.F;
 
         if (!rb)
             rb = GetComponent<Rigidbody2D>();
@@ -118,6 +121,11 @@ public class PlayerController : MonoBehaviour
                 tempIndex++;
             }
         }
+
+        if (Input.GetKeyDown(useKey))
+        {
+            _UseCurrentItem();
+        }
     }
 
     private void _GoundMove()
@@ -138,6 +146,22 @@ public class PlayerController : MonoBehaviour
       //  Debug.Log("_groundCollider.IsTouchingLayers(LayerMask.GetMask(\"Environment\")) == " + _groundCollider.IsTouchingLayers(LayerMask.GetMask("Environment")));
     }
 
+    private void _UseCurrentItem()
+    {
+        GameObject current = _inventory.GetItem();
+        if (!current)
+            return;
+
+        NonReusableTools tool = current.GetComponent<NonReusableTools>();
+        if (!tool)
+        {
+            Debug.LogWarning("WARNING: Current inventory slot does not contain a usable tool.");
+            return;
+        }
+
+        tool.Use(this);
+    }
+
     private void _Drop()
     {
         if (!_itemHandlerPrefab)
@@ -147,6 +171,10 @@ public class PlayerController : MonoBehaviour
 
         if (!temp)
             return;
+
+        NonReusableTools toolComp = temp.GetComponent<NonReusableTools>();
+        if (toolComp)
+            toolComp.OnDropped(this);
 
         temp.SetActive(false);
 
@@ -180,8 +208,43 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    public void ConsumeCurrentTool(NonReusableTools tool, bool destroyInstance)
+    {
+        GameObject current = _inventory.GetItem();
+
+        if (current && tool && current != tool.gameObject)
+            return;
+
+        GameObject removed = _inventory.SetItem(null);
+        if (destroyInstance && removed)
+            Destroy(removed);
+        else if (destroyInstance && !removed && tool)
+            Destroy(tool.gameObject);
+    }
+
     public GameObject PickUp(GameObject newItem)
     {
-        return _inventory.SetItem(newItem);
+        if (newItem)
+        {
+            newItem.transform.SetParent(null);
+        }
+
+        GameObject previous = _inventory.SetItem(newItem);
+
+        if (newItem)
+        {
+            NonReusableTools newTool = newItem.GetComponent<NonReusableTools>();
+            if (newTool)
+                newTool.OnPickup(this);
+        }
+
+        if (previous)
+        {
+            NonReusableTools previousTool = previous.GetComponent<NonReusableTools>();
+            if (previousTool)
+                previousTool.OnDropped(this);
+        }
+
+        return previous;
     }
 }

@@ -1,0 +1,42 @@
+
+Looking over your teammates’ systems, here’s the game plan I’d follow and what I’d watch out for next.
+
+Sketch class hierarchy (NonReusableTools → Food → Mushroom) and decide how they plug into PlayerController, Inventory, and ItemHandler.
+Map out spawning workflow so the base class can drop a tool prefab in front of the player for testing.
+Define the “use” flow so selecting/activating a mushroom increases health and clears the slot.
+List integration touchpoints and guardrails (colliders, sprites, prefabs, cooldowns, etc.).
+Consider alternatives (e.g., ScriptableObjects or interfaces) before committing.
+Class hierarchy and data model
+NonReusableTools (base MonoBehaviour)
+
+Holds shared references: e.g., pickup prefab/sprite, optional ItemHandler, and a flag for whether the tool has been consumed.
+Provides PlaceForTesting(Transform player) that instantiates/positions the tool prefab just in front of the player (reuse ItemHandler so pickup is already wired).
+Supplies virtual hooks: OnPickup(PlayerController player) (to stash in inventory) and OnUse(PlayerController player) (to execute the effect and destroy/disable itself). That lets TNT, mushrooms, etc. override behavior cleanly.
+Food (inherits NonReusableTools)
+
+Adds serialized fields like healthRestoreAmount, maybe consumeSound.
+Overrides OnUse to call something like player.ChangeHealth(+healthRestoreAmount) and then rely on base logic to deactivate the item slot.
+Could include common visuals/animation triggers for consumables.
+Mushroom (inherits Food)
+
+Sets specific health amount, art, and maybe status effects.
+Optionally overrides OnPickup to tweak sprite, update UI, or trigger flavor feedback.
+Use prefabs for each item type; attach the derived component and wire up sprites/colliders so the existing ItemHandler can show them.
+
+Integration with existing systems
+Pickup flow: ItemHandler already swaps held items with whatever the player has selected. Make sure mushrooms spawn with a NonReusableTools-driven prefab so when the player presses E, the tool gets handed to PlayerController.PickUp via ItemHandler.
+Inventory: QuickAccess.SetItem activates the newly held GameObject. Give mushrooms a behaviour that subscribes to a “use” input (e.g., left click or a hotkey) when active, or have PlayerController detect Input.GetMouseButtonDown(0) while an inventory slot is selected and call the tool’s OnUse.
+Using the item: After OnUse, call a base helper to remove/deactivate the GameObject in inventory. You can reuse _inventory.SetItem(null) to clear the slot and spawn nothing on drop.
+Health change: PlayerController.ChangeHealth(int amount) already clamps, so Mushroom just calls it with a positive value.
+Random/test placement
+Inside NonReusableTools, implement PlaceForTesting(Transform player):
+Compute Vector3 spawnPos = player.position + player.right * 1f (or use facing direction).
+Instantiate the tool prefab (or move gameObject) to that position, enable colliders, and optionally attach an ItemHandler already holding the tool.
+For debug, you can tie this to a key press in an editor-only helper script.
+Later you’ll want a proper world spawning system (noise-based placement, chunk managers), but this gets you quick iterations.
+
+Edge cases and gotchas
+Null items: Inventory and QuickAccess assume the slot exists; ensure _inventory[_invenIndex] isn’t null before calling item methods.
+Sprite setup: ItemHandler.UpdateSprite() shrinks/grows based on the held item’s renderer. Make sure mushrooms have a SpriteRenderer and appropriate material; otherwise the handler may stay invisible.
+Cooldowns: Using an item instantly after pickup might conflict with ItemHandler’s cooldown. If you see odd behavior, consider resetting _onCooldown when transferring the item.
+Prefabs: Unitably set up colliders, rigidbodies, and tags on the mushroom prefab so the player can walk over it and trigger OnTriggerStay2D.
