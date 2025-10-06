@@ -1,7 +1,7 @@
 //Jack Kroll
 using UnityEngine;
 
-// the TestTool class inherits from ToolSystem this will be used as a basiss for other tools 
+// the TestTool class inherits from ToolSystem this will be used as a basiss for other tool classes 
 public class TestTool : ToolSystem
 {
     // override the abstract UseTool method to define custom tool behavior
