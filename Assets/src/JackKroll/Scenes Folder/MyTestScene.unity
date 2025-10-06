@@ -1305,7 +1305,7 @@ Transform:
   - {fileID: 755516563}
   - {fileID: 2133684322}
   - {fileID: 408001871}
-  - {fileID: 1874034464}
+  - {fileID: 2128051801}
   - {fileID: 223685584}
   - {fileID: 1237226561}
   - {fileID: 1443929322}
@@ -1500,7 +1500,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &1874034458
+--- !u!1 &2128051800
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1508,27 +1508,56 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1874034464}
-  - component: {fileID: 1874034463}
-  - component: {fileID: 1874034462}
-  - component: {fileID: 1874034461}
-  - component: {fileID: 1874034460}
-  - component: {fileID: 1874034459}
-  - component: {fileID: 1874034465}
+  - component: {fileID: 2128051801}
+  - component: {fileID: 2128051808}
+  - component: {fileID: 2128051807}
+  - component: {fileID: 2128051806}
+  - component: {fileID: 2128051805}
+  - component: {fileID: 2128051804}
+  - component: {fileID: 2128051802}
   m_Layer: 0
-  m_Name: TestTool
+  m_Name: Shovel
   m_TagString: PickUp
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1874034459
+--- !u!4 &2128051801
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128051800}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 11.63, y: 2.05, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1350668103}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2128051802
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1874034458}
+  m_GameObject: {fileID: 2128051800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abe030ccf641f0349bf5b019fb543ed5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ReusableToolClass
+  _toolName: Unnamed Tool
+  _isUsable: 1
+--- !u!114 &2128051804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2128051800}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3f65bd30b57276d4798726310734b6e4, type: 3}
@@ -1537,13 +1566,13 @@ MonoBehaviour:
   _interactKey: 0
   _heldItem: {fileID: 640355899}
   _pickUpCooldown: 1
---- !u!58 &1874034460
+--- !u!58 &2128051805
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1874034458}
+  m_GameObject: {fileID: 2128051800}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -1573,14 +1602,14 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
---- !u!50 &1874034461
+--- !u!50 &2128051806
 Rigidbody2D:
   serializedVersion: 5
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1874034458}
+  m_GameObject: {fileID: 2128051800}
   m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
@@ -1600,13 +1629,13 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 5
---- !u!58 &1874034462
+--- !u!58 &2128051807
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1874034458}
+  m_GameObject: {fileID: 2128051800}
   m_Enabled: 1
   serializedVersion: 3
   m_Density: 1
@@ -1636,13 +1665,13 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
---- !u!212 &1874034463
+--- !u!212 &2128051808
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1874034458}
+  m_GameObject: {fileID: 2128051800}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -1694,37 +1723,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!4 &1874034464
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1874034458}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 9.24, y: 2.08, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1350668103}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1874034465
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1874034458}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7bb853354e2f8754e81864adfa57a288, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TestTool
-  _toolName: Unnamed Tool
-  _isUsable: 1
-  _useCount: 3
-  _autoUseDelay: 1
 --- !u!1 &2133684316
 GameObject:
   m_ObjectHideFlags: 0
@@ -2256,6 +2254,7 @@ MonoBehaviour:
   pickUpKey: 101
   dropKey: 0
   tabKey: 0
+  useKey: 102
   invenHotKeys: 31000000320000003300000034000000
   _jumpStrength: 10
   _moveSpeed: 5
