@@ -7,7 +7,7 @@ using UnityEngine;
 public abstract class ToolSystem : MonoBehaviour
 {
     // Tool name (visible in Inspector)
-    [SerializeField] protected string _toolName = "Unnamed Tool";
+    [SerializeField] protected string _reusableToolName = "Unnamed Tool";
 
     // Determines whether the tool can still be used
     [SerializeField] protected bool _isUsable = true;
@@ -30,7 +30,7 @@ public abstract class ToolSystem : MonoBehaviour
     protected virtual void Start()
     {
         // Print a message in the Unity Console confirming initialization
-        Debug.Log($"{_toolName} initialized.");
+        Debug.Log($"{_reusableToolName} initialized.");
 
         // Ensure the tool has a Collider2D for detecting pickups
         Collider2D col = GetComponent<Collider2D>();
@@ -43,7 +43,7 @@ public abstract class ToolSystem : MonoBehaviour
         else
         {
             // Warn the developer if no Collider2D is attached
-            Debug.LogWarning($"{_toolName} needs a Collider2D for pickup detection!");
+            Debug.LogWarning($"{_reusableToolName} needs a Collider2D for pickup detection!");
         }
     }
 
@@ -67,7 +67,7 @@ public abstract class ToolSystem : MonoBehaviour
     protected virtual void OnPickedUp(GameObject player)
     {
         // Log the pickup event to the Console
-        Debug.Log($"{_toolName} picked up by {player.name}");
+        Debug.Log($"{_reusableToolName} picked up by {player.name}");
 
         // Disable the GameObject to simulate being picked up
         gameObject.SetActive(false);
