@@ -764,12 +764,18 @@ MonoBehaviour:
   mvRightKey: 0
   mvLeftKey: 0
   jumpKey: 0
+  pickUpKey: 101
+  dropKey: 113
+  tabKey: 9
+  invenHotKeys: 31000000320000003300000034000000
   _jumpStrength: 10
   _moveSpeed: 5
+  _health: 3
   rb: {fileID: 0}
   _groundCollider: {fileID: 0}
   _leftWallCol: {fileID: 0}
   _rightWallCol: {fileID: 0}
+  _itemHandlerPrefab: {fileID: 0}
 --- !u!61 &8614536598449863984
 BoxCollider2D:
   m_ObjectHideFlags: 0
