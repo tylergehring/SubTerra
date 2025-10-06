@@ -6,9 +6,10 @@ public class QuickAccess : Inventory
     // QuickAccess is a subclass of Inventory that implements systems that are more specific to what the playerController needs
     //   * ie: QuickAccess is an extension of Inventory that adds some extra features
 
+    // constructor that constructs this as an inventory with four slots
     public QuickAccess() : base(4) { }
 
-    // quickly go to a tab space
+    // quickly go to an inventory slot
     public void Tab(int slot)
     {
         if (slot < 0 || slot >= _maxCapacity)
@@ -50,6 +51,7 @@ public class QuickAccess : Inventory
         return temp;
     }
 
+    // get the current open inventory item
     public GameObject GetItem()
     {
         _invenIndex = _invenIndex < 0 || _invenIndex >= _maxCapacity ? 0 : _invenIndex;
@@ -57,6 +59,7 @@ public class QuickAccess : Inventory
         return _inventory[_invenIndex];
     }
 
+    // get how big the inventory is
     public int GetCapacity()
     {
         return _maxCapacity;
