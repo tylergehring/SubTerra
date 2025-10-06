@@ -59,7 +59,7 @@ public class ItemHandler : MonoBehaviour
             _onCooldown = true;
             _heldItem = collision.GetComponent<PlayerController>().PickUp(_heldItem);
             if (!_heldItem)
-                this.gameObject.SetActive(false);
+                Destroy(this.gameObject);
             else
             {
                 this.transform.position = collision.transform.position;
