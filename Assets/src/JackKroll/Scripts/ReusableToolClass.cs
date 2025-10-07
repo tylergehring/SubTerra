@@ -1,52 +1,54 @@
-// JackKroll
 using UnityEngine;
 
+// Jack Kroll
 public class ReusableToolClass : ToolSystem
 {
-    // Override the abstract UseTool method to define custom behavior
+    [Header("Flashlight Settings")]
+    public Light flashlight;  
+    private bool _isOn = false;   
+
+    void Start()
+    {
+        
+        if (flashlight == null)
+        {
+            flashlight = GetComponent<Light>();
+        }
+
+        // Start with flashlight off
+        if (flashlight != null)
+        {
+            flashlight.enabled = _isOn;
+        }
+    }
+
+    void Update()
+    {
+        // F to use the flashlight tool
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            UseTool();
+        }
+    }
+
     public override void UseTool(GameObject target = null)
     {
-        // Check if tool is usable
-        if (!CanUseTool())
+        LogUsage();       
+        ToggleFlashlight();
+    }
+
+    //this will be updated 
+    private void ToggleFlashlight()
+    {
+        if (flashlight == null)
         {
-            Debug.Log($"{_toolName} cannot be used anymore!");
+            Debug.LogWarning("No Light assigned to " + _toolName);
             return;
         }
 
-        // Perform the shovel action
-        Debug.Log($"{_toolName} used successfully!");
-        Debug.Log($"{_toolName} digs a hole!");
-    }
+        _isOn = !_isOn;
+        flashlight.enabled = _isOn;
 
-    // Override Start to name and initialize this tool
-    protected override void Start()
-    {
-        base.Start();
-        _toolName = "Shovel";
-        _isUsable = true;
-        Debug.Log($"{_toolName} is ready to dig!");
-    }
-
-    // Optional custom pickup message
-    protected override void OnPickedUp(GameObject player)
-    {
-        base.OnPickedUp(player);
-        Debug.Log($"{_toolName} added to {player.name}'s inventory (reusable tool).");
-    }
-
-    // Update runs every frame — perfect for detecting player input
-    protected override void Update()
-    {
-        base.Update();
-
-        // Only allow usage if the player has already picked up the shovel
-        if (_isPickedUp)
-        {
-            // When the player presses E, use the shovel
-            if (Input.GetKeyDown(KeyCode.E))
-            {
-                UseTool();
-            }
-        }
+        Debug.Log(_toolName + " turned " + (_isOn ? "ON" : "OFF"));
     }
 }
