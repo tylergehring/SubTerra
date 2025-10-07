@@ -1,8 +1,6 @@
 using UnityEngine;
 
-/// <summary>
 /// Base class for consumable tools that restore health or apply buffs.
-/// </summary>
 public abstract class Food : NonReusableTools
 {
     [Header("Food Settings")]

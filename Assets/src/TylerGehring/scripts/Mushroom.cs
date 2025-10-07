@@ -1,8 +1,6 @@
 using UnityEngine;
 
-/// <summary>
 /// Simple food item that heals the player when consumed.
-/// </summary>
 public class Mushroom : Food
 {
     [Header("Mushroom Settings")]

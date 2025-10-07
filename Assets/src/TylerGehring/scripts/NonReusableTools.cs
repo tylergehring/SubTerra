@@ -1,9 +1,8 @@
 using UnityEngine;
 
-/// <summary>
 /// Base class for single-use tools such as food or explosives.
 /// Provides shared inventory hooks and a simple way to spawn test instances in the world.
-/// </summary>
+
 public abstract class NonReusableTools : MonoBehaviour
 {
     [Header("Tool Setup")]
@@ -69,18 +68,14 @@ public abstract class NonReusableTools : MonoBehaviour
         _consumed = false;
     }
 
-    /// <summary>
     /// Called when the tool enters the player's inventory.
-    /// </summary>
     public virtual void OnPickup(PlayerController player)
     {
         _owner = player;
         SetWorldInteractionEnabled(false);
     }
 
-    /// <summary>
     /// Called when the tool leaves the player's inventory.
-    /// </summary>
     public virtual void OnDropped(PlayerController player)
     {
         if (_owner == player)
@@ -94,10 +89,8 @@ public abstract class NonReusableTools : MonoBehaviour
         }
     }
 
-    /// <summary>
     /// Spawns a copy of this tool inside an ItemHandler in front of the supplied player.
     /// Useful for quick testing or temporary random placement.
-    /// </summary>
     /// <param name="player">Player used for positioning and key bindings.</param>
     /// <param name="randomizePosition">When true, uses a random offset instead of fixed forward distance.</param>
     public GameObject PlaceForTesting(PlayerController player, bool randomizePosition = false)
@@ -154,9 +147,7 @@ public abstract class NonReusableTools : MonoBehaviour
         return handlerInstance;
     }
 
-    /// <summary>
     /// Called by the player to trigger the tool's effect.
-    /// </summary>
     public void Use(PlayerController player)
     {
         if (_consumed)
@@ -186,9 +177,7 @@ public abstract class NonReusableTools : MonoBehaviour
         }
     }
 
-    /// <summary>
     /// Override to implement tool behaviour. Return true to remove the tool from the inventory.
-    /// </summary>
     protected abstract bool OnUse(PlayerController player);
 
     protected virtual void OnConsumed(PlayerController player)
