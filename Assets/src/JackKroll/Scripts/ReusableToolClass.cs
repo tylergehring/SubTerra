@@ -4,7 +4,8 @@ using UnityEngine;
 public class ReusableToolClass : ToolSystem
 {
     [Header("Flashlight Settings")]
-    public Light flashlight;  
+    public Light flashlight;
+    
     private bool _isOn = false;   
 
     void Start()
@@ -24,18 +25,40 @@ public class ReusableToolClass : ToolSystem
 
     void Update()
     {
+
+        if (_isOn && Input.GetKeyDown(KeyCode.A))
+        {
+            transform.localRotation = Quaternion.Euler(180f, 90f, 0f);
+
+        }
+
+        if (_isOn && Input.GetKeyDown(KeyCode.D))
+        {
+            transform.localRotation = Quaternion.Euler(0f, 90f, 0f);
+
+        }
+        if (_isOn && Input.GetKeyDown(KeyCode.P))
+        {
+            transform.Rotate(10f, 5f, 0f);
+
+        }
         // F to use the flashlight tool
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.L))
         {
             UseTool();
+            
         }
-    }
+       
 
+    }
+   
     public override void UseTool(GameObject target = null)
     {
         LogUsage();       
         ToggleFlashlight();
     }
+
+  
 
     //this will be updated 
     private void ToggleFlashlight()
@@ -50,5 +73,12 @@ public class ReusableToolClass : ToolSystem
         flashlight.enabled = _isOn;
 
         Debug.Log(_toolName + " turned " + (_isOn ? "ON" : "OFF"));
+        /* if (Input.GetKeyDown(KeyCode.A))
+         {
+             m_LocalRotation = m_LocalRotation + 90;
+         }*/
+        
+
+
     }
 }
