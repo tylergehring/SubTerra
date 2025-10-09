@@ -1,4 +1,9 @@
 I have a toolsytem class that inharits from monbehavir and a class named reusabletoolclass that inharits from toolsytem. 
 In the reusable tool class i implemenyted code for a flashlight prefab that has a pointlight componate among other componates.
-The code for the flashlight makes shure that the x and y degree values for the derction of the light is changed based on player input
-(A) for adding 180 to x and (D) adding 90 to y.
+The code for the flashlight makes shure that the x and y degree values for the derction of the light is changed based on player input.
+When the player presess (A) the dgrees in transform for the flashlight are set to x 180, y 90 degrees. 
+When the player presess (D) the dgrees in transform for the flashlight are set to x 0, y 90 degrees. 
+When (L) is selected the flashlight is turnd off.
+When (P) is presesed we will call transform to rotate the degrees ie (add subtract x and y values) +10 for x and +5 degrees for y. This will rotate the light drection.
+
+
