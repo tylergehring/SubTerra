@@ -5,7 +5,9 @@ public class ReusableToolClass : ToolSystem
 {
     [Header("Flashlight Settings")]
     public Light flashlight;
+
     
+   
     private bool _isOn = false;   
 
     void Start()
@@ -26,6 +28,17 @@ public class ReusableToolClass : ToolSystem
     void Update()
     {
 
+        // get mouse position in world space
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, 10f));
+
+        // get direction from flashlight to mouse
+        Vector3 direction = mousePos - transform.position;
+
+        // make the flashlight look toward the mouse (affects X and Y rotations)
+        transform.rotation = Quaternion.LookRotation(direction);
+
+        //old code for using keys to rotate light
+        /*
         if (_isOn && Input.GetKeyDown(KeyCode.A))
         {
             transform.localRotation = Quaternion.Euler(180f, 90f, 0f);
@@ -42,6 +55,10 @@ public class ReusableToolClass : ToolSystem
             transform.Rotate(10f, 5f, 0f);
 
         }
+        */
+
+
+
         // F to use the flashlight tool
         if (Input.GetKeyDown(KeyCode.L))
         {

@@ -301,6 +301,10 @@ PrefabInstance:
       value: 0.94716984
       objectReference: {fileID: 0}
     - target: {fileID: 5873405232624543966, guid: 61c360fd735031546aa0b7a9043f5c74, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5873405232624543966, guid: 61c360fd735031546aa0b7a9043f5c74, type: 3}
       propertyPath: m_DrawHalo
       value: 0
       objectReference: {fileID: 0}
