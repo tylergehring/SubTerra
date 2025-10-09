@@ -1,0 +1,4 @@
+I have a toolsytem class that inharits from monbehavir and a class named reusabletoolclass that inharits from toolsytem. 
+In the reusable tool class i implemenyted code for a flashlight prefab that has a pointlight componate among other componates.
+The code for the flashlight makes shure that the x and y degree values for the derction of the light is changed based on player input
+(A) for adding 180 to x and (D) adding 90 to y.
