@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 236629870}
   - component: {fileID: 236629869}
   m_Layer: 0
-  m_Name: PauseUIDoc
+  m_Name: PauseUIDocument
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -150,7 +150,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: UnityEngine.dll::UnityEngine.UIElements.UIDocument
   m_PanelSettings: {fileID: 11400000, guid: 214049680ff267245b4f9a6d38cc1e05, type: 2}
   m_ParentUI: {fileID: 0}
-  sourceAsset: {fileID: 0}
+  sourceAsset: {fileID: 9197481963319205126, guid: 7ae2dd2b1d4cbc747a14629f7aa04573, type: 3}
   m_SortingOrder: 0
   m_Position: 0
   m_WorldSpaceSizeMode: 1
@@ -174,7 +174,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &674209130
+--- !u!1 &456047640
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -182,21 +182,35 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 674209131}
+  - component: {fileID: 456047642}
+  - component: {fileID: 456047641}
   m_Layer: 0
-  m_Name: Player
-  m_TagString: Player
+  m_Name: PauseMenuController
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &674209131
+--- !u!114 &456047641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456047640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77c33543143e46e41ab94b77e5af62c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PauseMenuController
+  pauseUIDocumentGO: {fileID: 236629868}
+--- !u!4 &456047642
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 674209130}
+  m_GameObject: {fileID: 456047640}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.42857, y: 0, z: -11.42857}
@@ -401,4 +415,4 @@ SceneRoots:
   - {fileID: 1236687410}
   - {fileID: 1104634749}
   - {fileID: 236629870}
-  - {fileID: 674209131}
+  - {fileID: 456047642}
