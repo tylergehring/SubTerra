@@ -23,6 +23,7 @@ public class ChunkCollider : MonoBehaviour
             GameObject edgeObj = new GameObject("EdgeCollider");
             edgeObj.transform.parent = transform;
             edgeObj.transform.localPosition = Vector3.zero;
+            edgeObj.layer = 3; // environment
 
             EdgeCollider2D ec = edgeObj.AddComponent<EdgeCollider2D>();
             ec.points = path.ToArray();
