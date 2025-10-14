@@ -11,5 +11,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/src/Main/Game.unity
     guid: 359113e19a481734d8484abaa475c6b9
+  - enabled: 1
+    path: Assets/src/JackKroll/Scripts/MVP.unity
+    guid: 6185cbc34c8a8c24099e85471ec9b586
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

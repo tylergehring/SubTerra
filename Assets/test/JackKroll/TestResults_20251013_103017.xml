@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2025-10-13 17:30:14Z" end-time="2025-10-13 17:30:14Z" duration="0.0151581">
+  <test-suite type="TestSuite" id="1015" name="SubTerra" fullname="SubTerra" runstate="Runnable" testcasecount="3" result="Passed" start-time="2025-10-13 17:30:14Z" end-time="2025-10-13 17:30:14Z" duration="0.015158" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1005" name="Jack_StressTest.dll" fullname="C:/Users/Jack/Desktop/Sutara/SubTerra/Library/ScriptAssemblies/Jack_StressTest.dll" runstate="Runnable" testcasecount="3" result="Passed" start-time="2025-10-13 17:30:14Z" end-time="2025-10-13 17:30:14Z" duration="0.009998" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="39168" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestFixture" id="1001" name="ReusableToolClassStressTests" fullname="ReusableToolClassStressTests" classname="ReusableToolClassStressTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2025-10-13 17:30:14Z" end-time="2025-10-13 17:30:14Z" duration="0.004992" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1004" name="Boundary_MaxIntensityHandled" fullname="ReusableToolClassStressTests.Boundary_MaxIntensityHandled" methodname="Boundary_MaxIntensityHandled" classname="ReusableToolClassStressTests" runstate="Runnable" seed="1043177288" result="Passed" start-time="2025-10-13 17:30:14Z" end-time="2025-10-13 17:30:14Z" duration="0.001842" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[Tool is being used!
+Tool turned ON
+Saving results to: C:/Users/Jack/AppData/LocalLow/Sandstorm Games/SubTerra\TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
