@@ -1,24 +1,30 @@
 using UnityEngine;
 
 /// Simple food item that heals the player when consumed.
-public class Mushroom : Food
+public class Mushroom : NonReusableTools
 {
     [Header("Mushroom Settings")]
+    [SerializeField] private int _healthRestoreAmount = 1;
     [SerializeField] private AudioClip _consumeSound;
 
-    public override void OnPickup(PlayerController player)
+    public int HealthRestoreAmount => _healthRestoreAmount;
+
+    protected override bool OnUse(PlayerController player)
     {
-        base.OnPickup(player);
-        if (player)
+        if (!player)
         {
-            Debug.Log($"INFORMATION: {player.name} picked up a mushroom.");
+            Debug.LogWarning($"{name}: Cannot consume mushroom without a player reference.");
+            return false;
         }
+
+        ApplyFoodEffect(player);
+        return true; // Return true to consume the item
     }
 
-    protected override void ApplyFoodEffect(PlayerController player)
+    protected virtual void ApplyFoodEffect(PlayerController player)
     {
-        base.ApplyFoodEffect(player);
-        Debug.Log($"INFORMATION: {player.name} consumed a mushroom and restored {HealthRestoreAmount} health.");
+        player.ChangeHealth(_healthRestoreAmount);
+        Debug.Log($"INFORMATION: {player.name} consumed a mushroom and restored {_healthRestoreAmount} health.");
 
         if (_consumeSound)
         {
