@@ -1,0 +1,9 @@
+{
+    "name": "TylerGehring_Tests",
+    "references": [
+        "GameScripts"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ]
+}

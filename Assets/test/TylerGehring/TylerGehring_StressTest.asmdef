@@ -1,0 +1,17 @@
+{
+    "name": "TylerGehring_StressTest",
+    "references": [
+        "TylerGehring_Scripts"
+    ],
+    "optionalUnityReferences": [
+        "TestAssemblies"
+    ],
+    "includePlatforms": [
+        "Editor",
+        "WindowsStandalone32",
+        "WindowsStandalone64",
+        "Android",
+        "iOS"
+    ],
+    "allowUnsafeCode": false
+}
