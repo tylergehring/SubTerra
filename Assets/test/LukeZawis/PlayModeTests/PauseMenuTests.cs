@@ -9,13 +9,13 @@ public class PauseMenuTests
 {
     private PauseMenuController controller;
 
+    // --- Initial Setup ---
+
     [UnitySetUp]
     public IEnumerator LoadScene()
     {
         Debug.Log("[Test] 🔄 Initializing: loading PauseMenuTestScene...");
-        // Use LoadSceneAsync to ensure the scene finishes loading safely
         yield return SceneManager.LoadSceneAsync("PauseMenuTestScene");
-        // Give an extra frame for objects to fully initialize after load
         yield return null;
 
         Debug.Log("[Test] ✅ Scene loaded.");
@@ -24,13 +24,12 @@ public class PauseMenuTests
     [SetUp]
     public void Setup()
     {
-        // Using modern, non-obsolete method to find the controller
         controller = Object.FindFirstObjectByType<PauseMenuController>();
         Assert.IsNotNull(controller, "[Test] ❌ PauseMenuController not found in scene.");
         Debug.Log("[Test] ✅ Controller initialized successfully.");
     }
 
-    // --- Boundary Tests ---
+    // --- Boundary Test 1: Long Run Stability ---
 
     [UnityTest]
     public IEnumerator Boundary_LongRunForFiveSecondsWithLagDetection()
@@ -50,6 +49,7 @@ public class PauseMenuTests
             float frameDuration = now - lastFrameTime;
             lastFrameTime = now;
 
+            // Lag detection logic for warning
             if (frameDuration > 0.05f)
             {
                 string activePanel = GetActivePanelName(controller);
@@ -70,6 +70,8 @@ public class PauseMenuTests
         Assert.AreEqual(1f, Time.timeScale, "[Boundary] ❌ Game should resume after long run.");
         Debug.Log($"[Boundary] ✅ LongRun test PASSED. Duration: 5s, Lag spikes: {lagCount}.");
     }
+
+    // --- Boundary Test 2: Navigation Flow ---
 
     [UnityTest]
     public IEnumerator Boundary_EscapeFlow()
@@ -114,7 +116,6 @@ public class PauseMenuTests
 
         while (true)
         {
-            // CRITICAL CHECK 1: Fail immediately if the controller is destroyed.
             if (controller == null)
             {
                 Assert.Fail($"[Stress] ❌ Test failed: PauseMenuController was unexpectedly destroyed at toggle {toggleCount}.");
@@ -124,11 +125,12 @@ public class PauseMenuTests
             float frameDuration = now - lastFrameTime;
             lastFrameTime = now;
 
+            // Lag spike detection logic for warning
             if (frameDuration > 0.05f)
             {
                 string activePanel = GetActivePanelName(controller);
                 Debug.LogWarning(
-                    $"[Stress] ⚠️ Lag spike at toggle {toggleCount}, frame {frameDuration:F3}s, active panel: {activePanel}"
+                    $"[Stress] ⚠️ Lag spike {frameDuration:F3}s, active panel: {activePanel}"
                 );
                 lagCount++;
 
@@ -142,9 +144,6 @@ public class PauseMenuTests
                     Assert.Fail($"[Stress] ❌ Test failed: Too many lag spikes ({lagCount}) at toggle {toggleCount}.");
                 }
 
-                // **THE FINAL FIX**: We are now prioritizing the TimeScale check.
-                // If the panel state is "Unknown" (meaning UI broke momentarily), we log it,
-                // but only fail if the game unpaused itself, which is the core integrity check.
                 bool isValidPanelActive = activePanel == "Pause" || activePanel == "Settings" || activePanel == "Controls";
 
                 if (activePanel == "Unknown (No UI Root)" || activePanel == "NoneVisible")
@@ -152,7 +151,6 @@ public class PauseMenuTests
                     Debug.LogWarning($"[Stress] ⚠️ Transient UI instability detected at toggle {toggleCount}. Proceeding with TimeScale check...");
                 }
 
-                // If the game unpaused, FAIL regardless of panel state.
                 Assert.AreEqual(0f, Time.timeScale,
                                 $"[Stress] ❌ Game unpaused! TimeScale modified to {Time.timeScale} at toggle {toggleCount}.");
             }
@@ -166,14 +164,14 @@ public class PauseMenuTests
                 Assert.Fail($"[Stress] ❌ Test failed due to exception at toggle {toggleCount}: {e.Message}. StackTrace: {e.StackTrace}");
             }
 
-            // CRITICAL CHECK 2: Ensure the game remains paused after the toggle logic.
             Assert.AreEqual(0f, Time.timeScale, "[Stress] ❌ TimeScale was modified to non-zero during stress test (Post-Toggle Check).");
 
             toggleCount++;
 
-            if (Time.realtimeSinceStartup - start > 30f)
+            // UPDATED: Safety timeout is 15 seconds
+            if (Time.realtimeSinceStartup - start > 15f)
             {
-                Debug.LogWarning("[Stress] ⚠️ Test reached 30s safety timeout without failure.");
+                Debug.LogWarning("[Stress] ⚠️ Test reached 15s safety timeout without failure.");
                 break;
             }
 
@@ -199,20 +197,15 @@ public class PauseMenuTests
     {
         if (ctrl == null) return;
 
-        // 1. Stress the menu logic (50 rapid calls)
+        // Menu Logic Stress: Toggles settings 50 times in one frame.
         for (int i = 0; i < 50; i++)
         {
             ctrl.SendMessage("OpenSettings");
             ctrl.SendMessage("BackToPause");
-            if (toggleCount % 100 == 0 && i == 0)
-            {
-                Debug.Log($"[Stress] ⚙️ Toggle {toggleCount}: Toggled Settings/Pause 50 times.");
-            }
         }
 
-        // 2. Stress the UI rendering (Throttled aggressively for stability)
-        // This is where the lag spikes and "Unknown" errors originate.
-        if (toggleCount % 50 == 0) // Only perform UI stress every 50 frames
+        // UI Rendering Stress: Creates and destroys UI elements every 20 frames (increased frequency).
+        if (toggleCount % 20 == 0)
         {
             var root = ctrl.GetComponentInChildren<UIDocument>()?.rootVisualElement;
             if (root == null) return;
@@ -238,7 +231,6 @@ public class PauseMenuTests
     {
         var root = ctrl.GetComponentInChildren<UIDocument>()?.rootVisualElement;
 
-        // This returns "Unknown (No UI Root)" when the UIDocument is inaccessible
         if (root == null) return "Unknown (No UI Root)";
 
         if (root.Q<VisualElement>("SettingsMenuPanel")?.resolvedStyle.display == DisplayStyle.Flex)
