@@ -218,14 +218,19 @@ public class PlayerController : MonoBehaviour
     public void Pause(bool newPause) { _isPaused = newPause; }
 
     // change the player health by a given amount
-    public void ChangeHealth (int amount)
+    public void ChangeHealth(int amount)
     {
         if (_health + amount < 0)
+        {
             _health = 0;
-        if (_health + amount > 255)
+            return;
+        }
+        else if (_health + amount > 255) {
             _health = 255;
+            return;
+        }
 
-        _health +=  (byte)amount;
+        _health += (byte)amount;
 
 
     }
