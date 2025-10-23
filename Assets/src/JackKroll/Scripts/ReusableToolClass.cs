@@ -88,8 +88,8 @@ public class ReusableToolClass : ToolSystem
 
         _isOn = !_isOn;
         flashlight.enabled = _isOn;
-
-        Debug.Log(_toolName + " turned " + (_isOn ? "ON" : "OFF"));
+        //for testing 
+       // Debug.Log(_toolName + " turned " + (_isOn ? "ON" : "OFF"));
         /* if (Input.GetKeyDown(KeyCode.A))
          {
              m_LocalRotation = m_LocalRotation + 90;

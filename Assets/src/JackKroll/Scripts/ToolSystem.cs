@@ -17,6 +17,6 @@ public abstract class ToolSystem : MonoBehaviour
     // prints if tool is being used in the command line
     protected void LogUsage()
     {
-        Debug.Log(_toolName + " is being used!");
+       // Debug.Log(_toolName + " is being used!");
     }
 }

@@ -1,0 +1,13 @@
+fileFormatVersion: 2
+guid: 4b5b64c9b05c74d8cb3edab3828b926f
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - player_jump_clip: {fileID: 8300000, guid: 646d6f9bcff4e413fb3c9eca7ddd2983, type: 3}
+  - background_clip: {fileID: 8300000, guid: 7548a97d30a474a95bfa87f6f0a39c96, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
