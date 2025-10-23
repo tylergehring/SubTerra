@@ -1,10 +1,10 @@
 {
-    "name": "CW_PlayMode",
+    "name": "PlayMode",
     "rootNamespace": "",
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "GameScripts"
+        "TestingScript"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
