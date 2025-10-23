@@ -71,6 +71,7 @@ public class StaticChunk : MonoBehaviour
 
     void _ChunkSetup()
     {
+        noiseHandler = FindFirstObjectByType<NoiseHandler>();
         nodeMap = new bool[chunkSize + 1, chunkSize + 1];
 
         for (int x = 0; x < chunkSize + 1; x++)
