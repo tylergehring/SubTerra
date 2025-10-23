@@ -78,7 +78,7 @@ public class ReusableToolClassPlayModeTests
             Vector3 direction = mousePos - tool.transform.position;
             tool.transform.rotation = Quaternion.LookRotation(direction);
             yield return null;
-
+ 
             // Validate rotations 
             Quaternion rot = tool.transform.rotation;
             Assert.IsFalse(float.IsNaN(rot.x) || float.IsNaN(rot.y) || float.IsNaN(rot.z),
