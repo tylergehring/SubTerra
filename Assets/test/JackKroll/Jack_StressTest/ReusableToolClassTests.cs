@@ -82,24 +82,14 @@ public class ReusableToolClassPlayModeTests
 
         Debug.Log($" FPS dropped below 100 after {i} toggles L was pressed. Final FPS is {fps:F2}");
 
-<<<<<<< HEAD
+
         // fail the test if final FPS is below 60, the reson for this is because if the 
         // FPS is below 60 (highly unlikly without other conncurent process runing) then
         // The Flashlight toggiling is contributing to much to the games speed or lack there of.
         Assert.GreaterOrEqual(fps, 60f, $"Final FPS {fps:F2} is below 60");
 
         Debug.Log("The test is done");
-=======
-            Vector3 direction = mousePos - tool.transform.position;
-            tool.transform.rotation = Quaternion.LookRotation(direction);
-            yield return null;
- 
-            // Validate rotations 
-            Quaternion rot = tool.transform.rotation;
-            Assert.IsFalse(float.IsNaN(rot.x) || float.IsNaN(rot.y) || float.IsNaN(rot.z),
-                $"Invalid rotation detected at position {pos}");
-        }
->>>>>>> ad3e370307f02836e8d383bda4a18e45106dda24
+
     }
 
 
