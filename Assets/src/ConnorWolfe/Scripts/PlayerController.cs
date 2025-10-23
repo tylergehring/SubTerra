@@ -228,7 +228,7 @@ public class PlayerController : MonoBehaviour
     // change the player health by a given amount
     public void ChangeHealth(int amount)
     {
-<<<<<<< Updated upstream
+
         if (_health + amount < 0)
         {
             _health = 0;
@@ -240,7 +240,6 @@ public class PlayerController : MonoBehaviour
         }
 
         _health += (byte)amount;
-=======
         int previousHealth = _health;
         int newHealth = _health + amount;
 
@@ -248,7 +247,7 @@ public class PlayerController : MonoBehaviour
             newHealth = 0;
         if (newHealth > 255)
             newHealth = 255;
->>>>>>> Stashed changes
+
 
         _health = (byte)newHealth;            
 
