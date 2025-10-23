@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
-
+        _health = 100;  // Player health start form 100
         // if the key's are not set / set in inspector, I set them manually here
         if (mvRightKey == KeyCode.None) // right: D
             mvRightKey = KeyCode.D;
@@ -161,6 +161,14 @@ public class PlayerController : MonoBehaviour
     // check if the player is on the ground or on a wall
     private void _CheckSurface()
     {
+
+        //Added null check to prevent NullReferenceException during tests or when collider is not yet assigned
+        if (_groundCollider == null)
+        {
+            _onGround = false;
+            return; // skip if collider not set up
+        }
+
         _onGround = _groundCollider.IsTouchingLayers(LayerMask.GetMask("Environment"));
       //  Debug.Log("_groundCollider.IsTouchingLayers(LayerMask.GetMask(\"Environment\")) == " + _groundCollider.IsTouchingLayers(LayerMask.GetMask("Environment")));
     }
@@ -218,16 +226,38 @@ public class PlayerController : MonoBehaviour
     public void Pause(bool newPause) { _isPaused = newPause; }
 
     // change the player health by a given amount
-    public void ChangeHealth (int amount)
+    public void ChangeHealth(int amount)
     {
+<<<<<<< Updated upstream
         if (_health + amount < 0)
+        {
             _health = 0;
-        if (_health + amount > 255)
+            return;
+        }
+        else if (_health + amount > 255) {
             _health = 255;
+            return;
+        }
 
-        _health +=  (byte)amount;
+        _health += (byte)amount;
+=======
+        int previousHealth = _health;
+        int newHealth = _health + amount;
 
+        if (newHealth < 0)
+            newHealth = 0;
+        if (newHealth > 255)
+            newHealth = 255;
+>>>>>>> Stashed changes
 
+        _health = (byte)newHealth;            
+
+        Debug.Log($"Player health changed by {amount}. Previous: {previousHealth}, Current: {_health}");
+
+    }
+    public byte getHealth()
+    {
+        return _health;
     }
 
     public void ConsumeCurrentTool(NonReusableTools tool, bool destroyInstance)
@@ -243,6 +273,13 @@ public class PlayerController : MonoBehaviour
         else if (destroyInstance && !removed && tool)
             Destroy(tool.gameObject);
     }
+
+    // Returns the player's current health value for testing or display purposes
+    public float GetHealth()
+    {
+        return _health; // _health is the internal variable storing player's health
+    }
+
 
     // pick up an item and add it to the open inventory slot
     public GameObject PickUp(GameObject newItem)

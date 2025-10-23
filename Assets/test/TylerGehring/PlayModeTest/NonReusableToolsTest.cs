@@ -48,16 +48,17 @@ public class NonReusableToolClassPlayModeTests
     }
 
     /// <summary>
-    /// STRESS TEST: Rapidly creates and consumes 1000 mushrooms.
+    /// STRESS TEST: Rapidly creates and consumes 1000 mushrooms while monitoring FPS.
     /// This simulates very heavy use over extended gameplay to ensure
     /// the NonReusableTool system works properly with no major errors
-    /// under stress conditions.
+    /// under stress conditions. Logs a warning when FPS drops to 40 or below.
     /// </summary>
     [UnityTest]
     public IEnumerator Stress_CreateAndConsumeManyMushroomsRapidly()
     {
         int createCount = 1000;
         int successfulCreations = 0;
+        bool lagWarningLogged = false;
 
         for (int i = 0; i < createCount; i++)
         {
@@ -78,6 +79,14 @@ public class NonReusableToolClassPlayModeTests
             if (i % 100 == 0)
             {
                 yield return null;
+
+                // Measure FPS and log warning if it drops
+                float currentFPS = 1f / Time.deltaTime;
+                if (currentFPS <= 40f && !lagWarningLogged)
+                {
+                    Debug.LogWarning($"[PERFORMANCE] Game has started to lag! Current FPS: {currentFPS:F2} | Items Consumed: {successfulCreations}");
+                    lagWarningLogged = true;
+                }
             }
         }
 
