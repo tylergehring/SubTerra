@@ -15,10 +15,15 @@ EditorBuildSettings:
     path: Assets/src/JackKroll/Scripts/MVP.unity
     guid: 6185cbc34c8a8c24099e85471ec9b586
   - enabled: 1
+<<<<<<< Updated upstream
     path: Assets/test/LukeZawis/UITests/PauseMenuTestScene.unity
     guid: bbd7de639aca1a940a7e0f068ea07243
   - enabled: 1
     path: Assets/test/ConnorWolfe/CW_Testing Scene.unity
     guid: 8a324de61321d5640b49d16b4aeddd1f
+=======
+    path: Assets/src/ArjunRai/Scenes/MyTestSceneCopy.unity
+    guid: 5cdf5cd657b5de34693725aa832ce7e3
+>>>>>>> Stashed changes
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

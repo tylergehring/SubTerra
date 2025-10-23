@@ -24,8 +24,8 @@ public class Hazard : MonoBehaviour
         {
             if (Time.time - lastDamageTime >= damageInterval)
             {
-                player.ChangeHealth((int)-damage); // Deal damage to player
-                Debug.Log($"Hazard dealt {damage} damage to player at {transform.position}");
+                player.ChangeHealth((int)damage); // Deal damage to player
+                //Debug.Log($"Hazard dealt {damage} damage to player at {transform.position}");
                 lastDamageTime = Time.time;
             }
         }
@@ -43,5 +43,10 @@ public class Hazard : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, activationRange);
+    }
+
+    public void setDamage(float damage1)
+    {
+        damage = damage1;
     }
 }
