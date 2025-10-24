@@ -7,6 +7,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 
+
 /* This script handles testing Scripts made by Connor Wolfe
  * Or Specifically
         - Player Controller
@@ -57,11 +58,11 @@ public class Testing
             GameObject temp = _inventory.SetItem(null);
                     
             if (temp)
-                Object.Destroy(temp);
+                UnityEngine.Object.Destroy(temp);
         }
 
         if (_badObj)
-            Object.Destroy(_badObj);
+            UnityEngine.Object.Destroy(_badObj);
 
         yield return null;
     }
@@ -120,7 +121,7 @@ public class Testing
         {
             temp = 0;
             while (temp >= 0 && temp <= 255) // we only want out of bounds values
-                temp = Random.Range(minRange, maxRange);
+                temp = UnityEngine.Random.Range(minRange, maxRange);
             _controller.ChangeHealth(temp);
             currentHealth = (byte)healthField.GetValue(_controller); // how to actually get the value from the private var
             if (temp < minExpected)
