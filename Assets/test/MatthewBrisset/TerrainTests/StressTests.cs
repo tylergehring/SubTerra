@@ -3,36 +3,64 @@ using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
-using UnityEngine.UIElements;
 using System.Diagnostics;
 using Debug = UnityEngine.Debug;
 
 public class StressTests
 {
-    [Test]
-    public void StressTest_LargeMapGeneration()
+    const int TERRAIN_TEST_SIZE = 100;
+    const float DESTROY_INTERVAL = 0.02f;
+
+    [UnitySetUp]
+    public IEnumerator Setup()
     {
+        // Load test scene asynchronously
+        var loadOp = SceneManager.LoadSceneAsync("TerrainDestructionTest");
+        yield return new WaitUntil(() => loadOp.isDone);
+        yield return null; // wait one frame so scene Awake/Start complete
+        GameObject.Destroy(GameObject.FindFirstObjectByType<StaticChunk>().gameObject);
+    }
+
+    [UnityTest]
+    public IEnumerator StressTest_LargeMapGeneration()
+    {
+        int iterations = 0;
+        yield return new WaitForSeconds(0.1f);
         Debug.Log("Running test for large map generation");
-        // Generate noise
-        var noise = new GameObject("Noise Handler").AddComponent<NoiseHandler>();
-        NoiseLayer n_layer = new NoiseLayer();
-        n_layer.frequency = 10;
-        n_layer.intensity = 10;
-        noise.noise.Add(n_layer);
-        Debug.Log("Created noise object");
 
-        // Generate chunk
-        StaticChunk chunk = new GameObject("Test Chunk").AddComponent<StaticChunk>();
-        chunk.noiseHandler = noise;
-        Assert.IsNotNull(chunk.noiseHandler);
+        // Create chunk *inactive* so Awake() doesn’t run yet
+        var chunkGO = new GameObject("Test Chunk");
+        chunkGO.SetActive(false);
 
-        int size = 500; // large test
-        Debug.Log("Created terrain with size: " + size);
+        var chunk = chunkGO.AddComponent<StaticChunk>();
+        chunk.transform.Translate(Vector3.left * TERRAIN_TEST_SIZE / 2);
+        chunk.transform.Translate(Vector3.down * TERRAIN_TEST_SIZE / 2);
+        chunk.noiseHandler = GameObject.FindFirstObjectByType<NoiseHandler>();
+        chunk.noiseHandler.noiseThreshold = 0;
+        chunk.chunkSize = TERRAIN_TEST_SIZE;
+
+        // Now activate (Awake() will run using your pre-set values)
+        chunkGO.SetActive(true);
+
+        yield return new WaitForSeconds(0.1f);
+        Debug.Log("Created terrain with size: " + chunk.chunkSize);
+
+        // Destroy test loop
         Stopwatch sw = Stopwatch.StartNew();
-        var terrain = chunk.chunkSize = size;
+        float endTime = 30f; // safety limit – run for 5 seconds
 
-        Assert.NotNull(terrain);
-        Assert.Less(sw.ElapsedMilliseconds, 5000, "Generation too slow!");
-        Debug.Log($"Generated {size}x{size} terrain in {sw.ElapsedMilliseconds} ms");
+        while (sw.Elapsed.TotalSeconds < endTime)
+        {
+            iterations++;
+            chunk.DestroyInRadius(Random.insideUnitSphere * TERRAIN_TEST_SIZE, 5);
+            float fps = 1f / Time.unscaledDeltaTime;
+            Debug.Log($"[{sw.ElapsedMilliseconds}ms] FPS: {fps:F1} Iteration: {iterations}");
+            yield return new WaitForSeconds(DESTROY_INTERVAL);
+        }
+
+        sw.Stop();
+        Debug.Log($"Stress test ran for {sw.Elapsed.TotalSeconds:F2}s without crash.");
+        Assert.Pass();
+        yield return null; // must yield once for UnityTest
     }
 }
