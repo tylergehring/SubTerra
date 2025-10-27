@@ -56,7 +56,7 @@ public class NonReusableToolClassPlayModeTests
     [UnityTest]
     public IEnumerator Stress_CreateAndConsumeManyMushroomsRapidly()
     {
-        int createCount = 1000;
+        int createCount = 10000;
         int successfulCreations = 0;
         bool lagWarningLogged = false;
 
