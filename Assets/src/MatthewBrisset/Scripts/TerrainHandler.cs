@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+[RequireComponent(typeof(NoiseHandler))]
 public class TerrainHandler : MonoBehaviour
 {
     public int viewDistance = 30;
@@ -8,8 +9,9 @@ public class TerrainHandler : MonoBehaviour
     public int worldHeight = 20;
     public int chunkSize = 10;
     public StaticChunk chunkPrefab;
+    public TextureAtlas textureAtlas;
+    public NoiseHandler noiseHandler;
 
-    private NoiseHandler noiseHandler;
     private Transform viewer; // Find first camera object, use for view culling. This is a good example of low coupling
     public Dictionary<Vector2Int, StaticChunk> loadedChunks = new Dictionary<Vector2Int, StaticChunk>();
 
@@ -25,7 +27,6 @@ public class TerrainHandler : MonoBehaviour
         if (viewer != null)
         {
             _UpdateChunks();
-            DestroyInRadius(viewer.transform.position, 5);
         }
         else
         {
@@ -47,7 +48,7 @@ public class TerrainHandler : MonoBehaviour
                 chunk.transform.parent = transform;
                 chunk.name = $"Chunk {x}, {y}";
                 chunk.chunkSize = chunkSize;
-                chunk.noiseHandler = noiseHandler;
+                chunk.terrainHandler = this;
                 loadedChunks[new Vector2Int(x, y)] = chunk;
             }
         }
@@ -124,5 +125,24 @@ public class TerrainHandler : MonoBehaviour
         }
 
         return points;
+    }
+
+    public int GetTextureAtPoint(Vector2 point)
+    {
+        int textureIndex = 0;
+
+        // Use different textures based on how close to walls
+        float terrainNoiseValue = noiseHandler.TerrainNoiseValue(point.x, point.y);
+
+        if (terrainNoiseValue > noiseHandler.terrainThreshold + (1 - noiseHandler.terrainThreshold) / 3)
+            textureIndex = 1;
+
+        if (terrainNoiseValue > noiseHandler.terrainThreshold + (1 - noiseHandler.terrainThreshold) / 2)
+            textureIndex = 2;
+
+        if (terrainNoiseValue > noiseHandler.terrainThreshold + (1 - noiseHandler.terrainThreshold) / 1.5f)
+            textureIndex = 3;
+
+        return textureIndex;
     }
 }

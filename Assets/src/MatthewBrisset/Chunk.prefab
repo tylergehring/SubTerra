@@ -117,3 +117,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ChunkCollider
   noiseHandler: {fileID: 0}
   chunkSize: 100
+  atlas:
+    tilesX: 4
+    tilesY: 4

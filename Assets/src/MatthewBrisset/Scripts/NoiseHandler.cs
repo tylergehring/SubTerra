@@ -18,7 +18,7 @@ public class NoiseHandler : MonoBehaviour
 {
     public List<NoiseLayer> noise;
     [Range(0, 1)]
-    public float noiseThreshold = 0.5f;
+    public float terrainThreshold = 0.5f;
     public int edgeThickness = 10;
     public float seed = 10000;
 
@@ -35,7 +35,7 @@ public class NoiseHandler : MonoBehaviour
         worldHeight = handler.worldHeight;
     }
 
-    public float NoiseValue(float x, float y)
+    public float TerrainNoiseValue(float x, float y)
     {
         float baseNoise = 0;
 
