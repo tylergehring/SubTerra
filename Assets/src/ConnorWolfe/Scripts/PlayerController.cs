@@ -258,9 +258,9 @@ public class PlayerController : MonoBehaviour
             return;
         }
 
-        _health += (byte)amount;
+    
         int previousHealth = _health;
-        int newHealth = _health + amount;
+        int newHealth = _health - amount;
 
         if (newHealth < 0)
             newHealth = 0;

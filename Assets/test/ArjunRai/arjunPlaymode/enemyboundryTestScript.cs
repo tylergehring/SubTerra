@@ -31,19 +31,19 @@ public class HazardBoundaryTest
         hazard = enemyObject.GetComponent<Hazard>();
         PC = playerObject.GetComponent<PlayerController>();
 
-        // --- Test 1: Positive Damage (health increases in your case) ---
+        // --- Test 1: Positive Damage
         int previousHealth = PC.getHealth();
         hazard.setDamage(2f);                      // Apply positive damage
         yield return new WaitForSeconds(1.1f);     // Wait enough time for damage to apply
         Assert.Less(previousHealth, PC.getHealth(), "Player health did not increase with positive damage!");
 
-        // --- Test 2: Zero Damage (health stays the same) ---
+        // --- Test 2: Zero Damage 
         previousHealth = PC.getHealth();
         hazard.setDamage(0f);
         yield return new WaitForSeconds(1.1f);
         Assert.AreEqual(previousHealth, PC.getHealth(), "Player health changed when damage = 0!");
 
-        // --- Test 3: Negative Damage (health decreases in your case) ---
+        // --- Test 3: Negative Damage 
         previousHealth = PC.getHealth();
         hazard.setDamage(-2f);
         yield return new WaitForSeconds(1.1f);
