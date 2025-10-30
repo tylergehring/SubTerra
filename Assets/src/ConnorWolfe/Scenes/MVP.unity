@@ -970,7 +970,7 @@ MonoBehaviour:
   _jumpStrength: 10
   _moveSpeed: 5
   _climbSpeed: 5
-  _raycastRange: 0.5
+  _raycastRange: 0.3
   _health: 3
   _rb: {fileID: 0}
   _playerSprite: {fileID: 0}
@@ -1064,7 +1064,7 @@ GameObject:
   - component: {fileID: 1961351429974735170}
   - component: {fileID: 4053105951742218323}
   m_Layer: 0
-  m_Name: Arjun (the Explorer) V1
+  m_Name: Arjun (the Explorer) V2
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
