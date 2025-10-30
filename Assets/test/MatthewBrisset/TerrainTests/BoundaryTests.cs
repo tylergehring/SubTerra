@@ -29,10 +29,10 @@ public class BoundaryTests
         var chunk = chunkGO.AddComponent<StaticChunk>();
         chunk.transform.Translate(Vector3.left * TERRAIN_TEST_SIZE / 2);
         chunk.transform.Translate(Vector3.down * TERRAIN_TEST_SIZE / 2);
-        chunk.terrainHandler = GameObject.FindFirstObjectByType<TerrainHandler>();
+        chunk.noiseHandler = GameObject.FindFirstObjectByType<NoiseHandler>();
         chunk.chunkSize = TERRAIN_TEST_SIZE;
         Debug.Log("Generating terrain with noise threshold of -100");
-        chunk.terrainHandler.noiseHandler.terrainThreshold = -100;
+        chunk.noiseHandler.noiseThreshold = -100;
         yield return new WaitForSeconds(1);
         chunkGO.SetActive(true);
         yield return new WaitForSeconds(1);
@@ -51,7 +51,7 @@ public class BoundaryTests
         var chunk = chunkGO.AddComponent<StaticChunk>();
         chunk.transform.Translate(Vector3.left * TERRAIN_TEST_SIZE / 2);
         chunk.transform.Translate(Vector3.down * TERRAIN_TEST_SIZE / 2);
-        chunk.terrainHandler.noiseHandler = GameObject.FindFirstObjectByType<NoiseHandler>();
+        chunk.noiseHandler = GameObject.FindFirstObjectByType<NoiseHandler>();
         chunk.chunkSize = TERRAIN_TEST_SIZE;
         chunkGO.SetActive(true);
 

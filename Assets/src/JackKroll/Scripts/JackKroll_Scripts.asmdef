@@ -1,17 +1,3 @@
 {
-    "name": "JackKroll_Scripts",
-    "rootNamespace": "",
-    "references": [
-        "MatthewBrisset_Scripts",
-        "Scripts"
-    ],
-    "includePlatforms": [],
-    "excludePlatforms": [],
-    "allowUnsafeCode": false,
-    "overrideReferences": false,
-    "precompiledReferences": [],
-    "autoReferenced": true,
-    "defineConstraints": [],
-    "versionDefines": [],
-    "noEngineReferences": false
+	"name": "JackKroll_Scripts"
 }

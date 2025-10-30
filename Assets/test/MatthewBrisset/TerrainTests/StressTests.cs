@@ -35,8 +35,8 @@ public class StressTests
         var chunk = chunkGO.AddComponent<StaticChunk>();
         chunk.transform.Translate(Vector3.left * TERRAIN_TEST_SIZE / 2);
         chunk.transform.Translate(Vector3.down * TERRAIN_TEST_SIZE / 2);
-        chunk.terrainHandler.noiseHandler = GameObject.FindFirstObjectByType<NoiseHandler>();
-        chunk.terrainHandler.noiseHandler.terrainThreshold = 0;
+        chunk.noiseHandler = GameObject.FindFirstObjectByType<NoiseHandler>();
+        chunk.noiseHandler.noiseThreshold = 0;
         chunk.chunkSize = TERRAIN_TEST_SIZE;
 
         // Now activate (Awake() will run using your pre-set values)

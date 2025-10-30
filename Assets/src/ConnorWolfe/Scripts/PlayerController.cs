@@ -22,27 +22,22 @@ public class PlayerController : MonoBehaviour
     // movement values
     [SerializeField] private float _jumpStrength;
     [SerializeField] private float _moveSpeed;
-    [SerializeField] private float _climbSpeed;
-    // raycast value(s)
-    [SerializeField] private float _raycastRange;
     // player health
     [SerializeField] private byte _health = (byte)3; // Unsigned 8bit integer (0 to 255)
     // player components that help the player move
-    [SerializeField] private Rigidbody2D _rb;
-    [SerializeField] private SpriteRenderer _playerSprite;
+    [SerializeField] private Rigidbody2D rb;
+    [SerializeField] private BoxCollider2D _groundCollider;
+    [SerializeField] private BoxCollider2D _leftWallCol;
+    [SerializeField] private BoxCollider2D _rightWallCol;
     // Lets us drop items into the world
     [SerializeField] private GameObject _itemHandlerPrefab;
 
     // booleans for checking movement and position states
     private bool _onGround = false;
     private bool _onWall = false;
-    //private bool _onLeftWall = false;
-    //private bool _onRightWall = false;
     private bool _isPaused = false;
     private bool _isJumping = false;
     private float _horizontalMovement;
-    private float _halfHeight; // used with raycasting to determine bounds
-    private float _halfWidth;
     // The inventory for the player
     private QuickAccess _inventory = new QuickAccess();
 
@@ -66,17 +61,14 @@ public class PlayerController : MonoBehaviour
             useKey = KeyCode.F;
 
         // getting the rigibody manually if is not set in inspector
-        if (!_rb)
-            _rb = GetComponent<Rigidbody2D>();
+        if (!rb)
+            rb = GetComponent<Rigidbody2D>();
 
-        if (!_playerSprite)
-            _playerSprite = GetComponent<SpriteRenderer>();
-        if (_playerSprite) {
-            _halfHeight = _playerSprite.bounds.extents.y;
-            _halfWidth = _playerSprite.bounds.extents.x;
+        if (!_groundCollider) {
+            GameObject obj = GameObject.Find("GroundCollider");
+            _groundCollider = obj.GetComponent<BoxCollider2D>();
         }
-
-
+           
    
     }
 
@@ -99,9 +91,8 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         if (_isPaused) return;
-        _CheckSurface(); // raycasting is expensive, now only runs when we intend to use it
+        _CheckSurface();
         _GoundMove();
-        _WallMove();
     }
 
     // _privateFuntions //
@@ -116,9 +107,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKey(mvLeftKey))
             leftMv = 1f;
         _horizontalMovement = rightMv - leftMv;
-        //   Debug.Log("_horizontalMovement == " + _horizontalMovement);
-
-
+     //   Debug.Log("_horizontalMovement == " + _horizontalMovement);
 
         if (Input.GetKey(jumpKey))
             _isJumping = true;
@@ -159,37 +148,29 @@ public class PlayerController : MonoBehaviour
     // move the player if its on the ground
     private void _GoundMove()
     {
-
-
-        _rb.linearVelocityX = _horizontalMovement * _moveSpeed;
+        //if (_onWall) return;
+        rb.linearVelocityX = _horizontalMovement * _moveSpeed;
+       // Debug.Log("rb.linearVelocityX == " + rb.linearVelocityX);
 
         if (_isJumping && _onGround)
-            _rb.linearVelocityY = _jumpStrength;
-        else if (!_isJumping && _rb.linearVelocityY > 0)
-            _rb.linearVelocityY = 0f;
-    }
-
-    private void _WallMove()
-    {
-        if (_onGround)
-            return;
-
-        if (_isJumping && _onWall)
-        {
-            _rb.linearVelocityY = _climbSpeed;
-        }
-     
-
+            rb.linearVelocityY = _jumpStrength;
+        else if (!_isJumping && rb.linearVelocityY > 0)
+            rb.linearVelocityY = 0f;
     }
 
     // check if the player is on the ground or on a wall
     private void _CheckSurface()
     {
-        _onGround = Physics2D.Raycast(transform.position, Vector2.down, _halfHeight + _raycastRange, LayerMask.GetMask("Environment"));
-        _onWall = (Physics2D.Raycast(transform.position, Vector2.left, _halfWidth + _raycastRange, LayerMask.GetMask("Environment")) ||
-            Physics2D.Raycast(transform.position, Vector2.right, _halfWidth + _raycastRange, LayerMask.GetMask("Environment")));
-//        _onLeftWall = Physics2D.Raycast(transform.position, Vector2.left, _halfWidth + 0.1f, LayerMask.GetMask("Environment"));
-  //      _onRightWall = Physics2D.Raycast(transform.position, Vector2.right, _halfWidth + 0.1f, LayerMask.GetMask("Environment"));
+
+        //Added null check to prevent NullReferenceException during tests or when collider is not yet assigned
+        if (_groundCollider == null)
+        {
+            _onGround = false;
+            return; // skip if collider not set up
+        }
+
+        _onGround = _groundCollider.IsTouchingLayers(LayerMask.GetMask("Environment"));
+      //  Debug.Log("_groundCollider.IsTouchingLayers(LayerMask.GetMask(\"Environment\")) == " + _groundCollider.IsTouchingLayers(LayerMask.GetMask("Environment")));
     }
 
     private void _UseCurrentItem()

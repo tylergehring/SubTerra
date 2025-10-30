@@ -234,7 +234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3136a363be4ba87499be77a1a3f9a36c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ChunkCollider
-  terrainHandler: {fileID: 0}
+  noiseHandler: {fileID: 1334624811}
   chunkSize: 100
 --- !u!1 &1266373918
 GameObject:
@@ -342,7 +342,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1334624812}
-  - component: {fileID: 1334624813}
   - component: {fileID: 1334624811}
   m_Layer: 0
   m_Name: World
@@ -367,7 +366,6 @@ MonoBehaviour:
   - frequency: 7.4
     intensity: 1
   noiseThreshold: 0.5
-  edgeThickness: 10
   seed: 10000
 --- !u!4 &1334624812
 Transform:
@@ -384,27 +382,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1334624813
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1334624810}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 959b4e39fd8cee944973ed2b59d1b90f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Scripts::TerrainHandler
-  viewDistance: 30
-  worldWidth: 10
-  worldHeight: 20
-  chunkSize: 10
-  chunkPrefab: {fileID: 255062942}
-  textureAtlas:
-    tilesX: 4
-    tilesY: 4
-  noiseHandler: {fileID: 0}
 --- !u!1 &1342889953
 GameObject:
   m_ObjectHideFlags: 0
