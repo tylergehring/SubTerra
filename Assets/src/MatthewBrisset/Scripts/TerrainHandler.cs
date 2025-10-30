@@ -56,7 +56,7 @@ public class TerrainHandler : MonoBehaviour
 
     public void DestroyInRadius(Vector3 position, float radius)
     {
-        List<StaticChunk> chunks = GetChunksInRadius(position, radius + chunkSize);
+        List<StaticChunk> chunks = GetChunksInRadius(position, radius + chunkSize * 2);
 
         foreach (var chunk in chunks)
         {
