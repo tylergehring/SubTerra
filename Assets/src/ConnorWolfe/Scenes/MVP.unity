@@ -1200,7 +1200,7 @@ GameObject:
   - component: {fileID: 1851177374597492437}
   - component: {fileID: 1961351429974735170}
   - component: {fileID: 4053105951742218323}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Arjun (the Explorer) V2
   m_TagString: Player
   m_Icon: {fileID: 0}
