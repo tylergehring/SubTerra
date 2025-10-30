@@ -885,7 +885,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 251b6e60c0aea2147a3e4d3aa9f537ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: JackKroll_Scripts::PickaxeTool
-  breakRadius: 3
+  breakRadius: 1.7
 --- !u!1 &1968962186
 GameObject:
   m_ObjectHideFlags: 0
