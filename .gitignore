@@ -96,3 +96,6 @@ InitTestScene*.unity*
 
 # Auto-generated scenes by play mode tests
 /[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+
+#Ignores .DS_Store files which are created by MacOS and causes merge conflicts
+.DS_Store
