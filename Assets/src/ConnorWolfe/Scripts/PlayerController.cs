@@ -28,6 +28,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _raycastRange;
     // player health
     [SerializeField] private byte _health = (byte)3; // Unsigned 8bit integer (0 to 255)
+    // player score
+    [SerializeField] private uint _playerScore = 0;
     // player components that help the player move
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private SpriteRenderer _playerSprite;
@@ -317,13 +319,13 @@ public class PlayerController : MonoBehaviour
     public void ChangeHealth(int amount)
     {
 
-        if (_health + amount < 0)
+        if (_health + amount < byte.MinValue)
         {
-            _health = 0;
+            _health = byte.MinValue;
             return;
         }
-        else if (_health + amount > 255) {
-            _health = 255;
+        else if (_health + amount > byte.MaxValue) {
+            _health = byte.MaxValue;
             return;
         }
 
@@ -367,6 +369,25 @@ public class PlayerController : MonoBehaviour
         return _health; // _health is the internal variable storing player's health
     }
 
+    public void ChangeScore(int change)
+    {
+        if (change + _playerScore > uint.MaxValue)
+        {
+            _playerScore = uint.MaxValue;
+            return;
+        } else if (change + _playerScore < uint.MinValue)
+        {
+            _playerScore = uint.MinValue;
+            return;
+        }
+        
+        _playerScore += (uint)change;
+    }
+
+    public uint GetScore()
+    {
+        return _playerScore;
+    }
 
     // pick up an item and add it to the open inventory slot
     public GameObject PickUp(GameObject newItem)
