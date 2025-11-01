@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: GameScripts::TNT
   _toolName: TNT
-  _explosionRadius: 10
+  _explosionRadius: 8
   _fuseTime: 3
   _explosionSound: {fileID: 0}
   _explosionEffect: {fileID: 0}

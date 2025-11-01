@@ -10,12 +10,16 @@ public class TNT : NonReusableTools
     [Header("TNT Settings")]
     [SerializeField] private float _explosionRadius = 30f;
     [SerializeField] private float _fuseTime = 3f;
+    [SerializeField] private float _throwForce = 10f;
+    [SerializeField] private float _bounciness = 0.5f;
     [SerializeField] private AudioClip _explosionSound;
     [SerializeField] private GameObject _explosionEffect;
     [SerializeField] private Color _litColor = Color.red;
     
     private bool _isLit = false;
     private SpriteRenderer _spriteRenderer;
+    private Rigidbody2D _rigidbody;
+    private CircleCollider2D _collider;
     private Color _originalColor;
 
     protected override void OnEnable()
@@ -23,6 +27,30 @@ public class TNT : NonReusableTools
         base.OnEnable();
         _isLit = false;
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _rigidbody = GetComponent<Rigidbody2D>();
+        _collider = GetComponent<CircleCollider2D>();
+        
+        // Add Rigidbody2D if it doesn't exist
+        if (!_rigidbody)
+        {
+            _rigidbody = gameObject.AddComponent<Rigidbody2D>();
+            _rigidbody.gravityScale = 1f;
+            _rigidbody.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        }
+        
+        // Add CircleCollider2D if it doesn't exist
+        if (!_collider)
+        {
+            _collider = gameObject.AddComponent<CircleCollider2D>();
+            _collider.radius = 0.5f; // Adjust based on your TNT sprite size
+        }
+        
+        // Create and apply physics material for bouncing
+        PhysicsMaterial2D bounceMaterial = new PhysicsMaterial2D("TNT_Bounce");
+        bounceMaterial.bounciness = _bounciness;
+        bounceMaterial.friction = 0.3f;
+        _rigidbody.sharedMaterial = bounceMaterial;
+        
         if (_spriteRenderer)
         {
             _originalColor = _spriteRenderer.color;
@@ -38,6 +66,13 @@ public class TNT : NonReusableTools
         if (_spriteRenderer)
         {
             _spriteRenderer.enabled = false;
+        }
+        
+        // Disable physics when in inventory
+        if (_rigidbody)
+        {
+            _rigidbody.linearVelocity = Vector2.zero;
+            _rigidbody.isKinematic = true;
         }
     }
 
@@ -162,6 +197,31 @@ public class TNT : NonReusableTools
         {
             transform.SetParent(null);
         }
+        
+        // Enable physics and throw the TNT
+        if (_rigidbody)
+        {
+            _rigidbody.isKinematic = false;
+            ThrowTNT();
+        }
+    }
+    
+    private void ThrowTNT()
+    {
+        // Get mouse position in world space
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0f; // Make sure we're working in 2D
+        
+        // Calculate direction from TNT to mouse
+        Vector2 throwDirection = (mousePos - transform.position).normalized;
+        
+        // Apply velocity to throw the TNT
+        if (_rigidbody)
+        {
+            _rigidbody.linearVelocity = throwDirection * _throwForce;
+        }
+        
+        Debug.Log($"INFORMATION: TNT thrown towards {mousePos} with force {_throwForce}");
     }
 
     private void OnDrawGizmosSelected()
