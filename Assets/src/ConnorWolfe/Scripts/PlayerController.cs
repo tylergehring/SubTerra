@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 using System.Text;
+using System.Runtime.InteropServices;
 
 public class PlayerController : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class PlayerController : MonoBehaviour
     // player components that help the player move
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private SpriteRenderer _playerSprite;
+    [SerializeField] private Animator _playerAnimator;
     // Lets us drop items into the world
     [SerializeField] private GameObject _itemHandlerPrefab;
 
@@ -43,6 +45,7 @@ public class PlayerController : MonoBehaviour
     private float _horizontalMovement;
     private float _halfHeight; // used with raycasting to determine bounds
     private float _halfWidth;
+    private float _animTimer = 0f;
     // The inventory for the player
     private QuickAccess _inventory = new QuickAccess();
 
@@ -76,7 +79,8 @@ public class PlayerController : MonoBehaviour
             _halfWidth = _playerSprite.bounds.extents.x;
         }
 
-
+        if (!_playerAnimator)
+            _playerAnimator = GetComponent<Animator>();
    
     }
 
@@ -102,6 +106,7 @@ public class PlayerController : MonoBehaviour
         _CheckSurface(); // raycasting is expensive, now only runs when we intend to use it
         _GoundMove();
         _WallMove();
+        _UpdateAnimatorAndFlip();
     }
 
     // _privateFuntions //
@@ -240,9 +245,73 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private void _UpdateAnimatorAndFlip()
+    {
+        if (!_playerSprite)
+            return;
+        if (_horizontalMovement != 0)
+            _playerSprite.flipX = (_horizontalMovement < 0);
+
+        if (!_playerAnimator)
+            return;
+
+        // reset parameters
+        foreach (AnimatorControllerParameter parameter in _playerAnimator.parameters)
+        {
+            if (parameter.type == AnimatorControllerParameterType.Bool)
+                _playerAnimator.SetBool(parameter.name, false);
+        }
+
+        if (_onGround)
+        {
+            if (_horizontalMovement == 0)
+            {
+                if (_animTimer <= 25)
+                {
+                    _animTimer += Time.deltaTime;
+                } else
+                {
+                    _playerAnimator.SetBool("doIdleC" ,true);
+                }
+
+                int randNum = Random.Range(-1000, 1000);
+                if (randNum == 0)
+                {
+                    _playerAnimator.SetBool("doIdleB", true);
+                }
+
+            }
+            else // running
+            {
+                _animTimer = 0;
+                _playerAnimator.SetBool("isRunning", true);
+            }
+        }
+        else if (_onWall)
+        {
+            _playerAnimator.SetBool("isClimbing", true);
+        } 
+        else /*if (_isJumping)*/ // in air
+        {
+            if (_rb.linearVelocityY > 0)
+            {
+                _playerAnimator.SetBool("isJumping", true);
+            }
+            else if (_rb.linearVelocityY < 0)
+            {
+                _playerAnimator.SetBool("isFalling", true);
+            }
+
+        }
+
+
+    }
+
     // PublicFunctions //
     // pause/unpause the player
-    public void Pause(bool newPause) { _isPaused = newPause; }
+    public void Pause(bool newPause) {
+        _isPaused = newPause;
+    }
 
     // change the player health by a given amount
     public void ChangeHealth(int amount)
