@@ -41,7 +41,7 @@ public class NoiseHandler : MonoBehaviour
 
         foreach (NoiseLayer noiseLayer in noise)
         {
-            baseNoise += Mathf.PerlinNoise(x / noiseLayer.frequency + seed, y / noiseLayer.frequency + seed) * noiseLayer.intensity / noise.Count;
+            baseNoise += Mathf.PerlinNoise(x / noiseLayer.frequency / 2 + seed, y / noiseLayer.frequency + seed) * noiseLayer.intensity / noise.Count;
         }
 
         float mapWidth = worldWidth * chunkSize;
