@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
 using System.Text;
+using System.Runtime.InteropServices;
 
 public class PlayerController : MonoBehaviour
 {
@@ -27,11 +28,15 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _raycastRange;
     // player health
     [SerializeField] private byte _health = (byte)3; // Unsigned 8bit integer (0 to 255)
+    // player score
+    [SerializeField] private uint _playerScore = 0;
     // player components that help the player move
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private SpriteRenderer _playerSprite;
+    [SerializeField] private Animator _playerAnimator;
     // Lets us drop items into the world
     [SerializeField] private GameObject _itemHandlerPrefab;
+    [SerializeField] private InventoryHotBarScript _inventoryHotBar;
 
     // booleans for checking movement and position states
     private bool _onGround = false;
@@ -43,6 +48,7 @@ public class PlayerController : MonoBehaviour
     private float _horizontalMovement;
     private float _halfHeight; // used with raycasting to determine bounds
     private float _halfWidth;
+    private float _animTimer = 0f;
     // The inventory for the player
     private QuickAccess _inventory = new QuickAccess();
 
@@ -76,8 +82,13 @@ public class PlayerController : MonoBehaviour
             _halfWidth = _playerSprite.bounds.extents.x;
         }
 
+        if (!_playerAnimator)
+            _playerAnimator = GetComponent<Animator>();
 
-   
+        if (!_inventoryHotBar)
+            _inventoryHotBar = GetComponentInChildren<InventoryHotBarScript>();
+        _inventoryHotBar.UpdateSlotSelect(0);
+
     }
 
     /* in Update:
@@ -102,6 +113,7 @@ public class PlayerController : MonoBehaviour
         _CheckSurface(); // raycasting is expensive, now only runs when we intend to use it
         _GoundMove();
         _WallMove();
+        _UpdateAnimatorAndFlip();
     }
 
     // _privateFuntions //
@@ -135,6 +147,7 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetKeyDown(tabKey))
         {
             _inventory.Tab();
+            _inventoryHotBar.UpdateSlotSelect(_inventory.GetIndex());
         }
         else
         {
@@ -144,6 +157,7 @@ public class PlayerController : MonoBehaviour
                 if (Input.GetKeyDown(key))
                 {
                     _inventory.Tab(tempIndex);
+                    _inventoryHotBar.UpdateSlotSelect(_inventory.GetIndex());
                     break;
                 }
                 tempIndex++;
@@ -237,24 +251,88 @@ public class PlayerController : MonoBehaviour
             handler.UpdateSprite();
         }
 
+        _inventoryHotBar.UpdateSlotItem(_inventory.GetIndex(), null);
+    }
+
+    private void _UpdateAnimatorAndFlip()
+    {
+        if (!_playerSprite)
+            return;
+        if (_horizontalMovement != 0)
+            _playerSprite.flipX = (_horizontalMovement < 0);
+
+        if (!_playerAnimator)
+            return;
+
+        // reset parameters
+        foreach (AnimatorControllerParameter parameter in _playerAnimator.parameters)
+        {
+            if (parameter.type == AnimatorControllerParameterType.Bool)
+                _playerAnimator.SetBool(parameter.name, false);
+        }
+
+        if (_onGround)
+        {
+            if (_horizontalMovement == 0)
+            {
+                if (_animTimer <= 25)
+                {
+                    _animTimer += Time.deltaTime;
+                } else
+                {
+                    _playerAnimator.SetBool("doIdleC" ,true);
+                }
+
+                int randNum = Random.Range(-1000, 1000);
+                if (randNum == 0)
+                {
+                    _playerAnimator.SetBool("doIdleB", true);
+                }
+
+            }
+            else // running
+            {
+                _animTimer = 0;
+                _playerAnimator.SetBool("isRunning", true);
+            }
+        }
+        else if (_onWall)
+        {
+            _playerAnimator.SetBool("isClimbing", true);
+        } 
+        else /*if (_isJumping)*/ // in air
+        {
+            if (_rb.linearVelocityY > 0)
+            {
+                _playerAnimator.SetBool("isJumping", true);
+            }
+            else if (_rb.linearVelocityY < 0)
+            {
+                _playerAnimator.SetBool("isFalling", true);
+            }
+
+        }
+
 
     }
 
     // PublicFunctions //
     // pause/unpause the player
-    public void Pause(bool newPause) { _isPaused = newPause; }
+    public void Pause(bool newPause) {
+        _isPaused = newPause;
+    }
 
     // change the player health by a given amount
     public void ChangeHealth(int amount)
     {
 
-        if (_health + amount < 0)
+        if (_health + amount < byte.MinValue)
         {
-            _health = 0;
+            _health = byte.MinValue;
             return;
         }
-        else if (_health + amount > 255) {
-            _health = 255;
+        else if (_health + amount > byte.MaxValue) {
+            _health = byte.MaxValue;
             return;
         }
 
@@ -290,6 +368,8 @@ public class PlayerController : MonoBehaviour
             Destroy(removed);
         else if (destroyInstance && !removed && tool)
             Destroy(tool.gameObject);
+
+        _inventoryHotBar.UpdateSlotItem(_inventory.GetIndex(), null);
     }
 
     // Returns the player's current health value for testing or display purposes
@@ -298,6 +378,25 @@ public class PlayerController : MonoBehaviour
         return _health; // _health is the internal variable storing player's health
     }
 
+    public void ChangeScore(int change)
+    {
+        if (change + _playerScore > uint.MaxValue)
+        {
+            _playerScore = uint.MaxValue;
+            return;
+        } else if (change + _playerScore < uint.MinValue)
+        {
+            _playerScore = uint.MinValue;
+            return;
+        }
+        
+        _playerScore += (uint)change;
+    }
+
+    public uint GetScore()
+    {
+        return _playerScore;
+    }
 
     // pick up an item and add it to the open inventory slot
     public GameObject PickUp(GameObject newItem)
@@ -322,6 +421,9 @@ public class PlayerController : MonoBehaviour
             if (previousTool)
                 previousTool.OnDropped(this);
         }
+
+        Sprite tempSprite = newItem.GetComponent<SpriteRenderer>().sprite;
+        _inventoryHotBar.UpdateSlotItem(_inventory.GetIndex(), tempSprite);
 
         return previous;
     }

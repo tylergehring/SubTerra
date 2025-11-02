@@ -9,6 +9,38 @@ public class Mushroom : NonReusableTools
 
     public int HealthRestoreAmount => _healthRestoreAmount;
 
+    private SpriteRenderer _spriteRenderer;
+
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    /// Called when the mushroom enters the player's inventory.
+    public override void OnPickup(PlayerController player)
+    {
+        base.OnPickup(player);
+        
+        // Hide the sprite when in inventory
+        if (_spriteRenderer)
+        {
+            _spriteRenderer.enabled = false;
+        }
+    }
+
+    /// Called when the mushroom leaves the player's inventory.
+    public override void OnDropped(PlayerController player)
+    {
+        base.OnDropped(player);
+        
+        // Show the sprite when dropped
+        if (_spriteRenderer)
+        {
+            _spriteRenderer.enabled = true;
+        }
+    }
+
     protected override bool OnUse(PlayerController player)
     {
         if (!player)

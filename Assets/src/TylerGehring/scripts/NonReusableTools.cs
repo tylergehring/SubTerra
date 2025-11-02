@@ -1,4 +1,4 @@
-using UnityEngine;
+ using UnityEngine;
 
 /// Base class for single-use tools such as food or explosives.
 /// Simplified to work with existing ItemHandler and Inventory systems.
