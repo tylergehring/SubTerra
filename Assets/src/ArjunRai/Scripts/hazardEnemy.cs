@@ -22,17 +22,10 @@ public class Hazard : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerController>();   // Take the reference of the playercontroller script into player 
         if (player == null) Debug.LogError("Player not found! Ensure Player has 'Player' tag and PlayerController script.");
         lastDamageTime = Time.time;
+
+        Spawn(GetRandomSpawnPosition()); // When the rock appears, pick a random position and spawn it there.
     }
 
-    //  a function to return a random position within the bounds:
-    Vector3 GetRandomSpawnPosition() { 
-    float x = Random.Range(spawnMin.x, spawnMax.x);
-    float y = Random.Range(spawnMin.y, spawnMax.y);
-    float z = Random.Range(spawnMin.z, spawnMax.z);
-
-    return new Vector3(x, y, z);
-
-    }
 
     void Update()
     {
@@ -43,7 +36,7 @@ public class Hazard : MonoBehaviour
         {
             isMoving = true;
             moveStartTime = Time.time;
-          //Initialize velocity with a slight random horizontal component
+            //Initialize velocity with a slight random horizontal component
             velocity = new Vector3(Random.Range(-1f, 1f), 0f, Random.Range(-1f, 1f)).normalized * moveSpeed;
 
         }
@@ -53,7 +46,7 @@ public class Hazard : MonoBehaviour
         {
             // Direction toward player with slight random drift
             Vector3 direction = (player.transform.position - transform.position).normalized; // Detect the direction of the player 
-           //Adds small randomness to horizontal movement
+                                                                                             //Adds small randomness to horizontal movement
             direction.x += Random.Range(-0.2f, 0.2f);
             direction.z += Random.Range(-0.2f, 0.2f);
             direction.Normalize(); // fixes the vector length after adding random drift
@@ -79,26 +72,37 @@ public class Hazard : MonoBehaviour
             }
         }
 
-            // Check if player is within range to give damage 
-            if (Vector3.Distance(transform.position, player.transform.position) < activationRange && !isMoving)  // vector3.Distance(a, b)  is |a-b| where a is hazard position and b is player position
+        // Check if player is within range to give damage 
+        if (Vector3.Distance(transform.position, player.transform.position) < activationRange && !isMoving)  // vector3.Distance(a, b)  is |a-b| where a is hazard position and b is player position
+        {
+            if (Time.time - lastDamageTime >= damageInterval) // current game time in seconds - when the hazard last dealt damage.
             {
-                if (Time.time - lastDamageTime >= damageInterval) // current game time in seconds - when the hazard last dealt damage.
-                {
-                    player.ChangeHealth((int)damage); // Deal damage to player
-                    lastDamageTime = Time.time;  // Record the last time when the player got damaged.
-                }
+                player.ChangeHealth((int)damage); // Deal damage to player
+                lastDamageTime = Time.time;  // Record the last time when the player got damaged.
+            }
         }
-        
+
     }
 
+    //  a function to return a random position within the bounds:
+    Vector3 GetRandomSpawnPosition()
+    {
+        float x = Random.Range(spawnMin.x, spawnMax.x);
+        float y = Random.Range(spawnMin.y, spawnMax.y);
+        float z = Random.Range(spawnMin.z, spawnMax.z);
 
+        return new Vector3(x, y, z);
 
-    // For manual or future random spawning
+    }
+
     public void Spawn(Vector3 position)
     {
         transform.position = position;
-        Debug.Log($"Hazard spawned at {position}");
+        isMoving = false; // Reset movement state
+        Debug.Log($"Rock spawned at {position}");
+
     }
+
 
     // Visualize activation range in Scene view
     void OnDrawGizmos()
