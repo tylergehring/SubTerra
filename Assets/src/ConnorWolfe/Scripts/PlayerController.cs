@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator _playerAnimator;
     // Lets us drop items into the world
     [SerializeField] private GameObject _itemHandlerPrefab;
+    [SerializeField] private InventoryHotBarScript _inventoryHotBar;
 
     // booleans for checking movement and position states
     private bool _onGround = false;
@@ -83,7 +84,11 @@ public class PlayerController : MonoBehaviour
 
         if (!_playerAnimator)
             _playerAnimator = GetComponent<Animator>();
-   
+
+        if (!_inventoryHotBar)
+            _inventoryHotBar = GetComponentInChildren<InventoryHotBarScript>();
+        _inventoryHotBar.UpdateSlotSelect(0);
+
     }
 
     /* in Update:
@@ -142,6 +147,7 @@ public class PlayerController : MonoBehaviour
         else if (Input.GetKeyDown(tabKey))
         {
             _inventory.Tab();
+            _inventoryHotBar.UpdateSlotSelect(_inventory.GetIndex());
         }
         else
         {
@@ -151,6 +157,7 @@ public class PlayerController : MonoBehaviour
                 if (Input.GetKeyDown(key))
                 {
                     _inventory.Tab(tempIndex);
+                    _inventoryHotBar.UpdateSlotSelect(_inventory.GetIndex());
                     break;
                 }
                 tempIndex++;
@@ -244,7 +251,7 @@ public class PlayerController : MonoBehaviour
             handler.UpdateSprite();
         }
 
-
+        _inventoryHotBar.UpdateSlotItem(_inventory.GetIndex(), null);
     }
 
     private void _UpdateAnimatorAndFlip()
@@ -361,6 +368,8 @@ public class PlayerController : MonoBehaviour
             Destroy(removed);
         else if (destroyInstance && !removed && tool)
             Destroy(tool.gameObject);
+
+        _inventoryHotBar.UpdateSlotItem(_inventory.GetIndex(), null);
     }
 
     // Returns the player's current health value for testing or display purposes
@@ -412,6 +421,9 @@ public class PlayerController : MonoBehaviour
             if (previousTool)
                 previousTool.OnDropped(this);
         }
+
+        Sprite tempSprite = newItem.GetComponent<SpriteRenderer>().sprite;
+        _inventoryHotBar.UpdateSlotItem(_inventory.GetIndex(), tempSprite);
 
         return previous;
     }

@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PickUp
   - Relic
+  - Slot
   layers:
   - Default
   - TransparentFX

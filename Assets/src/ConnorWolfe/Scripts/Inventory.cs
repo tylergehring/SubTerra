@@ -80,4 +80,9 @@ public class Inventory
             _inventory[_invenIndex].SetActive(true);
     }
 
+    public int GetIndex()
+    {
+        return _invenIndex;
+    }
+
 }
