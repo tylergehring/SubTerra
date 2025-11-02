@@ -87,9 +87,9 @@ public class PlayerController : MonoBehaviour
 
         if (!_inventoryHotBar)
             _inventoryHotBar = GetComponentInChildren<InventoryHotBarScript>();
-        _inventoryHotBar.UpdateSlotSelect(0);
 
     }
+
 
     /* in Update:
         - We get input
@@ -97,6 +97,7 @@ public class PlayerController : MonoBehaviour
     */
     void Update()
     {
+        _inventoryHotBar.UpdateSlotSelect(_inventory.GetIndex());
         _GetInput();
         if (_health == 0)
             Pause(true);
