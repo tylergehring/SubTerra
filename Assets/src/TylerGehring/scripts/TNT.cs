@@ -22,11 +22,13 @@ public class TNT : NonReusableTools
     private Rigidbody2D _rigidbody;
     private CircleCollider2D _collider;
     private Color _originalColor;
+    private static readonly WaitForSeconds CollisionGraceDelay = new WaitForSeconds(0.2f);
+    private Coroutine _fuseCoroutine;
+    private float _fuseEndTime;
 
     protected override void OnEnable()
     {
         base.OnEnable();
-        _isLit = false;
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _collider = GetComponent<CircleCollider2D>();
@@ -56,11 +58,39 @@ public class TNT : NonReusableTools
         {
             _originalColor = _spriteRenderer.color;
         }
+
+        if (_isLit)
+        {
+            BeginFuseCountdown();
+        }
+    }
+
+    private void OnDisable()
+    {
+        if (_fuseCoroutine != null)
+        {
+            StopCoroutine(_fuseCoroutine);
+            _fuseCoroutine = null;
+        }
     }
 
     /// Called when the tool enters the player's inventory.
     public override void OnPickup(PlayerController player)
     {
+        if (_isLit)
+        {
+            Debug.LogWarning($"{name}: Lit TNT cannot be picked up again; keeping it active in the world.");
+            if (player)
+            {
+                player.ConsumeCurrentTool(this, false);
+                if (!gameObject.activeSelf)
+                {
+                    gameObject.SetActive(true);
+                }
+            }
+            return;
+        }
+
         base.OnPickup(player);
         
         // Hide the sprite when in inventory
@@ -119,17 +149,17 @@ public class TNT : NonReusableTools
             _spriteRenderer.color = _litColor;
         }
 
-        // Start the countdown coroutine
-        StartCoroutine(ExplodeAfterDelay());
+        _fuseEndTime = Time.time + _fuseTime;
+        BeginFuseCountdown();
     }
 
-    private IEnumerator ExplodeAfterDelay()
+    private IEnumerator ExplodeAfterDelay(float delay)
     {
-        // Wait for the fuse time
-        yield return new WaitForSeconds(_fuseTime);
+        yield return new WaitForSeconds(delay);
 
         // Explode!
         Explode();
+        _fuseCoroutine = null;
     }
 
     private void Explode()
@@ -180,6 +210,16 @@ public class TNT : NonReusableTools
         // Don't immediately destroy - the TNT needs to exist for the explosion
         // The explosion will handle destroying the GameObject
         Debug.Log($"INFORMATION: {player?.name ?? "Unknown"} threw TNT.");
+
+        if (player)
+        {
+            player.ConsumeCurrentTool(this, false);
+        }
+
+        if (!gameObject.activeSelf)
+        {
+            gameObject.SetActive(true);
+        }
         
         // Position TNT at the player's current location
         if (player)
@@ -203,26 +243,68 @@ public class TNT : NonReusableTools
         if (_rigidbody)
         {
             _rigidbody.isKinematic = false;
-            ThrowTNT();
+            ThrowTNT(player);
         }
+
+        BeginFuseCountdown();
     }
     
-    private void ThrowTNT()
+    private void ThrowTNT(PlayerController player)
     {
-        // Get mouse position in world space
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0f; // Make sure we're working in 2D
-        
-        // Calculate direction from TNT to mouse
-        Vector2 throwDirection = (mousePos - transform.position).normalized;
-        
-        // Apply velocity to throw the TNT
-        if (_rigidbody)
-        {
-            _rigidbody.linearVelocity = throwDirection * _throwForce;
-        }
-        
+        if (!_rigidbody)
+            return;
+
+        Camera mainCamera = Camera.main;
+        Vector3 mousePos = mainCamera
+            ? mainCamera.ScreenToWorldPoint(Input.mousePosition)
+            : transform.position + Vector3.right;
+        mousePos.z = transform.position.z;
+
+        Vector2 direction = (mousePos - transform.position);
+        if (direction.sqrMagnitude < 0.0001f)
+            direction = player ? (Vector2)player.transform.right : Vector2.right;
+        direction.Normalize();
+
+        float separation = (_collider ? _collider.radius : 0.25f) + 0.01f;
+        transform.position += (Vector3)(direction * separation);
+
+        if (_collider && player)
+            StartCoroutine(TemporarilyIgnorePlayer(player));
+
+        _rigidbody.linearVelocity = direction * _throwForce;
+
         Debug.Log($"INFORMATION: TNT thrown towards {mousePos} with force {_throwForce}");
+    }
+
+    private IEnumerator TemporarilyIgnorePlayer(PlayerController player)
+    {
+        Collider2D[] colliders = player.GetComponentsInChildren<Collider2D>();
+        foreach (Collider2D playerCollider in colliders)
+            if (playerCollider)
+                Physics2D.IgnoreCollision(_collider, playerCollider, true);
+
+        yield return CollisionGraceDelay;
+
+        if (!_collider)
+            yield break;
+
+        foreach (Collider2D playerCollider in colliders)
+            if (playerCollider)
+                Physics2D.IgnoreCollision(_collider, playerCollider, false);
+    }
+
+    private void BeginFuseCountdown()
+    {
+        if (!_isLit || !isActiveAndEnabled)
+            return;
+
+        if (_fuseCoroutine != null)
+        {
+            StopCoroutine(_fuseCoroutine);
+        }
+
+        float remainingTime = Mathf.Max(0f, _fuseEndTime - Time.time);
+        _fuseCoroutine = StartCoroutine(ExplodeAfterDelay(remainingTime));
     }
 
     private void OnDrawGizmosSelected()
