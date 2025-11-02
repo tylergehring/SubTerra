@@ -11,6 +11,8 @@ public class Hazard : MonoBehaviour
     [SerializeField] private float gravity = -9.8f;
     [SerializeField] private Vector3 spawnMin; // minimum corner of the spawn Area
     [SerializeField] private Vector3 spawnMax;  // Maximum corner of the spawn area
+    [SerializeField] private float respawnDelay = 5f; // Time before a new rock spawns
+    private float respawnTimer = 0f;
     private Vector3 velocity;
     private bool isMoving = false; // Flag if the hazard is currently moving 
     private float moveStartTime; // Record when the movement started 
@@ -22,8 +24,6 @@ public class Hazard : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerController>();   // Take the reference of the playercontroller script into player 
         if (player == null) Debug.LogError("Player not found! Ensure Player has 'Player' tag and PlayerController script.");
         lastDamageTime = Time.time;
-
-        Spawn(GetRandomSpawnPosition()); // When the rock appears, pick a random position and spawn it there.
     }
 
 
@@ -69,6 +69,17 @@ public class Hazard : MonoBehaviour
             if (Time.time - moveStartTime >= moveDuration)
             {
                 isMoving = false;
+            }
+        }
+
+        // Respawn logic
+        if (!isMoving)
+        {
+            respawnTimer += Time.deltaTime;
+            if (respawnTimer >= respawnDelay)
+            {
+                Spawn(GetRandomSpawnPosition()); // spawn a new rock
+                respawnTimer = 0f; // reset timer
             }
         }
 

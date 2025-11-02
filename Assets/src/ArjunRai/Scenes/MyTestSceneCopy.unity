@@ -3757,6 +3757,30 @@ PrefabInstance:
       value: Stone
       objectReference: {fileID: 0}
     - target: {fileID: 8715000275816168348, guid: ae49c6f785347fd4e8e6cba5d8ed7c96, type: 3}
+      propertyPath: spawnMax.x
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715000275816168348, guid: ae49c6f785347fd4e8e6cba5d8ed7c96, type: 3}
+      propertyPath: spawnMax.y
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715000275816168348, guid: ae49c6f785347fd4e8e6cba5d8ed7c96, type: 3}
+      propertyPath: spawnMax.z
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715000275816168348, guid: ae49c6f785347fd4e8e6cba5d8ed7c96, type: 3}
+      propertyPath: spawnMin.x
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715000275816168348, guid: ae49c6f785347fd4e8e6cba5d8ed7c96, type: 3}
+      propertyPath: spawnMin.y
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715000275816168348, guid: ae49c6f785347fd4e8e6cba5d8ed7c96, type: 3}
+      propertyPath: spawnMin.z
+      value: -10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715000275816168348, guid: ae49c6f785347fd4e8e6cba5d8ed7c96, type: 3}
       propertyPath: moveDuration
       value: 1
       objectReference: {fileID: 0}
