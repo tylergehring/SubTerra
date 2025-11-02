@@ -749,7 +749,7 @@ GameObject:
   - component: {fileID: 1309536186}
   - component: {fileID: 1309536185}
   m_Layer: 0
-  m_Name: ToolSpawner
+  m_Name: MushroomSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -903,6 +903,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1635208499}
+  - component: {fileID: 1635208500}
   m_Layer: 0
   m_Name: TNTSpawner
   m_TagString: Untagged
@@ -925,6 +926,25 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1635208500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1635208498}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 11e59a0b02c45b24ab241b5f6cd5107f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameScripts::ToolSpawnTester
+  player: {fileID: 5622190785968900652, guid: 6ebeffd54bd0e0f4689c46eeca5c6b51, type: 3}
+  itemHandlerPrefab: {fileID: 7548606447075148978, guid: 66a9cc21f34a7ab408f36f3b7b2f5b3b, type: 3}
+  toolPrefab: {fileID: 6644525040323197559, guid: ed2c4866ed9283746ba66f4116b7360f, type: 3}
+  spawnKey: 118
+  randomizePosition: 0
+  spawnDistance: 1.25
+  randomSpawnRange: {x: 3, y: 1.5}
 --- !u!1 &1637223033
 GameObject:
   m_ObjectHideFlags: 0

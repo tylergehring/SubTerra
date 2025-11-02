@@ -15,6 +15,7 @@ public class TNT : NonReusableTools
     [SerializeField] private AudioClip _explosionSound;
     [SerializeField] private GameObject _explosionEffect;
     [SerializeField] private Color _litColor = Color.red;
+    [SerializeField] private Vector3 _desiredScale = new Vector3(0.1f, 0.1f, 1f);
     
     private bool _isLit = false;
     private SpriteRenderer _spriteRenderer;
