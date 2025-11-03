@@ -1426,12 +1426,20 @@ MonoBehaviour:
   _moveSpeed: 5
   _climbSpeed: 5
   _raycastRange: 0.3
+  _sprintSRate: 0.2
+  _climbRate: 0.1
+  _staminaRegenRate: 0.1
+  _staminaRegenDelay: 2
   _health: 3
   _playerScore: 0
   _rb: {fileID: 0}
   _playerSprite: {fileID: 0}
   _playerAnimator: {fileID: 0}
   _itemHandlerPrefab: {fileID: 7548606447075148978, guid: 66a9cc21f34a7ab408f36f3b7b2f5b3b, type: 3}
+  _deadPlayerBodyPrefab: {fileID: 776844867987650187, guid: 8f54389ba126bd640b7db1e30d3c63d2, type: 3}
+  _deadPlayerHelmetPrefab: {fileID: 2062816621112214978, guid: 2494d86191bc8aa40b305817cd983adc, type: 3}
+  _camera: {fileID: 4308065355171704873}
+  _flashlight: {fileID: 312541838327695467}
   _inventoryHotBar: {fileID: 6030879950234552241}
 --- !u!58 &1089324459308466481
 CircleCollider2D:
@@ -2389,7 +2397,7 @@ GameObject:
   - component: {fileID: 929988201821306175}
   - component: {fileID: 7854022006838666761}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: Player Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2916,12 +2924,20 @@ MonoBehaviour:
   _moveSpeed: 5
   _climbSpeed: 5
   _raycastRange: 0.3
+  _sprintSRate: 0.2
+  _climbRate: 0.1
+  _staminaRegenRate: 0.1
+  _staminaRegenDelay: 2
   _health: 3
   _playerScore: 0
   _rb: {fileID: 0}
   _playerSprite: {fileID: 0}
   _playerAnimator: {fileID: 0}
   _itemHandlerPrefab: {fileID: 7548606447075148978, guid: 66a9cc21f34a7ab408f36f3b7b2f5b3b, type: 3}
+  _deadPlayerBodyPrefab: {fileID: 0}
+  _deadPlayerHelmetPrefab: {fileID: 0}
+  _camera: {fileID: 0}
+  _flashlight: {fileID: 0}
   _inventoryHotBar: {fileID: 0}
 --- !u!4 &7221802008910111112
 Transform:
@@ -3171,7 +3187,7 @@ GameObject:
   - component: {fileID: 546498996618021224}
   - component: {fileID: 2710345195333695714}
   m_Layer: 6
-  m_Name: Arjun (the Explorer) V6
+  m_Name: Arjun (the Explorer) V7
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -1,9 +1,10 @@
-using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine.UIElements;
-using System.Text;
 using System.Runtime.InteropServices;
+using System.Text;
+using UnityEngine;
+using UnityEngine.UIElements;
+using static UnityEditor.PlayerSettings;
 
 public class PlayerController : MonoBehaviour
 {
@@ -45,7 +46,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Animator _playerAnimator;
     // Lets us drop items into the world
     [SerializeField] private GameObject _itemHandlerPrefab;
+    [SerializeField] private GameObject _deadPlayerBodyPrefab;
+    [SerializeField] private GameObject _deadPlayerHelmetPrefab;
+    [SerializeField] private GameObject _camera;
+    [SerializeField] private GameObject _flashlight;
     [SerializeField] private InventoryHotBarScript _inventoryHotBar;
+
 
     // booleans for checking movement and position states
     private bool _onGround = false;
@@ -132,6 +138,7 @@ public class PlayerController : MonoBehaviour
     */
     void FixedUpdate()
     {
+        CheckHealth();
         if (_isPaused) return;
         _CheckSurface(); // raycasting is expensive, now only runs when we intend to use it
         _GoundMove();
@@ -350,6 +357,24 @@ public class PlayerController : MonoBehaviour
 
     private void StaminaCheck()
     {
+    }
+
+    private void CheckHealth()
+    {
+        if (_health == 0)
+        {
+            if (_deadPlayerBodyPrefab && _camera)
+            {
+                GameObject tempBody = Instantiate(_deadPlayerBodyPrefab, transform.position, Quaternion.identity);
+                _camera.transform.SetParent(tempBody.transform, false);
+            }
+            if (_deadPlayerHelmetPrefab && _flashlight)
+            {   
+                GameObject tempHelm = Instantiate(_deadPlayerHelmetPrefab, _flashlight.transform.position, Quaternion.identity);
+                _flashlight.transform.SetParent(tempHelm.transform, false);
+            }
+            Pause(true);
+        }
     }
 
     //// PublicFunctions ////
