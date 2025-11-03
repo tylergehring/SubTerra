@@ -45,6 +45,7 @@ public class PlayerController : MonoBehaviour
     //private bool _onRightWall = false;
     private bool _isPaused = false;
     private bool _isJumping = false;
+    private bool _wasRight = true; // used in animation/flip control
     private float _horizontalMovement;
     private float _halfHeight; // used with raycasting to determine bounds
     private float _halfWidth;
@@ -259,8 +260,17 @@ public class PlayerController : MonoBehaviour
     {
         if (!_playerSprite)
             return;
+     
         if (_horizontalMovement != 0)
+        {
+            if ((_horizontalMovement < 0 && _wasRight) || (_horizontalMovement > 0 && !_wasRight))
+            {
+                _playerAnimator.Play("Player Turn Around");
+
+            }
+            _wasRight = (_horizontalMovement > 0);
             _playerSprite.flipX = (_horizontalMovement < 0);
+        }
 
         if (!_playerAnimator)
             return;
