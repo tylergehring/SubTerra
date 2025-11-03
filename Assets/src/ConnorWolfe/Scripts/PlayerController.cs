@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
     public KeyCode dropKey = KeyCode.Q;
     public KeyCode tabKey = KeyCode.Tab;
     public KeyCode useKey = KeyCode.F;
+    // public KeyCode sprintKey = KeyCode.LeftShift; 
     public List<KeyCode> invenHotKeys = new List<KeyCode> { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4 };
 
     // movement values
@@ -26,6 +27,14 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _climbSpeed;
     // raycast value(s)
     [SerializeField] private float _raycastRange;
+    // stamina
+    [Header("Stamina Settings")]
+    [Tooltip("Max Stamina is 1.0f, This is the drain rate when sprinting")]
+    [SerializeField] private float _sprintSRate = 0.2f;
+    [Tooltip("Max Stamina is 1.0f, This is the drain rate when climbing")]
+    [SerializeField] private float _climbRate = 0.1f;
+    [SerializeField] private float _staminaRegenRate = 0.1f; 
+    [SerializeField] private int _staminaRegenDelay = 2;
     // player health
     [SerializeField] private byte _health = (byte)3; // Unsigned 8bit integer (0 to 255)
     // player score
@@ -45,11 +54,16 @@ public class PlayerController : MonoBehaviour
     //private bool _onRightWall = false;
     private bool _isPaused = false;
     private bool _isJumping = false;
+    // private bool _isSprinting = false;
+    private bool _canStamina = true; // turn off stamina for a moment if stamina reaches 0
     private bool _wasRight = true; // used in animation/flip control
     private float _horizontalMovement;
     private float _halfHeight; // used with raycasting to determine bounds
     private float _halfWidth;
     private float _animTimer = 0f;
+    private float _currStamina = 1f;
+    private float _staminaRegenTimer = 0f;
+
     // The inventory for the player
     private QuickAccess _inventory = new QuickAccess();
 
@@ -71,6 +85,10 @@ public class PlayerController : MonoBehaviour
             tabKey = KeyCode.Tab;
         if (useKey == KeyCode.None) // use tool: F
             useKey = KeyCode.F;
+        /*
+         if (sprintKey == KeyCode.None)
+            sprintKey = KeyCode.LeftShift;
+         */
 
         // getting the rigibody manually if is not set in inspector
         if (!_rb)
@@ -88,6 +106,9 @@ public class PlayerController : MonoBehaviour
 
         if (!_inventoryHotBar)
             _inventoryHotBar = GetComponentInChildren<InventoryHotBarScript>();
+
+//        if (_stamina == 0)
+  //          _stamina = 0.1f;
 
     }
 
@@ -327,7 +348,11 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    // PublicFunctions //
+    private void StaminaCheck()
+    {
+    }
+
+    //// PublicFunctions ////
     // pause/unpause the player
     public void Pause(bool newPause) {
         _isPaused = newPause;
