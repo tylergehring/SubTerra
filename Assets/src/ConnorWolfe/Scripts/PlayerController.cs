@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     public KeyCode dropKey = KeyCode.Q;
     public KeyCode tabKey = KeyCode.Tab;
     public KeyCode useKey = KeyCode.F;
-    // public KeyCode sprintKey = KeyCode.LeftShift; 
+    public KeyCode sprintKey = KeyCode.LeftShift; 
     public List<KeyCode> invenHotKeys = new List<KeyCode> { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4 };
 
     // movement values
@@ -60,7 +60,7 @@ public class PlayerController : MonoBehaviour
     //private bool _onRightWall = false;
     private bool _isPaused = false;
     private bool _isJumping = false;
-    // private bool _isSprinting = false;
+    private bool _isSprinting = false;
     private bool _canStamina = true; // turn off stamina for a moment if stamina reaches 0
     private bool _wasRight = true; // used in animation/flip control
     private float _horizontalMovement;
@@ -91,10 +91,9 @@ public class PlayerController : MonoBehaviour
             tabKey = KeyCode.Tab;
         if (useKey == KeyCode.None) // use tool: F
             useKey = KeyCode.F;
-        /*
          if (sprintKey == KeyCode.None)
             sprintKey = KeyCode.LeftShift;
-         */
+
 
         // getting the rigibody manually if is not set in inspector
         if (!_rb)
@@ -157,8 +156,11 @@ public class PlayerController : MonoBehaviour
             rightMv = 1f;
         if (Input.GetKey(mvLeftKey))
             leftMv = 1f;
+
+        _isSprinting = Input.GetKey(sprintKey);
+
         _horizontalMovement = rightMv - leftMv;
-        //   Debug.Log("_horizontalMovement == " + _horizontalMovement);
+
 
 
 
@@ -204,8 +206,8 @@ public class PlayerController : MonoBehaviour
     private void _GoundMove()
     {
 
-
-        _rb.linearVelocityX = _horizontalMovement * _moveSpeed;
+    
+        _rb.linearVelocityX = !_isSprinting ? _horizontalMovement * _moveSpeed : _horizontalMovement * _moveSpeed * 2f;
 
         if (_isJumping && _onGround)
             _rb.linearVelocityY = _jumpStrength;
@@ -317,9 +319,10 @@ public class PlayerController : MonoBehaviour
                 if (_animTimer <= 25)
                 {
                     _animTimer += Time.deltaTime;
-                } else
+                }
+                else
                 {
-                    _playerAnimator.SetBool("doIdleC" ,true);
+                    _playerAnimator.SetBool("doIdleC", true);
                 }
 
                 int randNum = Random.Range(-1000, 1000);
@@ -329,11 +332,14 @@ public class PlayerController : MonoBehaviour
                 }
 
             }
-            else // running
+            else // running / sprinting
             {
-                _animTimer = 0;
+                _animTimer = 0f;
                 _playerAnimator.SetBool("isRunning", true);
+                _playerAnimator.SetBool("isSprinting", _isSprinting);
             }
+
+
         }
         else if (_onWall)
         {
