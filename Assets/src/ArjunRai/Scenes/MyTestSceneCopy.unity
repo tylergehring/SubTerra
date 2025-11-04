@@ -968,12 +968,20 @@ MonoBehaviour:
   _moveSpeed: 5
   _climbSpeed: 5
   _raycastRange: 0.3
+  _sprintSRate: 0.2
+  _climbRate: 0.1
+  _staminaRegenRate: 0.1
+  _staminaRegenDelay: 2
   _health: 3
   _playerScore: 0
   _rb: {fileID: 0}
   _playerSprite: {fileID: 0}
   _playerAnimator: {fileID: 0}
   _itemHandlerPrefab: {fileID: 7548606447075148978, guid: 66a9cc21f34a7ab408f36f3b7b2f5b3b, type: 3}
+  _deadPlayerBodyPrefab: {fileID: 0}
+  _deadPlayerHelmetPrefab: {fileID: 0}
+  _camera: {fileID: 0}
+  _flashlight: {fileID: 0}
   _inventoryHotBar: {fileID: 1654944623}
 --- !u!50 &553085796
 Rigidbody2D:
@@ -3664,12 +3672,20 @@ MonoBehaviour:
   _moveSpeed: 5
   _climbSpeed: 0
   _raycastRange: 0
+  _sprintSRate: 0.2
+  _climbRate: 0.1
+  _staminaRegenRate: 0.1
+  _staminaRegenDelay: 2
   _health: 3
   _playerScore: 0
   _rb: {fileID: 0}
   _playerSprite: {fileID: 0}
   _playerAnimator: {fileID: 0}
   _itemHandlerPrefab: {fileID: 7548606447075148978, guid: 66a9cc21f34a7ab408f36f3b7b2f5b3b, type: 3}
+  _deadPlayerBodyPrefab: {fileID: 0}
+  _deadPlayerHelmetPrefab: {fileID: 0}
+  _camera: {fileID: 0}
+  _flashlight: {fileID: 0}
   _inventoryHotBar: {fileID: 0}
 --- !u!1 &3838928617518291057
 GameObject:
@@ -3783,6 +3799,10 @@ PrefabInstance:
     - target: {fileID: 8715000275816168348, guid: ae49c6f785347fd4e8e6cba5d8ed7c96, type: 3}
       propertyPath: moveDuration
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715000275816168348, guid: ae49c6f785347fd4e8e6cba5d8ed7c96, type: 3}
+      propertyPath: activationRange
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
