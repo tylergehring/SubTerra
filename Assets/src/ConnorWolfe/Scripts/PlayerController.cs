@@ -63,6 +63,7 @@ public class PlayerController : MonoBehaviour
     private bool _isSprinting = false;
     private bool _canStamina = true; // turn off stamina for a moment if stamina reaches 0
     private bool _wasRight = true; // used in animation/flip control
+    private bool _playerAlive = true;
     private float _horizontalMovement;
     private float _halfHeight; // used with raycasting to determine bounds
     private float _halfWidth;
@@ -375,7 +376,7 @@ public class PlayerController : MonoBehaviour
 
     private void CheckHealth()
     {
-        if (_health == 0)
+        if (_health == 0 && _playerAlive)
         {
             if (_deadPlayerBodyPrefab && _camera)
             {
@@ -397,6 +398,7 @@ public class PlayerController : MonoBehaviour
                 _Drop();
             }
 
+            _playerAlive = false;
             Pause(true);
         }
     }
@@ -410,7 +412,9 @@ public class PlayerController : MonoBehaviour
     // change the player health by a given amount
     public void ChangeHealth(int amount)
     {
-
+        Debug.Log($"PlayerController: ChangeHealth -> amount == {amount}\n" +
+                  $"& -> _health == {_health}");
+   
         if (_health + amount < byte.MinValue)
         {
             _health = byte.MinValue;
