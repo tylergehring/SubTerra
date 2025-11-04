@@ -188,6 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: GameRuntime::PauseMenuController
   pauseUIDocumentGO: {fileID: 236629868}
+  audioMixer: {fileID: 24100000, guid: ea42039c3cb03354fbe70d476062b6b2, type: 2}
 --- !u!1 &456047640
 GameObject:
   m_ObjectHideFlags: 0
@@ -218,6 +219,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseMenuController
   pauseUIDocumentGO: {fileID: 236629868}
+  audioMixer: {fileID: 0}
 --- !u!4 &456047642
 Transform:
   m_ObjectHideFlags: 0
