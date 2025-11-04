@@ -99,3 +99,6 @@ InitTestScene*.unity*
 
 #Ignores .DS_Store files which are created by MacOS and causes merge conflicts
 .DS_Store
+
+#TEMP, needed to suspensend playmode test for UI
+Assets/test/LukeZawis/PlayModeTests
