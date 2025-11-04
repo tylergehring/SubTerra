@@ -1066,6 +1066,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4164849356331157589, guid: 3a7e56596fcde8d4ab8fa6bdab7f4a23, type: 3}
+      propertyPath: breakRadius
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7082385947792687800, guid: 3a7e56596fcde8d4ab8fa6bdab7f4a23, type: 3}
       propertyPath: m_LocalScale.y
       value: 0.93233585
@@ -1323,6 +1327,7 @@ MonoBehaviour:
   dropKey: 113
   tabKey: 9
   useKey: 102
+  sprintKey: 304
   invenHotKeys: 31000000320000003300000034000000
   _jumpStrength: 10
   _moveSpeed: 5
@@ -2821,6 +2826,7 @@ MonoBehaviour:
   dropKey: 113
   tabKey: 9
   useKey: 102
+  sprintKey: 304
   invenHotKeys: 31000000320000003300000034000000
   _jumpStrength: 10
   _moveSpeed: 5
