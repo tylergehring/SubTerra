@@ -7,8 +7,8 @@ public class Hazard : MonoBehaviour
     [SerializeField] private float damageInterval = 1f; // Seconds between damage ticks
     [SerializeField] private float followRange = 5f;
     [SerializeField] private float moveSpeed = 5f; // How fast the hazard moves 
-    [SerializeField] private float moveDuration = 2f; // How long the hazard gonna follow the player 
-    [SerializeField] private float gravity = -9.8f;
+    [SerializeField] private float moveDuration = 2f; // How long the hazard gonna follow the player
+    [SerializeField] private Vector3 gravity = new Vector3(0f, -9.8f, 0f);   // gravity
     [SerializeField] private Vector3 spawnMin; // minimum corner of the spawn Area
     [SerializeField] private Vector3 spawnMax;  // Maximum corner of the spawn area
     [SerializeField] private float respawnDelay = 5f; // Time before a new rock spawns
@@ -38,8 +38,10 @@ public class Hazard : MonoBehaviour
             moveStartTime = Time.time;
             //Initialize velocity with a slight random horizontal component
             velocity = new Vector3(Random.Range(-1f, 1f), 0f, Random.Range(-1f, 1f)).normalized * moveSpeed;
-
         }
+
+        // Apply Gravity
+        transform.position += gravity * Time.deltaTime;
 
         // Follow the player if it is in follow Range
         if (isMoving)
@@ -55,9 +57,6 @@ public class Hazard : MonoBehaviour
             velocity.x = direction.x * moveSpeed;
             velocity.z = direction.z * moveSpeed;
 
-            // Apply Gravity
-            velocity.y += gravity * Time.deltaTime;
-
             // move the hazard 
             transform.position += velocity * Time.deltaTime;  // Moves the hazard along the direction vector.
 
@@ -72,8 +71,11 @@ public class Hazard : MonoBehaviour
             }
         }
 
+        // deal with the respawn time
+        respawnTimer += Time.deltaTime;
+
         // Respawn logic
-        if (!isMoving)
+        if (respawnTimer > respawnDelay)
         {
             respawnTimer += Time.deltaTime;
             if (respawnTimer >= respawnDelay)
@@ -81,10 +83,11 @@ public class Hazard : MonoBehaviour
                 Spawn(GetRandomSpawnPosition()); // spawn a new rock
                 respawnTimer = 0f; // reset timer
             }
+            respawnTimer = 0f;
         }
 
         // Check if player is within range to give damage 
-        if (Vector3.Distance(transform.position, player.transform.position) < activationRange && !isMoving)  // vector3.Distance(a, b)  is |a-b| where a is hazard position and b is player position
+        if (Vector3.Distance(transform.position, player.transform.position) < activationRange)  // vector3.Distance(a, b)  is |a-b| where a is hazard position and b is player position
         {
             if (Time.time - lastDamageTime >= damageInterval) // current game time in seconds - when the hazard last dealt damage.
             {
@@ -98,11 +101,9 @@ public class Hazard : MonoBehaviour
     //  a function to return a random position within the bounds:
     Vector3 GetRandomSpawnPosition()
     {
-        float x = Random.Range(spawnMin.x, spawnMax.x);
-        float y = Random.Range(spawnMin.y, spawnMax.y);
-        float z = Random.Range(spawnMin.z, spawnMax.z);
-
-        return new Vector3(x, y, z);
+        float x = player.transform.position.x + Random.Range(spawnMin.x, spawnMax.x);
+        float y = player.transform.position.y + Random.Range(spawnMin.y, spawnMax.y);
+        return new Vector3(x, y, 0);
 
     }
 
