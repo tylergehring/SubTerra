@@ -367,11 +367,15 @@ public class PlayerController : MonoBehaviour
             {
                 GameObject tempBody = Instantiate(_deadPlayerBodyPrefab, transform.position, Quaternion.identity);
                 _camera.transform.SetParent(tempBody.transform, false);
+                Rigidbody2D tempRBB = tempBody.GetComponent<Rigidbody2D>();
+                tempRBB.linearVelocity = new Vector2(Random.Range(0f,3f), Random.Range(0f,3f));
             }
             if (_deadPlayerHelmetPrefab && _flashlight)
             {   
                 GameObject tempHelm = Instantiate(_deadPlayerHelmetPrefab, _flashlight.transform.position, Quaternion.identity);
                 _flashlight.transform.SetParent(tempHelm.transform, false);
+                Rigidbody2D tempRBH = tempHelm.GetComponent<Rigidbody2D>();
+                tempRBH.linearVelocity = new Vector2(Random.Range(0f, 3f), Random.Range(0f, 3f));
             }
             Pause(true);
         }
