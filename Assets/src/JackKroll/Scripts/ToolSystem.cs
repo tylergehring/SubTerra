@@ -1,3 +1,4 @@
+
 //JackKroll
 using UnityEngine;
 
@@ -7,6 +8,7 @@ public abstract class ToolSystem : MonoBehaviour
     public string _toolName = "Tool";
     public int _toolDamage = 10;
     public int _toolWallDamage = 5;
+
 
     // Provides a Start that derived classes can override without errors
     protected virtual void Start() { }
@@ -20,3 +22,6 @@ public abstract class ToolSystem : MonoBehaviour
        // Debug.Log(_toolName + " is being used!");
     }
 }
+
+//static 
+//dynamic tpye 

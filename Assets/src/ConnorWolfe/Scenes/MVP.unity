@@ -217,7 +217,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PauseMenuController
   pauseUIDocumentGO: {fileID: 1637223033}
-  audioMixer: {fileID: 0}
 --- !u!4 &59657618
 Transform:
   m_ObjectHideFlags: 0
