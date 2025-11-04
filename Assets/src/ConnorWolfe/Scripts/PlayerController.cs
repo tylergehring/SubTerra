@@ -400,6 +400,8 @@ public class PlayerController : MonoBehaviour
 
             _playerAlive = false;
             Pause(true);
+            this.gameObject.SetActive(false);            
+
         }
     }
 
