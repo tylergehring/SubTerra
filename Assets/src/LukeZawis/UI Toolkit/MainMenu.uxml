@@ -1,9 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<ui:UXML
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:ui="UnityEngine.UIElements"
-    xmlns:uie="UnityEditor.UIElements"
-    xsi:noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd"
->
-    
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+  <ui:VisualElement name="MainMenuPanel" style="flex-grow: 1; justify-content: center; align-items: center; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.8);">
+    <ui:Label text="SUBTERRA" name="MainTitle" style="font-size: 36px; color: white; -unity-text-align: upper-center; margin-bottom: 40px;" />
+    <ui:Button text="PLAY" name="PlayButton" style="width: 160px; height: 32px; margin: 8px; background-color: #2196F3; color: white; border-radius: 4px;" />
+    <ui:Button text="SETTINGS" name="MainSettingsButton" style="width: 160px; height: 32px; margin: 8px; background-color: #2196F3; color: white; border-radius: 4px;" />
+  </ui:VisualElement>
+  <ui:VisualElement name="SettingsPanel" style="display: none; flex-grow: 1; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, 0.8); padding: 16px;">
+    <ui:Label text="SETTINGS" style="font-size: 28px; margin-bottom: 24px;" />
+    <ui:Label text="Volume" style="font-size: 18px; align-self: flex-start;" />
+    <ui:Slider name="VolumeSlider" low-value="0" high-value="100" value="50" style="width: 200px; margin-bottom: 16px;" />
+    <ui:Toggle name="GodModeToggle" text="God Mode" style="margin-bottom: 16px;" />
+    <ui:Button text="BACK" name="BackFromSettingsButton" style="width: 120px; height: 28px;" />
+  </ui:VisualElement>
 </ui:UXML>

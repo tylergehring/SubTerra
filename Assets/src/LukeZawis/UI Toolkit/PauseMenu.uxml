@@ -1,16 +1,21 @@
-<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="PauseMenuPanel" style="flex-grow: 1; justify-content: center; align-items: center; position: absolute; top: 0; left: 0; right: 0; bottom: 0;">
-        <ui:Label text="PAUSED" name="PauseTitle" style="font-size: 72px; color: rgb(255, 250, 250); align-items: auto; -unity-text-align: upper-center; position: relative; margin-bottom: 50px;" />
-        <ui:Button text="Settings" name="SettingsButton" style="width: 200px; height: 50px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px; background-color: rgb(80, 150, 243); font-size: 25px; color: rgb(255, 250, 250); border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;" />
-        <ui:Button text="Controls" name="ControlsButton" style="width: 200px; height: 50px; color: rgb(255, 250, 250); background-color: rgb(80, 150, 243); margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px; font-size: 25px; border-top-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;" />
-    </ui:VisualElement>
-    <ui:VisualElement name="PauseBackground" enabled="true" focusable="false" picking-mode="Ignore" style="flex-grow: 1; background-color: rgba(0, 0, 0, 0.69); border-top-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px; font-size: 20px; color: rgb(51, 51, 51); padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; flex-shrink: 1; flex-direction: column; position: relative; opacity: 0.36;" />
-    <ui:VisualElement name="SettingsMenuPanel" style="flex-grow: 1; display: none;">
-        <ui:Button text="back" name="BackFromSettingsButton" double-click-selects-word="false" />
-        <ui:Label text="Howdy, you&apos;re not supposed to be here partner! &gt;:0" name="Hmm_Youre_Not_Supposed_To_Be_Here" enabled="true" emoji-fallback-support="false" style="-unity-font-style: bold; font-size: 25px; -unity-text-align: upper-center;" />
-    </ui:VisualElement>
-    <ui:VisualElement name="ControlsMenuPanel" enabled="true" style="flex-grow: 1; display: none;">
-        <ui:Button text="back" name="BackFromControlsButton" double-click-selects-word="false" />
-        <ui:Label text="Howdy, you&apos;re not supposed to be here partner! &gt;:0" name="Hmm_Youre_Not_Supposed_To_Be_Here" enabled="true" emoji-fallback-support="false" style="-unity-font-style: bold; font-size: 25px; -unity-text-align: upper-center;" />
-    </ui:VisualElement>
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+  <ui:VisualElement name="PauseMenuPanel" style="flex-grow: 1; justify-content: center; align-items: center; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.8);">
+    <ui:Label text="PAUSED" name="PauseTitle" style="font-size: 32px; color: white; -unity-text-align: upper-center; margin-bottom: 32px;" />
+    <ui:Button text="RESUME" name="ResumeButton" style="width: 160px; height: 32px; margin: 8px; background-color: #2196F3; color: white; border-radius: 4px;" />
+    <ui:Button text="SETTINGS" name="PauseSettingsButton" style="width: 160px; height: 32px; margin: 8px; background-color: #2196F3; color: white; border-radius: 4px;" />
+    <ui:Button text="CONTROLS" name="ControlsButton" style="width: 160px; height: 32px; margin: 8px; background-color: #2196F3; color: white; border-radius: 4px;" />
+    <ui:Button text="MAIN MENU" name="QuitToMainButton" style="width: 160px; height: 32px; margin: 8px; background-color: #f44336; color: white; border-radius: 4px;" />
+  </ui:VisualElement>
+  <ui:VisualElement name="SettingsPanel" style="display: none; flex-grow: 1; justify-content: center; align-items: center; background-color: rgba(0, 0, 0, 0.8); padding: 16px;">
+    <ui:Label text="SETTINGS" style="font-size: 28px; margin-bottom: 24px;" />
+    <ui:Label text="Volume" style="font-size: 18px; align-self: flex-start;" />
+    <ui:Slider name="VolumeSlider" low-value="0" high-value="100" value="50" style="width: 200px; margin-bottom: 16px;" />
+    <ui:Toggle name="GodModeToggle" text="God Mode" style="margin-bottom: 16px;" />
+    <ui:Button text="BACK" name="BackFromSettingsButton" style="width: 120px; height: 28px;" />
+  </ui:VisualElement>
+  <ui:VisualElement name="ControlsPanel" style="display: none; flex-grow: 1; justify-content: flex-start; align-items: center; background-color: rgba(0, 0, 0, 0.8); padding: 16px;">
+    <ui:Label text="CONTROLS" style="font-size: 28px; margin-bottom: 16px;" />
+    <ui:Label text="WASD: Move\nSpace: Jump\nESC: Pause" style="font-size: 16px; white-space: normal;" /> <!-- Edit keys per your game -->
+    <ui:Button text="BACK" name="BackFromControlsButton" style="width: 120px; height: 28px; margin-top: 16px;" />
+  </ui:VisualElement>
 </ui:UXML>

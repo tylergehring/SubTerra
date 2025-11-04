@@ -21,7 +21,7 @@ EditorBuildSettings:
     path: Assets/src/ConnorWolfe/Scenes/TerrainTestCopy.unity
     guid: d5eef4d60c996f946ad09735e03c932e
   - enabled: 1
-    path: Assets/src/LukeZawis/Scenes/NewScene.unity
+    path: Assets/src/LukeZawis/Scenes/UI Menus.unity
     guid: ba54688e1219fc0409b3e6c5af6cc3d1
   - enabled: 1
     path: Assets/src/MikaylaDeCuire/MyTestScene.unity
