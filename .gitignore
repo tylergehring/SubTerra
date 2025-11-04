@@ -101,4 +101,4 @@ InitTestScene*.unity*
 .DS_Store
 
 #TEMP, needed to suspensend playmode test for UI
-Assets/test/LukeZawis/PlayModeTests
+Assets/test/LukeZawis
