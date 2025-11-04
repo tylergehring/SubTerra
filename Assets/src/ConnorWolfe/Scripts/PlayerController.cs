@@ -126,6 +126,7 @@ public class PlayerController : MonoBehaviour
     {
         _inventoryHotBar.UpdateSlotSelect(_inventory.GetIndex());
         _GetInput();
+
         if (_health == 0)
             Pause(true);
     }
@@ -250,6 +251,13 @@ public class PlayerController : MonoBehaviour
             Debug.LogWarning("WARNING: Current inventory slot does not contain a usable tool.");
             return;
         }
+
+        /* I'll just do something like
+        GameObject current = _inventory.GetItem();
+        UtilityTools tool = current.GetComponent<UtilityTools>();
+        if (tool)
+            tool.ChangePos(transform.position);        
+         */
 
         tool.Use(this);
     }
@@ -383,6 +391,12 @@ public class PlayerController : MonoBehaviour
                 Rigidbody2D tempRBH = tempHelm.GetComponent<Rigidbody2D>();
                 tempRBH.linearVelocity = new Vector2(Random.Range(0f, 3f), Random.Range(0f, 3f));
             }
+            for (int i = 0; i < 4; i++)
+            {
+                _inventory.Tab(i);
+                _Drop();
+            }
+
             Pause(true);
         }
     }
