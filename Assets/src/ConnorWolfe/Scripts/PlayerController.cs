@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
 
     // public as to be able to change the key binds in other scripts
     // using Old Unity Input systems
+    [Header("Keybind settings")]
     public KeyCode mvRightKey = KeyCode.D;
     public KeyCode mvLeftKey = KeyCode.A;
     public KeyCode jumpKey = KeyCode.Space;
@@ -23,10 +24,13 @@ public class PlayerController : MonoBehaviour
     public List<KeyCode> invenHotKeys = new List<KeyCode> { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4 };
 
     // movement values
+    [Header("Movement Settings")]
     [SerializeField] private float _jumpStrength;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _climbSpeed;
     // raycast value(s)
+    [Header("Raycast Settings")]
+    [Tooltip("This is the range that the raycast will look outside the player")]
     [SerializeField] private float _raycastRange;
     // stamina
     [Header("Stamina Settings")]
@@ -37,15 +41,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _staminaRegenRate = 0.1f; 
     [SerializeField] private int _staminaRegenDelay = 2;
     // player health
+    [Header("Health settings")]
     [SerializeField] private byte _health = (byte)3; // Unsigned 8bit integer (0 to 255)
     // player score
+    [Header("Score settings")]
     [SerializeField] private uint _playerScore = 0;
     // player components that help the player move
+    [Header("Player components")]
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private SpriteRenderer _playerSprite;
     [SerializeField] private Animator _playerAnimator;
-    // Lets us drop items into the world
-    [SerializeField] private GameObject _itemHandlerPrefab;
+    [Header("External components")]
+    [SerializeField] private GameObject _itemHandlerPrefab; // Lets us drop items into the world
     [SerializeField] private GameObject _deadPlayerBodyPrefab;
     [SerializeField] private GameObject _deadPlayerHelmetPrefab;
     [SerializeField] private GameObject _camera;
