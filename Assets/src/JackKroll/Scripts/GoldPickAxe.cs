@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class GoldPickAxe : UtilityTool
 {
+    private AudioSource audioSource;
     public float breakRadius = 10f; // Radius to destroy chunks
 
     private TerrainHandler _terrain;
@@ -14,6 +15,7 @@ public class GoldPickAxe : UtilityTool
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         _terrain = FindFirstObjectByType<TerrainHandler>();
 
         if (player == null)
@@ -46,7 +48,21 @@ public class GoldPickAxe : UtilityTool
                 transform.Rotate(0f, rotationSpeed * Time.deltaTime, 90f);
 
 
+                if (!audioSource.isPlaying)
+                {
+                    audioSource.Play();
+                }
+
+
             }
+            else
+            {
+                if (audioSource.isPlaying)
+                {
+                    audioSource.Stop();
+                }
+            }
+
 
         }
 

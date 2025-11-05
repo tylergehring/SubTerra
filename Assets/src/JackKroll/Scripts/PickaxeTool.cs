@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PickaxeTool : UtilityTool
 {
+    private AudioSource audioSource;
     public float breakRadius = 10f; // Radius to destroy chunks
 
     private TerrainHandler _terrain;
@@ -12,6 +13,8 @@ public class PickaxeTool : UtilityTool
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+
         _terrain = FindFirstObjectByType<TerrainHandler>();
 
         if (player == null)
@@ -44,6 +47,19 @@ void Update()
                 transform.Rotate(0f, rotationSpeed * Time.deltaTime, 90f);
 
 
+                if (!audioSource.isPlaying)
+                {
+                    audioSource.Play();
+                }
+
+
+            }
+            else
+            {
+                if (audioSource.isPlaying)
+                {
+                    audioSource.Stop();
+                }
             }
         }
               
