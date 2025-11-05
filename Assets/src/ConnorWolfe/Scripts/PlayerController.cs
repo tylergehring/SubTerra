@@ -6,12 +6,14 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using static UnityEditor.PlayerSettings;
 
+
 public class PlayerController : MonoBehaviour
 {
     // this script handles systems for the player (Arjun)
 
     // public as to be able to change the key binds in other scripts
     // using Old Unity Input systems
+    [Header("Keybind settings")]
     public KeyCode mvRightKey = KeyCode.D;
     public KeyCode mvLeftKey = KeyCode.A;
     public KeyCode jumpKey = KeyCode.Space;
@@ -23,10 +25,13 @@ public class PlayerController : MonoBehaviour
     public List<KeyCode> invenHotKeys = new List<KeyCode> { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4 };
 
     // movement values
+    [Header("Movement Settings")]
     [SerializeField] private float _jumpStrength;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _climbSpeed;
     // raycast value(s)
+    [Header("Raycast Settings")]
+    [Tooltip("This is the range that the raycast will look outside the player")]
     [SerializeField] private float _raycastRange;
     // stamina
     [Header("Stamina Settings")]
@@ -37,15 +42,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _staminaRegenRate = 0.1f; 
     [SerializeField] private int _staminaRegenDelay = 2;
     // player health
+    [Header("Health settings")]
     [SerializeField] private byte _health = (byte)3; // Unsigned 8bit integer (0 to 255)
     // player score
+    [Header("Score settings")]
     [SerializeField] private uint _playerScore = 0;
     // player components that help the player move
+    [Header("Player components")]
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private SpriteRenderer _playerSprite;
     [SerializeField] private Animator _playerAnimator;
-    // Lets us drop items into the world
-    [SerializeField] private GameObject _itemHandlerPrefab;
+    [Header("External components")]
+    [SerializeField] private GameObject _itemHandlerPrefab; // Lets us drop items into the world
     [SerializeField] private GameObject _deadPlayerBodyPrefab;
     [SerializeField] private GameObject _deadPlayerHelmetPrefab;
     [SerializeField] private GameObject _camera;
@@ -246,33 +254,30 @@ public class PlayerController : MonoBehaviour
         if (!current)
             return;
 
-        NonReusableTools tool = current.GetComponent<NonReusableTools>();
-        if (!tool)
-        {
-            Debug.LogWarning("WARNING: Current inventory slot does not contain a usable tool.");
+        NonReusableTools nrTool = current.GetComponent<NonReusableTools>();
+        if (nrTool) {
+            nrTool.Use(this);
             return;
         }
 
-        /* I'll just do something like
-        GameObject current = _inventory.GetItem();
-        UtilityTools tool = current.GetComponent<UtilityTools>();
-        if (tool)
-            tool.ChangePos(transform.position);        
-         */
 
-        tool.Use(this);
+// didn't work due to assembly defs
+//        PickaxeTool axe = current.GetComponent<PickaxeTool>();
+
+
+
     }
 
     // drop an item from the inventory
-    private void _Drop()
+    private GameObject _Drop()
     {
         if (!_itemHandlerPrefab)
-            return;
+            return null;
 
         GameObject temp = _inventory.SetItem(null);
 
         if (!temp)
-            return;
+            return null;
 
         NonReusableTools toolComp = temp.GetComponent<NonReusableTools>();
         if (toolComp)
@@ -293,6 +298,7 @@ public class PlayerController : MonoBehaviour
         }
 
         _inventoryHotBar.UpdateSlotItem(_inventory.GetIndex(), null);
+        return newHandler;
     }
 
     private void _UpdateAnimatorAndFlip()
@@ -383,19 +389,26 @@ public class PlayerController : MonoBehaviour
                 GameObject tempBody = Instantiate(_deadPlayerBodyPrefab, transform.position, Quaternion.identity);
                 _camera.transform.SetParent(tempBody.transform, false);
                 Rigidbody2D tempRBB = tempBody.GetComponent<Rigidbody2D>();
-                tempRBB.linearVelocity = new Vector2(Random.Range(0f,3f), Random.Range(0f,3f));
+                if (tempRBB)
+                    tempRBB.linearVelocity = new Vector2(Random.Range(0f,3f), Random.Range(0f,3f));
             }
             if (_deadPlayerHelmetPrefab && _flashlight)
             {   
                 GameObject tempHelm = Instantiate(_deadPlayerHelmetPrefab, _flashlight.transform.position, Quaternion.identity);
                 _flashlight.transform.SetParent(tempHelm.transform, false);
                 Rigidbody2D tempRBH = tempHelm.GetComponent<Rigidbody2D>();
-                tempRBH.linearVelocity = new Vector2(Random.Range(0f, 3f), Random.Range(0f, 3f));
+                if (tempRBH) 
+                    tempRBH.linearVelocity = new Vector2(Random.Range(0f, 3f), Random.Range(0f, 3f));
             }
             for (int i = 0; i < 4; i++)
             {
                 _inventory.Tab(i);
-                _Drop();
+                GameObject item = _Drop();
+                Rigidbody2D itemRb = null;
+                if (item)
+                    itemRb = item.GetComponent<Rigidbody2D>();
+                if (itemRb)
+                    itemRb.linearVelocity = new Vector2(Random.Range(0f, 5f), Random.Range(0f, 5f));
             }
 
             _playerAlive = false;

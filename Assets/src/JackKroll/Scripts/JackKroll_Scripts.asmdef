@@ -2,6 +2,7 @@
     "name": "JackKroll_Scripts",
     "rootNamespace": "",
     "references": [
+        "GameScripts",
         "MatthewBrisset_Scripts",
         "Scripts"
     ],

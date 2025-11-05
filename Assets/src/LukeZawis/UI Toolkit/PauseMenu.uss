@@ -1,43 +1,50 @@
-Label {
-    font-size: 18px;
-    color: white;
-    -unity-font-style: bold;
+VisualElement {
+    background-color: rgba(60, 36, 21, 0.8); /* dark brown cave */
+    width: 100%; /* full-screen */
+    height: 100%; /* full-screen */
+    flex-grow: 1;
+    flex-direction: row; /* horizontal row layout */
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* wrap for phone small screens */
 }
 
-#MainTitle, #PauseTitle {
-    font-size: 36px;
-    color: yellow;
-    text-shadow: 2px 2px black;
+Label {
+    font-size: 4%;
+    color: #228B22; /* dark green moss */
+    -unity-font-style: bold;
+    text-shadow: 2px 2px black; /* 8-bit shadow */
 }
 
 Button {
-    width: 160px;
-    height: 32px;
-    margin: 8px;
+    background-color: rgba(79, 79, 79, 1); /* gray rock non-hovered */
     border-width: 2px;
-    border-color: white;
-    border-radius: 4px;
-    background-color: #2196F3;
-    color: white;
+    border-color: #3C2415; /* brown border */
+    width: 8%; /* scale with screen */
+    height: 8%; /* square for icons */
+    margin: 1%;
     -unity-font-style: bold;
 }
 
 Button:hover {
-    background-color: #64B5F6;
+    background-color: rgba(100, 100, 100, 1); /* lighter gray hovered */
+    border-color: #228B22; /* green border hovered */
+    transform: scale(1.1); /* slight enlarge for phone touch */
 }
 
-#QuitToMainButton, #GodModeButton {
-    background-color: #f44336;
+Button:active {
+    background-color: rgba(50, 50, 50, 1); /* darker press */
 }
 
 Slider {
-    --track-color: gray;
-    --thumb-color: white;
+    --track-color: #4F4F4F; /* dark gray track */
+    --thumb-color: #228B22; /* green thumb */
     border-width: 2px;
-    border-color: white;
+    border-color: #3C2415; /* brown border */
+    width: 20%;
 }
 
 Toggle {
-    color: white;
-    --checked-background-color: red;
+    --checked-background-color: #8B0000; /* dark red on */
+    font-size: 2%;
 }

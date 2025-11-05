@@ -1,17 +1,20 @@
 using UnityEngine;
 
-public class PickaxeTool : MonoBehaviour
+public class PickaxeTool : UtilityTool
 {
+    private AudioSource audioSource;
     public float breakRadius = 10f; // Radius to destroy chunks
 
     private TerrainHandler _terrain;
 
     public Transform player;
-    
-    
+    private float rotationSpeed = 40f; // degrees per second
+
 
     private void Start()
     {
+        audioSource = GetComponent<AudioSource>();
+
         _terrain = FindFirstObjectByType<TerrainHandler>();
 
         if (player == null)
@@ -34,21 +37,47 @@ void Update()
             // Keep Z position fixed at 1
             var pos = transform.position;
             pos.y = player.position.x + -0.5f;
-            pos.y = player.position.y + 0.4f;
+            pos.y = player.position.y + 0.1f;
             pos.z = -1f;
             transform.position = pos;
 
+            if (Input.GetMouseButton(0)) // Left mouse button held down
+            {
+                // Rotate around the Y axis (you can change to X/Z as needed)
+                transform.Rotate(0f, rotationSpeed * Time.deltaTime, 90f);
 
+
+                if (!audioSource.isPlaying)
+                {
+                    audioSource.Play();
+                }
+
+
+            }
+            else
+            {
+                if (audioSource.isPlaying)
+                {
+                    audioSource.Stop();
+                }
+            }
         }
               
             
 
         
 
-        if (Input.GetKeyDown(KeyCode.U))
+        if (Input.GetMouseButtonDown(0))
         {
             DestroyChunksAtPosition();
         }
+
+    }
+
+    // added by Connor
+    public void DoThing()
+    {
+        DestroyChunksAtPosition();
     }
 
     private void DestroyChunksAtPosition()

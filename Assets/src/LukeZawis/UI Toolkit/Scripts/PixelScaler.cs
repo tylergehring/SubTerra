@@ -8,7 +8,6 @@ using UnityEngine.UIElements;
 public class PixelScaler : MonoBehaviour
 {
     [SerializeField] private Vector2Int baseResolution = new Vector2Int(320, 240);
-
     private UIDocument uiDoc;
     private VisualElement root;
     private Vector2Int lastScreen;
@@ -33,11 +32,39 @@ public class PixelScaler : MonoBehaviour
 
     private void ApplyScale()
     {
-        float sx = (float)Screen.width / baseResolution.x;
-        float sy = (float)Screen.height / baseResolution.y;
-        int scale = Mathf.FloorToInt(Mathf.Min(sx, sy));
+        // Get device resolution
+        float screenWidth = Screen.width;
+        float screenHeight = Screen.height;
+        float screenAspect = screenWidth / screenHeight;
 
-        root.style.scale = new Scale(new Vector3(scale, scale, 1f));
-        Debug.Log($"[PixelScaler] {scale}x scale applied");
+        // Reference resolution from PanelSettings (1920x1080)
+        Vector2 referenceResolution = new Vector2(1920, 1080);
+        float referenceAspect = referenceResolution.x / referenceResolution.y;
+
+        // Calculate scale based on aspect ratio
+        float scale;
+        if (screenAspect > referenceAspect)
+        {
+            // Wider screens (PC, tablet landscape)
+            scale = screenHeight / referenceResolution.y;
+        }
+        else
+        {
+            // Taller screens (phone portrait)
+            scale = screenWidth / referenceResolution.x;
+        }
+
+        // Adjust for pixel-perfect rendering
+        int pixelScale = Mathf.FloorToInt(scale * (referenceResolution.y / baseResolution.y));
+        pixelScale = Mathf.Max(1, pixelScale); // Ensure scale is at least 1
+
+        // Apply scale to PanelSettings
+        uiDoc.panelSettings.scale = pixelScale;
+        uiDoc.panelSettings.referenceSpritePixelsPerUnit = Mathf.Max(1, Screen.dpi / 96f); // Adjust for DPI
+
+        // Reset root scale to avoid double-scaling
+        root.style.scale = new Scale(Vector3.one);
+
+        Debug.Log($"[PixelScaler] {pixelScale}x scale applied, DPI: {Screen.dpi}");
     }
 }
