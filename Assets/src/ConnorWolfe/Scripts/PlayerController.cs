@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using static UnityEditor.PlayerSettings;
 
+
 public class PlayerController : MonoBehaviour
 {
     // this script handles systems for the player (Arjun)
@@ -253,21 +254,18 @@ public class PlayerController : MonoBehaviour
         if (!current)
             return;
 
-        NonReusableTools tool = current.GetComponent<NonReusableTools>();
-        if (!tool)
-        {
-            Debug.LogWarning("WARNING: Current inventory slot does not contain a usable tool.");
+        NonReusableTools nrTool = current.GetComponent<NonReusableTools>();
+        if (nrTool) {
+            nrTool.Use(this);
             return;
         }
 
-        /* I'll just do something like
-        GameObject current = _inventory.GetItem();
-        UtilityTools tool = current.GetComponent<UtilityTools>();
-        if (tool)
-            tool.ChangePos(transform.position);        
-         */
 
-        tool.Use(this);
+// didn't work due to assembly defs
+//        PickaxeTool axe = current.GetComponent<PickaxeTool>();
+
+
+
     }
 
     // drop an item from the inventory

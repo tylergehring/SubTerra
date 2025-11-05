@@ -7,8 +7,8 @@ public class PickaxeTool : MonoBehaviour
     private TerrainHandler _terrain;
 
     public Transform player;
-    
-    
+
+
 
     private void Start()
     {
@@ -49,6 +49,13 @@ void Update()
         {
             DestroyChunksAtPosition();
         }
+
+    }
+
+    // added by Connor
+    public void DoThing()
+    {
+        DestroyChunksAtPosition();
     }
 
     private void DestroyChunksAtPosition()
