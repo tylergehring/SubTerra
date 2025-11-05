@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5d2c2d53bf3a70542b420dc88a313302
+guid: 0ee2dcaa32e6ab448b8f7ba34cf6b8ba
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -97,45 +97,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: genericItem_color_021_0
-      rect:
-        serializedVersion: 2
-        x: 3
-        y: 152
-        width: 1
-        height: 2
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 8c8634a5232074a4bb0672df2654caa2
-      internalID: 701573175
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: genericItem_color_021_1
+      name: OGPICK_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 123
         height: 154
-      alignment: 9
-      pivot: {x: 0.3475452, y: 0.5041277}
+      alignment: 0
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 50339ba5ea4b98a4eab429d43905cf23
-      internalID: 795069242
+      spriteID: 17ab570ade4b7cd44b854770e62b2902
+      internalID: -244779846
       vertices: []
       indices: 
       edges: []
@@ -144,7 +122,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: d571a1f2aa8475041afc19281383f447
+    spriteID: d13dc7d7fa634774ba538c8ef15779ae
     internalID: 0
     vertices: []
     indices: 
@@ -154,8 +132,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      genericItem_color_021_0: 701573175
-      genericItem_color_021_1: 795069242
+      OGPICK_0: -244779846
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

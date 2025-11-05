@@ -1,14 +1,15 @@
+//Jack Kroll
 using UnityEngine;
 
-public class PickaxeTool : UtilityTool
+public class GoldPickAxe : UtilityTool
 {
     public float breakRadius = 10f; // Radius to destroy chunks
 
     private TerrainHandler _terrain;
 
     public Transform player;
-    
-    
+
+
 
     private void Start()
     {
@@ -19,9 +20,9 @@ public class PickaxeTool : UtilityTool
             player = GameObject.FindGameObjectWithTag("Player").transform;
         }
     }
-   
 
-void Update()
+
+    void Update()
     {
 
         //cnages position 
@@ -40,10 +41,10 @@ void Update()
 
 
         }
-              
-            
 
-        
+
+
+
 
         if (Input.GetKeyDown(KeyCode.U))
         {

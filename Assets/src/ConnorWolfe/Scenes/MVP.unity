@@ -203,7 +203,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &59657617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -786,6 +786,7 @@ Transform:
   m_Children:
   - {fileID: 834146272405036384}
   - {fileID: 248567699}
+  - {fileID: 1488848876}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1383126627
@@ -860,6 +861,108 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1383126627}
   m_CullTransparentMesh: 1
+--- !u!1001 &1488848875
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 1353826540}
+    m_Modifications:
+    - target: {fileID: 386468732600598279, guid: 3a7e56596fcde8d4ab8fa6bdab7f4a23, type: 3}
+      propertyPath: m_Name
+      value: Pickaxe (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 386468732600598279, guid: 3a7e56596fcde8d4ab8fa6bdab7f4a23, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4164849356331157589, guid: 3a7e56596fcde8d4ab8fa6bdab7f4a23, type: 3}
+      propertyPath: breakRadius
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7082385947792687800, guid: 3a7e56596fcde8d4ab8fa6bdab7f4a23, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.93233585
+      objectReference: {fileID: 0}
+    - target: {fileID: 7082385947792687800, guid: 3a7e56596fcde8d4ab8fa6bdab7f4a23, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -2.096962
+      objectReference: {fileID: 0}
+    - target: {fileID: 7082385947792687800, guid: 3a7e56596fcde8d4ab8fa6bdab7f4a23, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -1.6328201
+      objectReference: {fileID: 0}
+    - target: {fileID: 7082385947792687800, guid: 3a7e56596fcde8d4ab8fa6bdab7f4a23, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7082385947792687800, guid: 3a7e56596fcde8d4ab8fa6bdab7f4a23, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7082385947792687800, guid: 3a7e56596fcde8d4ab8fa6bdab7f4a23, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7082385947792687800, guid: 3a7e56596fcde8d4ab8fa6bdab7f4a23, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7082385947792687800, guid: 3a7e56596fcde8d4ab8fa6bdab7f4a23, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7082385947792687800, guid: 3a7e56596fcde8d4ab8fa6bdab7f4a23, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7082385947792687800, guid: 3a7e56596fcde8d4ab8fa6bdab7f4a23, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7082385947792687800, guid: 3a7e56596fcde8d4ab8fa6bdab7f4a23, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4164849356331157589, guid: 3a7e56596fcde8d4ab8fa6bdab7f4a23, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 386468732600598279, guid: 3a7e56596fcde8d4ab8fa6bdab7f4a23, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1488848878}
+  m_SourcePrefab: {fileID: 100100000, guid: 3a7e56596fcde8d4ab8fa6bdab7f4a23, type: 3}
+--- !u!4 &1488848876 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7082385947792687800, guid: 3a7e56596fcde8d4ab8fa6bdab7f4a23, type: 3}
+  m_PrefabInstance: {fileID: 1488848875}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1488848877 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 386468732600598279, guid: 3a7e56596fcde8d4ab8fa6bdab7f4a23, type: 3}
+  m_PrefabInstance: {fileID: 1488848875}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1488848878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1488848877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 499800bcc6909624d825685f8017dce9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: JackKroll_Scripts::GoldPickAxe
+  _toolName: Tool
+  _toolDamage: 20
+  _toolWallDamage: 10
+  flashlight: {fileID: 1654641839549247986}
+  durability: 1000
+  breakRadius: 3.5
+  player: {fileID: 0}
 --- !u!1 &1635208498
 GameObject:
   m_ObjectHideFlags: 0
