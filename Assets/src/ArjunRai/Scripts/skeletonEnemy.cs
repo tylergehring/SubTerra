@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class combatEnemy : MonoBehaviour 
+public class skeletonEnemy : MonoBehaviour 
 {
     private PlayerController player; // Placeholder for the reference of the player controller script 
     private float lastDamageTime;  // The variable that holds when was the last time damage was delt to the player.
