@@ -1,28 +1,27 @@
 VisualElement {
     background-color: rgba(60, 36, 21, 0.8); /* dark brown cave */
-    width: 80%; /* responsive for phone */
-    height: 80%; /* responsive for phone */
     flex-grow: 1;
     justify-content: center;
     align-items: center;
 }
 
 Label {
-   font-size: 28px;
-color: #FFD700; /* gold text for underground treasure */
--unity-font-style: bold;
-text-shadow: 2px 2px black; /* 8-bit shadow */
+    font-size: 4%;
+    color: #FFD700; /* gold text */
+    -unity-font-style: bold;
+    text-shadow: 2px 2px black; /* 8-bit shadow */
 }
 
 Button {
     background-color: rgba(79, 79, 79, 1); /* gray rock non-hovered */
     border-width: 2px;
     border-color: #3C2415; /* brown border */
-    width: 160px;
-    height: 32px;
-    margin: 8px;
+    width: 15%;
+    height: 5%;
+    margin: 1%;
     color: #FFD700;
     -unity-font-style: bold;
+    font-size: 2%;
 }
 
 Button:hover {
@@ -31,7 +30,7 @@ Button:hover {
 }
 
 Button:active {
-    background-color: rgba(50, 50, 50, 1); /* darker press for phone touch */
+    background-color: rgba(50, 50, 50, 1); /* darker press */
 }
 
 Slider {
@@ -39,9 +38,11 @@ Slider {
     --thumb-color: #FFD700; /* gold thumb */
     border-width: 2px;
     border-color: #3C2415; /* brown border */
+    width: 20%;
 }
 
 Toggle {
     color: #FFD700;
     --checked-background-color: #8B0000; /* dark red on */
+    font-size: 2%;
 }

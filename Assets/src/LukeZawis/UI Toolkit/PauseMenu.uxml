@@ -1,22 +1,22 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
-    <ui:VisualElement name="PauseMenuPanel" style="display: flex; flex-direction: row; justify-content: center; align-items: center; width: 60%; height: 60%; background-image: url(&quot;project://database/Assets/src/LukeZawis/Assets/DEVNIK%202D/2D%20UI%20PIXEL%20BUTTONS/UI%20SIMPLE%20PIXEL%20UNSPLIT.png?fileID=1680676567&amp;guid=a37e8466236089c45b610370218b5353&amp;type=3#BG_UI&quot;); position: absolute; top: 20%; bottom: auto; left: 20%; right: auto; align-content: center; align-self: center; -unity-text-align: upper-left;">
-        <ui:Label text="PAUSED" style="font-size: 32px; color: white; -unity-font-style: bold; display: none;" />
-        <ui:Button name="ResumeSettingsButton" style="margin-top: 10px; background-image: url(&quot;project://database/Assets/src/LukeZawis/Assets/DEVNIK%202D/2D%20UI%20PIXEL%20BUTTONS/UI%20SIMPLE%20PIXEL%20UNSPLIT.png?fileID=177566260&amp;guid=a37e8466236089c45b610370218b5353&amp;type=3#PLAY_BUTTON&quot;);" />
-        <ui:Button name="PauseSettingsButton" style="margin-top: 10px; background-image: url(&quot;project://database/Assets/src/LukeZawis/Assets/DEVNIK%202D/2D%20UI%20PIXEL%20BUTTONS/UI%20SIMPLE%20PIXEL%20UNSPLIT.png?fileID=614323164&amp;guid=a37e8466236089c45b610370218b5353&amp;type=3#SETTINGS&quot;);" />
-        <ui:Button name="ControlsButton" style="margin-top: 10px; background-image: url(&quot;project://database/Assets/src/LukeZawis/Assets/DEVNIK%202D/2D%20UI%20PIXEL%20BUTTONS/UI%20SIMPLE%20PIXEL%20UNSPLIT.png?fileID=-525753861&amp;guid=a37e8466236089c45b610370218b5353&amp;type=3#A_RIGHT&quot;);" />
-        <ui:Button name="QuitToMainButton" style="margin-top: 10px; background-image: url(&quot;project://database/Assets/src/LukeZawis/Assets/DEVNIK%202D/2D%20UI%20PIXEL%20BUTTONS/UI%20SIMPLE%20PIXEL%20UNSPLIT.png?fileID=-949757489&amp;guid=a37e8466236089c45b610370218b5353&amp;type=3#EXIT_BUTTON&quot;);" />
+    <ui:VisualElement name="PauseMenuPanel" style="display: flex; flex-direction: row; justify-content: center; align-items: center; width: 100%; height: 100%; background-image: url(&quot;project://database/Assets/src/LukeZawis/Assets/DEVNIK%202D/2D%20UI%20PIXEL%20BUTTONS/UI%20SIMPLE%20PIXEL%20UNSPLIT.png?fileID=1680676567&amp;guid=a37e8466236089c45b610370218b5353&amp;type=3#BG_UI&quot;); position: absolute; top: 0; bottom: 0; left: 0; right: 0; align-content: center; align-self: center; -unity-text-align: upper-left;">
+        <ui:Label text="PAUSED" style="font-size: 5%; color: white; -unity-font-style: bold; display: none;" />
+        <ui:Button name="ResumeSettingsButton" style="margin: 1%; background-image: url(&quot;project://database/Assets/src/LukeZawis/Assets/DEVNIK%202D/2D%20UI%20PIXEL%20BUTTONS/UI%20SIMPLE%20PIXEL%20UNSPLIT.png?fileID=177566260&amp;guid=a37e8466236089c45b610370218b5353&amp;type=3#PLAY_BUTTON&quot;); width: 8%; height: 8%;" />
+        <ui:Button name="PauseSettingsButton" style="margin: 1%; background-image: url(&quot;project://database/Assets/src/LukeZawis/Assets/DEVNIK%202D/2D%20UI%20PIXEL%20BUTTONS/UI%20SIMPLE%20PIXEL%20UNSPLIT.png?fileID=614323164&amp;guid=a37e8466236089c45b610370218b5353&amp;type=3#SETTINGS&quot;); width: 8%; height: 8%;" />
+        <ui:Button name="ControlsButton" style="margin: 1%; background-image: url(&quot;project://database/Assets/src/LukeZawis/Assets/DEVNIK%202D/2D%20UI%20PIXEL%20BUTTONS/UI%20SIMPLE%20PIXEL%20UNSPLIT.png?fileID=-525753861&amp;guid=a37e8466236089c45b610370218b5353&amp;type=3#A_RIGHT&quot;); width: 8%; height: 8%;" />
+        <ui:Button name="QuitToMainButton" style="margin: 1%; background-image: url(&quot;project://database/Assets/src/LukeZawis/Assets/DEVNIK%202D/2D%20UI%20PIXEL%20BUTTONS/UI%20SIMPLE%20PIXEL%20UNSPLIT.png?fileID=-949757489&amp;guid=a37e8466236089c45b610370218b5353&amp;type=3#EXIT_BUTTON&quot;); width: 8%; height: 8%;" />
     </ui:VisualElement>
     <ui:VisualElement name="SettingsPanel" style="display: none; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
-        <ui:Label text="SETTINGS" style="font-size: 32px; color: white; -unity-font-style: bold;" />
-        <ui:Label text="Volume" style="margin-top: 20px; color: white;" />
-        <ui:Slider name="VolumeSlider" low-value="0" high-value="100" value="50" style="width: 200px; margin-top: 10px; background-image: url(&quot;project://database/Assets/src/LukeZawis/Assets/DEVNIK%202D/2D%20UI%20PIXEL%20BUTTONS/UI%20SIMPLE%20PIXEL%20UNSPLIT.png?fileID=-2127119051&amp;guid=a37e8466236089c45b610370218b5353&amp;type=3#BAR_OUTLINE&quot;); background-repeat: no-repeat no-repeat;" />
-        <ui:Toggle name="GodModeToggle" text="God Mode" style="margin-top: 20px;" />
-        <ui:Button text="Back" name="BackFromSettingsButton" style="margin-top: 20px;" />
+        <ui:Label text="SETTINGS" style="font-size: 5%; color: white; -unity-font-style: bold;" />
+        <ui:Label text="Volume" style="margin-top: 2%; color: white;" />
+        <ui:Slider name="VolumeSlider" low-value="0" high-value="100" value="50" style="width: 20%; margin-top: 1%; background-image: url(&quot;project://database/Assets/src/LukeZawis/Assets/DEVNIK%202D/2D%20UI%20PIXEL%20BUTTONS/UI%20SIMPLE%20PIXEL%20UNSPLIT.png?fileID=-2127119051&amp;guid=a37e8466236089c45b610370218b5353&amp;type=3#BAR_OUTLINE&quot;); background-repeat: no-repeat no-repeat;" />
+        <ui:Toggle name="GodModeToggle" text="God Mode" style="margin-top: 2%; font-size: 2%;" />
+        <ui:Button text="Back" name="BackFromSettingsButton" style="margin-top: 2%; width: 15%; height: 5%; font-size: 2%;" />
     </ui:VisualElement>
     <ui:VisualElement name="ControlsPanel" style="display: none; flex-direction: column; justify-content: center; align-items: center; width: 100%; height: 100%;">
-        <ui:Label text="CONTROLS" style="font-size: 32px; color: white; -unity-font-style: bold;" />
-        <ui:Label text="WASD - Move" style="margin-top: 20px; color: white;" />
-        <ui:Label text="ESC - Pause" style="margin-top: 10px; color: white;" />
-        <ui:Button text="Back" name="BackFromControlsButton" style="margin-top: 20px;" />
+        <ui:Label text="CONTROLS" style="font-size: 5%; color: white; -unity-font-style: bold;" />
+        <ui:Label text="WASD - Move" style="margin-top: 2%; color: white; font-size: 2%;" />
+        <ui:Label text="ESC - Pause" style="margin-top: 1%; color: white; font-size: 2%;" />
+        <ui:Button text="Back" name="BackFromControlsButton" style="margin-top: 2%; width: 15%; height: 5%; font-size: 2%;" />
     </ui:VisualElement>
 </ui:UXML>

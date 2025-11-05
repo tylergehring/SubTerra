@@ -1,7 +1,7 @@
 VisualElement {
     background-color: rgba(60, 36, 21, 0.8); /* dark brown cave */
-    width: 80%; /* responsive for phone */
-    height: 80%; /* responsive for phone */
+    width: 100%; /* full-screen */
+    height: 100%; /* full-screen */
     flex-grow: 1;
     flex-direction: row; /* horizontal row layout */
     justify-content: center;
@@ -10,19 +10,19 @@ VisualElement {
 }
 
 Label {
-    font-size: 28px;
-    color: #228B22; /* dark green moss for "PAUSED"/"SUBTERRA" */
+    font-size: 4%;
+    color: #228B22; /* dark green moss */
     -unity-font-style: bold;
-    text-shadow: 2px 2px black; /* 8-bit shadow for cool effect */
+    text-shadow: 2px 2px black; /* 8-bit shadow */
 }
 
 Button {
     background-color: rgba(79, 79, 79, 1); /* gray rock non-hovered */
     border-width: 2px;
     border-color: #3C2415; /* brown border */
-    width: 64px; /* small visual icons for pause */
-    height: 64px; /* square for icons */
-    margin: 8px;
+    width: 8%; /* scale with screen */
+    height: 8%; /* square for icons */
+    margin: 1%;
     -unity-font-style: bold;
 }
 
@@ -33,7 +33,7 @@ Button:hover {
 }
 
 Button:active {
-    background-color: rgba(50, 50, 50, 1); /* darker press for phone touch */
+    background-color: rgba(50, 50, 50, 1); /* darker press */
 }
 
 Slider {
@@ -41,9 +41,10 @@ Slider {
     --thumb-color: #228B22; /* green thumb */
     border-width: 2px;
     border-color: #3C2415; /* brown border */
-    width: 200px; /* slider width */
+    width: 20%;
 }
 
 Toggle {
     --checked-background-color: #8B0000; /* dark red on */
+    font-size: 2%;
 }
