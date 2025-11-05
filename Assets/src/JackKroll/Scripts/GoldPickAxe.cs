@@ -46,7 +46,7 @@ public class GoldPickAxe : UtilityTool
 
 
 
-        if (Input.GetKeyDown(KeyCode.U))
+        if (Input.GetMouseButtonDown(0))
         {
             DestroyChunksAtPosition();
         }
