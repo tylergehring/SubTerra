@@ -1,43 +1,47 @@
-Label {
-    font-size: 18px;
-    color: white;
-    -unity-font-style: bold;
+VisualElement {
+    background-color: rgba(60, 36, 21, 0.8); /* dark brown cave */
+    width: 80%; /* responsive for phone */
+    height: 80%; /* responsive for phone */
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
 }
 
-#MainTitle, #PauseTitle {
-    font-size: 36px;
-    color: yellow;
-    text-shadow: 2px 2px black;
+Label {
+   font-size: 28px;
+color: #FFD700; /* gold text for underground treasure */
+-unity-font-style: bold;
+text-shadow: 2px 2px black; /* 8-bit shadow */
 }
 
 Button {
+    background-color: rgba(79, 79, 79, 1); /* gray rock non-hovered */
+    border-width: 2px;
+    border-color: #3C2415; /* brown border */
     width: 160px;
     height: 32px;
     margin: 8px;
-    border-width: 2px;
-    border-color: white;
-    border-radius: 4px;
-    background-color: #2196F3;
-    color: white;
+    color: #FFD700;
     -unity-font-style: bold;
 }
 
 Button:hover {
-    background-color: #64B5F6;
+    background-color: rgba(100, 100, 100, 1); /* lighter gray hovered */
+    border-color: #FFD700; /* gold border hovered */
 }
 
-#QuitToMainButton, #GodModeButton {
-    background-color: #f44336;
+Button:active {
+    background-color: rgba(50, 50, 50, 1); /* darker press for phone touch */
 }
 
 Slider {
-    --track-color: gray;
-    --thumb-color: white;
+    --track-color: #4F4F4F; /* dark gray track */
+    --thumb-color: #FFD700; /* gold thumb */
     border-width: 2px;
-    border-color: white;
+    border-color: #3C2415; /* brown border */
 }
 
 Toggle {
-    color: white;
-    --checked-background-color: red;
+    color: #FFD700;
+    --checked-background-color: #8B0000; /* dark red on */
 }
