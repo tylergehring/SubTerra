@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 5d2c2d53bf3a70542b420dc88a313302
+guid: 8b523a128ab5f254da1bc94199601e35
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -44,14 +44,14 @@ TextureImporter:
   lightmap: 0
   compressionQuality: 50
   spriteMode: 2
-  spriteExtrude: 1
+  spriteExtrude: 0
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
-  alphaUsage: 1
+  alphaUsage: 0
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
   textureType: 8
@@ -119,7 +119,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: genericItem_color_021_1
+      name: GoldPick
       rect:
         serializedVersion: 2
         x: 0
@@ -127,7 +127,7 @@ TextureImporter:
         width: 123
         height: 154
       alignment: 9
-      pivot: {x: 0.3475452, y: 0.5041277}
+      pivot: {x: 0.48125175, y: 0.8522432}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -136,6 +136,28 @@ TextureImporter:
       bones: []
       spriteID: 50339ba5ea4b98a4eab429d43905cf23
       internalID: 795069242
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: genericItem_color_021 1_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 123
+        height: 153
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ad13e22e54fb384d854ddd10e5a53d2
+      internalID: -1590814862
       vertices: []
       indices: 
       edges: []
@@ -154,8 +176,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      GoldPick: 795069242
+      genericItem_color_021 1_0: -1590814862
       genericItem_color_021_0: 701573175
-      genericItem_color_021_1: 795069242
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
