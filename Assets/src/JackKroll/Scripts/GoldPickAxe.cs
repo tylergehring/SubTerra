@@ -9,6 +9,7 @@ public class GoldPickAxe : UtilityTool
 
     public Transform player;
 
+    private float rotationSpeed = 40f; // degrees per second
 
 
     private void Start()
@@ -35,14 +36,19 @@ public class GoldPickAxe : UtilityTool
             // Keep Z position fixed at 1
             var pos = transform.position;
             pos.y = player.position.x + -0.5f;
-            pos.y = player.position.y + 0.4f;
+            pos.y = player.position.y + 0.1f;
             pos.z = -1f;
             transform.position = pos;
 
+            if (Input.GetMouseButton(0)) // Left mouse button held down
+            {
+                // Rotate around the Y axis (you can change to X/Z as needed)
+                transform.Rotate(0f, rotationSpeed * Time.deltaTime, 90f);
+
+
+            }
 
         }
-
-
 
 
 
