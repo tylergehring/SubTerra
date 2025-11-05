@@ -403,7 +403,10 @@ public class PlayerController : MonoBehaviour
             for (int i = 0; i < 4; i++)
             {
                 _inventory.Tab(i);
-                Rigidbody2D itemRb = _Drop().GetComponent<Rigidbody2D>();
+                GameObject item = _Drop();
+                Rigidbody2D itemRb = null;
+                if (item)
+                    itemRb = item.GetComponent<Rigidbody2D>();
                 if (itemRb)
                     itemRb.linearVelocity = new Vector2(Random.Range(0f, 5f), Random.Range(0f, 5f));
             }
