@@ -1416,7 +1416,7 @@ MonoBehaviour:
   _climbRate: 0.1
   _staminaRegenRate: 0.1
   _staminaRegenDelay: 2
-  _health: 3
+  _health: 2
   _playerScore: 0
   _rb: {fileID: 0}
   _playerSprite: {fileID: 0}

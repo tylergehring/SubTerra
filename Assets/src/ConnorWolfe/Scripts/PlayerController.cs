@@ -269,15 +269,15 @@ public class PlayerController : MonoBehaviour
     }
 
     // drop an item from the inventory
-    private void _Drop()
+    private GameObject _Drop()
     {
         if (!_itemHandlerPrefab)
-            return;
+            return null;
 
         GameObject temp = _inventory.SetItem(null);
 
         if (!temp)
-            return;
+            return null;
 
         NonReusableTools toolComp = temp.GetComponent<NonReusableTools>();
         if (toolComp)
@@ -298,6 +298,7 @@ public class PlayerController : MonoBehaviour
         }
 
         _inventoryHotBar.UpdateSlotItem(_inventory.GetIndex(), null);
+        return newHandler;
     }
 
     private void _UpdateAnimatorAndFlip()
@@ -388,19 +389,23 @@ public class PlayerController : MonoBehaviour
                 GameObject tempBody = Instantiate(_deadPlayerBodyPrefab, transform.position, Quaternion.identity);
                 _camera.transform.SetParent(tempBody.transform, false);
                 Rigidbody2D tempRBB = tempBody.GetComponent<Rigidbody2D>();
-                tempRBB.linearVelocity = new Vector2(Random.Range(0f,3f), Random.Range(0f,3f));
+                if (tempRBB)
+                    tempRBB.linearVelocity = new Vector2(Random.Range(0f,3f), Random.Range(0f,3f));
             }
             if (_deadPlayerHelmetPrefab && _flashlight)
             {   
                 GameObject tempHelm = Instantiate(_deadPlayerHelmetPrefab, _flashlight.transform.position, Quaternion.identity);
                 _flashlight.transform.SetParent(tempHelm.transform, false);
                 Rigidbody2D tempRBH = tempHelm.GetComponent<Rigidbody2D>();
-                tempRBH.linearVelocity = new Vector2(Random.Range(0f, 3f), Random.Range(0f, 3f));
+                if (tempRBH) 
+                    tempRBH.linearVelocity = new Vector2(Random.Range(0f, 3f), Random.Range(0f, 3f));
             }
             for (int i = 0; i < 4; i++)
             {
                 _inventory.Tab(i);
-                _Drop();
+                Rigidbody2D itemRb = _Drop().GetComponent<Rigidbody2D>();
+                if (itemRb)
+                    itemRb.linearVelocity = new Vector2(Random.Range(0f, 5f), Random.Range(0f, 5f));
             }
 
             _playerAlive = false;
