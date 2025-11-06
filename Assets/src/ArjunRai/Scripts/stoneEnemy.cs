@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Hazard : MonoBehaviour
 {
-    [SerializeField] private float damage = 20f; // Damage dealt to player
+    //[SerializeField] private float damage = 20f; // Damage dealt to player
     [SerializeField] private float activationRange = 1f; // Range to trigger hazard
     [SerializeField] private float damageInterval = 1f; // Seconds between damage ticks
     [SerializeField] private float followRange = 5f;
@@ -18,9 +18,9 @@ public class Hazard : MonoBehaviour
     private float moveStartTime; // Record when the movement started 
     private PlayerController player;
     private float lastDamageTime;
-
+    private DamageSuper damageObject = new Damage(); // static type - DamageSuper    |  --- Damage(), dynamic type 
     void Start()
-    {
+    {  
         player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerController>();   // Take the reference of the playercontroller script into player 
         if (player == null) Debug.LogError("Player not found! Ensure Player has 'Player' tag and PlayerController script.");
         lastDamageTime = Time.time;
@@ -91,13 +91,13 @@ public class Hazard : MonoBehaviour
         {
             if (Time.time - lastDamageTime >= damageInterval) // current game time in seconds - when the hazard last dealt damage.
             {
-                player.ChangeHealth((int)damage); // Deal damage to player
+                player.ChangeHealth((int)damageObject.getDamage()); // Deal damage to player
                 lastDamageTime = Time.time;  // Record the last time when the player got damaged.
             }
         }
 
     }
-
+    
     //  a function to return a random position within the bounds:
     Vector3 GetRandomSpawnPosition()
     {
@@ -125,6 +125,37 @@ public class Hazard : MonoBehaviour
 
     public void setDamage(float damage1)
     {
+       // damage = damage1;
+       damageObject.setDamage(damage1);
+    }
+}
+
+public class DamageSuper 
+{
+    protected float damage = 2f;
+    
+    public void setDamage(float damage1)
+    {
         damage = damage1;
+    }
+   // public virtual float getDamage()   //Dynamic
+    public float getDamage()     // Static
+    {
+        Debug.Log($"DamageSuper: 10000f");
+
+        return 10000f;
+    }
+
+
+}
+
+public class Damage : DamageSuper
+{
+    //public override float getDamage()        // Dynamic
+    public float getDamage()         // Static
+    {
+        Debug.Log($"Damage : {damage}");
+   
+        return damage;
     }
 }
