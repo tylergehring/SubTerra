@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private byte _health = (byte)3; // Unsigned 8bit integer (0 to 255)
     // player score
     [Header("Score settings")]
-    [SerializeField] private uint _playerScore = 0;
+    [SerializeField] private uint _playerScore = 0; // serialized so it can be viewed in inspector
     // player components that help the player move
     [Header("Player components")]
     [SerializeField] private Rigidbody2D _rb;
@@ -375,11 +375,11 @@ public class PlayerController : MonoBehaviour
 
 
     }
-
+/*
     private void StaminaCheck()
     {
     }
-
+*/
     private void CheckHealth()
     {
         if (_health == 0 && _playerAlive)
@@ -530,5 +530,25 @@ public class PlayerController : MonoBehaviour
         _inventoryHotBar.UpdateSlotItem(_inventory.GetIndex(), tempSprite);
 
         return previous;
+    }
+
+    public void Victory()
+    {
+        int scoreMultiplier = 1;
+        for (int i = 0; i < 4; i++)
+        {
+            _inventory.Tab(i);
+            GameObject item = _inventory.GetItem();
+            if (item)
+                scoreMultiplier += 1;
+        }
+
+
+        ChangeScore((int)(_playerScore * scoreMultiplier));
+
+        /* Victory Sceeen stuff*/
+
+        Pause(true);
+
     }
 }

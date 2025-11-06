@@ -2,15 +2,11 @@ using UnityEngine;
 
 public class RelicScript : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (collision.CompareTag("Player"))
+        {
+            collision.gameObject.GetComponent<PlayerController>().Victory();
+        }
     }
 }
