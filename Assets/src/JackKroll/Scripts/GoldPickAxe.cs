@@ -4,11 +4,11 @@ using UnityEngine;
 public class GoldPickAxe : UtilityTool
 {
     private AudioSource audioSource;
-    public float breakRadius = 10f; // Radius to destroy chunks
+    private float breakRadius = 3f; // Radius to destroy chunks
 
     private TerrainHandler _terrain;
 
-    public Transform player;
+    private Transform player;
 
     private float rotationSpeed = 40f; // degrees per second
 
