@@ -5,7 +5,7 @@ public class ReusableToolClass : ToolSystem
 {
     [Header("Flashlight Settings")]
     public Light flashlight;
-   
+    
 
 
 
@@ -84,7 +84,8 @@ public class ReusableToolClass : ToolSystem
     {
         if (flashlight == null)
         {
-            Debug.LogWarning("No Light assigned to " + _toolName);
+           
+           Debug.LogWarning("No Light assigned to " + _toolName);
             return;
         }
 
