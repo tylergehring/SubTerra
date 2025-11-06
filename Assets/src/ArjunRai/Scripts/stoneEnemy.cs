@@ -138,8 +138,8 @@ public class DamageSuper
     {
         damage = damage1;
     }
-   // public virtual float getDamage()   //Dynamic
-    public float getDamage()     // Static
+   public virtual float getDamage()   //Dynamic
+   // public float getDamage()     // Static
     {
         Debug.Log($"DamageSuper: 10000f");
 
@@ -151,8 +151,8 @@ public class DamageSuper
 
 public class Damage : DamageSuper
 {
-    //public override float getDamage()        // Dynamic
-    public float getDamage()         // Static
+    public override float getDamage()        // Dynamic
+    //public float getDamage()         // Static
     {
         Debug.Log($"Damage : {damage}");
    
