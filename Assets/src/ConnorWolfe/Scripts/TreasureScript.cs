@@ -6,27 +6,17 @@ using UnityEngine;
 public class TreasureScript : MonoBehaviour
 {
 
-    public int value;
-    
-    [SerializeField] private SpriteRenderer _renderer;
-    [SerializeField] private Sprite _lowTier;
-    [SerializeField] private Sprite _midTier;
-    [SerializeField] private Sprite _highTier;
-
-    /*
-        void Start()
-        {
-
-        }
-    */
+    [SerializeField] private int value;    
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
+            Debug.Log($"Collided with {collision.name}");
             PlayerController playerController = collision.GetComponent<PlayerController>();
             playerController.ChangeScore(value);
             Destroy(this);
+            this.gameObject.SetActive(false); // if Destroy doesn't work
         }
     }
 }
