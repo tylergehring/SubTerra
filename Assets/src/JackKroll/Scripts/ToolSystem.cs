@@ -7,12 +7,12 @@ public abstract class ToolSystem : MonoBehaviour
     [Header("Tool Settings")]
     public string _toolName = "Tool";
     [SerializeField] private int _toolDamage = 10;
-    [SerializeField] private int _toolWallDamage = 5;
-
+    [SerializeField] private int _toolTerLeval = 10;
+    //[SerializeField] private int _tool = 5;
     // Read-only access for other scripts
-    public string ToolName => _toolName;
-    public int ToolDamage => _toolDamage;
-    public int ToolWallDamage => _toolWallDamage;
+    // public string ToolName => _toolName;
+    // public int ToolDamage => _toolDamage;
+    // public int ToolWallDamage => _toolWallDamage;
 
     // Provides a Start that derived classes can override without errors
     protected virtual void Start() { }
@@ -27,7 +27,7 @@ public abstract class ToolSystem : MonoBehaviour
 
     }
 }
-
+//dynamic and static have to be somthing changing on the screen 
 
 /*
 

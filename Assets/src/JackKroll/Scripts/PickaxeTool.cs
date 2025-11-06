@@ -3,11 +3,11 @@ using UnityEngine;
 public class PickaxeTool : UtilityTool
 {
     private AudioSource audioSource;
-    public float breakRadius = 10f; // Radius to destroy chunks
+    private float breakRadius = 1.6f; // Radius to destroy chunks
 
     private TerrainHandler _terrain;
 
-    public Transform player;
+    private Transform player;
     private float rotationSpeed = 40f; // degrees per second
 
 

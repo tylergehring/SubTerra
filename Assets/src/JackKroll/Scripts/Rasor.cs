@@ -4,7 +4,7 @@ using System.Collections;
 public class Rasor : UtilityTool
 {
     private AudioSource audioSource;
-    public Transform player;
+    private Transform player;
 
     private void Start()
     {
