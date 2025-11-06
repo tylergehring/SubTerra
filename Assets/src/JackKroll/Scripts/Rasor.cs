@@ -29,7 +29,7 @@ public class Rasor : UtilityTool
             transform.position = pos;
 
             // Trigger the tool when left mouse button is pressed
-            if (Input.GetMouseButtonDown(0))
+            if ((Input.GetMouseButton(0) && !Input.GetKeyDown(KeyCode.F)) || ((!Input.GetMouseButton(0) && Input.GetKeyDown(KeyCode.F)))) // Left mouse button held down
             {
                 UseTool();
             }

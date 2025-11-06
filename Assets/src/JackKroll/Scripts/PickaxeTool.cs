@@ -40,7 +40,7 @@ void Update()
             pos.y = player.position.y + 0.1f;
             pos.z = -1f;
             transform.position = pos;
-
+           
             if ((Input.GetMouseButton(0) && !Input.GetKeyDown(KeyCode.F)) || ((!Input.GetMouseButton(0) && Input.GetKeyDown(KeyCode.F)))) // Left mouse button held down
             {
                 // Rotate around the Y axis (you can change to X/Z as needed)
@@ -62,12 +62,12 @@ void Update()
                 }
             }
         }
-              
-            
 
-        
 
-        if (Input.GetMouseButtonDown(0))
+
+
+
+        if ((Input.GetMouseButton(0) && !Input.GetKeyDown(KeyCode.F)) || ((!Input.GetMouseButton(0) && Input.GetKeyDown(KeyCode.F)))) // Left mouse button held down
         {
             DestroyChunksAtPosition();
         }
