@@ -41,7 +41,7 @@ void Update()
             pos.z = -1f;
             transform.position = pos;
 
-            if (Input.GetMouseButton(0)) // Left mouse button held down
+            if ((Input.GetMouseButton(0) && !Input.GetKeyDown(KeyCode.F)) || ((!Input.GetMouseButton(0) && Input.GetKeyDown(KeyCode.F)))) // Left mouse button held down
             {
                 // Rotate around the Y axis (you can change to X/Z as needed)
                 transform.Rotate(0f, rotationSpeed * Time.deltaTime, 90f);

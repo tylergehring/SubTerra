@@ -62,7 +62,7 @@ public class ReusableToolClass : ToolSystem
 
 
         // F to use the flashlight tool
-        if (Input.GetKeyDown(KeyCode.L))
+        if (Input.GetKeyDown(KeyCode.L) || Input.GetKeyDown(KeyCode.Mouse1))
         {
             UseTool();
             
