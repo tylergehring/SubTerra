@@ -14,12 +14,22 @@ public class TerrainHandler : MonoBehaviour
 
     private Transform viewer; // Find first camera object, use for view culling. This is a good example of low coupling
     public Dictionary<Vector2Int, StaticChunk> loadedChunks = new Dictionary<Vector2Int, StaticChunk>();
+    private bool isLoaded = false;
 
     void Start()
     {
         noiseHandler = GetComponent<NoiseHandler>();
         viewer = FindFirstObjectByType<Camera>().transform;
-        _LoadChunks();
+        GenerateTerrain();
+    }
+
+    public void GenerateTerrain()
+    {
+        if (!isLoaded)
+        {
+            _LoadChunks();
+            isLoaded = true;
+        }
     }
 
     void Update()
@@ -60,6 +70,9 @@ public class TerrainHandler : MonoBehaviour
 
         foreach (var chunk in chunks)
         {
+            if (!chunk.gameObject.activeSelf)
+                continue; // Skip chunks that aren't initialized
+
             chunk.DestroyInRadius(position, radius);
         }
     }
