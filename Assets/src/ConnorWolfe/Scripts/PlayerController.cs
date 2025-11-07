@@ -235,7 +235,15 @@ public class PlayerController : MonoBehaviour
             _rb.linearVelocityX = !_isSprinting ? _horizontalMovement * _moveSpeed : _horizontalMovement * _moveSpeed * 2f;
 
         if (_isJumping && _onGround)
-            _rb.linearVelocityY = _jumpStrength;
+        {
+            if (!_staminaWheel.IsExhausted())
+            {
+                _rb.linearVelocityY = _jumpStrength;
+//                _staminaWheel.ChangeStamina(-1f * 10f);
+            }
+            else
+                _rb.linearVelocityY = _jumpStrength * 0.5f;
+        }
         else if (!_isJumping && _rb.linearVelocityY > 0)
             _rb.linearVelocityY = 0f;
     }
