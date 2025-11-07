@@ -35,12 +35,12 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _raycastRange;
     // stamina
     [Header("Stamina Settings")]
-    [Tooltip("Max Stamina is 1.0f, This is the drain rate when sprinting")]
-    [SerializeField] private float _sprintSRate = 0.2f;
-    [Tooltip("Max Stamina is 1.0f, This is the drain rate when climbing")]
-    [SerializeField] private float _climbRate = 0.1f;
-    [SerializeField] private float _staminaRegenRate = 0.1f; 
-    [SerializeField] private int _staminaRegenDelay = 2;
+    [Tooltip("Max Stamina is 100f, This is the drain rate when sprinting")]
+    [SerializeField] private float _sprintSRate = 20f;
+    [Tooltip("Max Stamina is 100f, This is the drain rate when climbing")]
+    [SerializeField] private float _climbSRate = 15f;
+  //  [SerializeField] private float _staminaRegenRate = 10f; 
+//    [SerializeField] private float _staminaRegenDelay = 3f;
     // player health
     [Header("Health settings")]
     [SerializeField] private byte _health = (byte)3; // Unsigned 8bit integer (0 to 255)
@@ -59,6 +59,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject _camera;
     [SerializeField] private GameObject _flashlight;
     [SerializeField] private InventoryHotBarScript _inventoryHotBar;
+    [SerializeField] private StaminaWheelScript _staminaWheel;
 
 
     // booleans for checking movement and position states
@@ -69,14 +70,14 @@ public class PlayerController : MonoBehaviour
     private bool _isPaused = false;
     private bool _isJumping = false;
     private bool _isSprinting = false;
-    private bool _canStamina = true; // turn off stamina for a moment if stamina reaches 0
+    private bool _staminaExhausted = true; // turn off stamina for a moment if stamina reaches 0
     private bool _wasRight = true; // used in animation/flip control
     private bool _playerAlive = true;
     private float _horizontalMovement;
     private float _halfHeight; // used with raycasting to determine bounds
     private float _halfWidth;
     private float _animTimer = 0f;
-    private float _currStamina = 1f;
+    private float _currStamina = 100f;
     private float _staminaRegenTimer = 0f;
 
     // The inventory for the player
@@ -121,8 +122,9 @@ public class PlayerController : MonoBehaviour
         if (!_inventoryHotBar)
             _inventoryHotBar = GetComponentInChildren<InventoryHotBarScript>();
 
-//        if (_stamina == 0)
-  //          _stamina = 0.1f;
+        if (!_staminaWheel)
+            _staminaWheel = GetComponentInChildren<StaminaWheelScript>();
+
 
     }
 
@@ -216,8 +218,21 @@ public class PlayerController : MonoBehaviour
     private void _GoundMove()
     {
 
-    
-        _rb.linearVelocityX = !_isSprinting ? _horizontalMovement * _moveSpeed : _horizontalMovement * _moveSpeed * 2f;
+        if (!_staminaWheel.IsExhausted())
+        {
+            _rb.linearVelocityX = !_isSprinting ? _horizontalMovement * _moveSpeed : _horizontalMovement * _moveSpeed * 2f;
+            if (_isSprinting)
+            {
+                _staminaWheel.ChangeStamina((-1f * _sprintSRate) * Time.deltaTime);
+            }
+        }
+        else
+        {
+           _rb.linearVelocityX = _horizontalMovement * _moveSpeed;
+           _isSprinting = false;
+        }
+
+            _rb.linearVelocityX = !_isSprinting ? _horizontalMovement * _moveSpeed : _horizontalMovement * _moveSpeed * 2f;
 
         if (_isJumping && _onGround)
             _rb.linearVelocityY = _jumpStrength;
@@ -230,9 +245,10 @@ public class PlayerController : MonoBehaviour
         if (_onGround)
             return;
 
-        if (_isJumping && _onWall)
+        if (_isJumping && _onWall && !_staminaWheel.IsExhausted())
         {
             _rb.linearVelocityY = _climbSpeed;
+            _staminaWheel.ChangeStamina((-1f * _climbSRate) * Time.deltaTime);
         }
      
 
@@ -375,11 +391,7 @@ public class PlayerController : MonoBehaviour
 
 
     }
-/*
-    private void StaminaCheck()
-    {
-    }
-*/
+
     private void CheckHealth()
     {
         if (_health == 0 && _playerAlive)
