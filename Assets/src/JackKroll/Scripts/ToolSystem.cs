@@ -5,7 +5,8 @@ using UnityEngine;
 public abstract class ToolSystem : MonoBehaviour
 {
     [Header("Tool Settings")]
-    public string _toolName = "Tool";
+    protected string _toolName = "Tool";
+   // public string _toolName = "Tool";
     [SerializeField] private int _toolDamage = 10;
     [SerializeField] private int _toolTerLeval = 10;
     //[SerializeField] private int _tool = 5;

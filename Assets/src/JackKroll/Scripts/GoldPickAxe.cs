@@ -5,19 +5,16 @@ public class GoldPickAxe : UtilityTool
 {
     private AudioSource audioSource;
     private float breakRadius = 3f; // Radius to destroy chunks
-
     private TerrainHandler _terrain;
-
     private Transform player;
-
-    private float rotationSpeed = 40f; // degrees per second
+    private float rotationSpeed = 50f; // degrees per second
 
 
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
         _terrain = FindFirstObjectByType<TerrainHandler>();
-
+        
         if (player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player").transform;

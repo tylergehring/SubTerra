@@ -6,12 +6,20 @@ using UnityEngine.SceneManagement;//lets me load the MVP sean before the test
 using UnityEngine.TestTools;
 using NUnit.Framework;
 using System.Collections;
+using System.Reflection;
 //these are needed for my tests and often used in others 
 public class ReusableToolClassPlayModeTests
 {//temp game objet created durring the test sean 
     private GameObject testObj;
     private ReusableToolClass tool;
     private Light lightComponent;
+
+    private Light GetFlashlight(ReusableToolClass tool)
+    {
+        var f = typeof(ReusableToolClass).GetField("flashlight", BindingFlags.NonPublic | BindingFlags.Instance);
+        return (Light)f.GetValue(tool);
+    }
+
 
     [UnitySetUp]
     public IEnumerator Setup()
@@ -24,7 +32,8 @@ public class ReusableToolClassPlayModeTests
         tool = GameObject.FindObjectOfType<ReusableToolClass>();
 
 
-        lightComponent = tool.flashlight;
+        lightComponent = GetFlashlight(tool);
+
         //sets flashligh off before test
         lightComponent.enabled = false;
     }
@@ -75,7 +84,7 @@ public class ReusableToolClassPlayModeTests
                 Debug.Log($"Iteration {i} | Current FPS: {fps:F2}");
 
             // Verify flashlight state
-            Assert.AreEqual(tool.flashlight.enabled, i % 2 == 0);
+            Assert.AreEqual(GetFlashlight(tool).enabled, i % 2 == 0);
             
             i++;
         }
@@ -105,7 +114,7 @@ public class ReusableToolClassPlayModeTests
         yield return null;
 
         // Flashlight should start off if the flashing starts on then this is a improper initialization error. 
-        Assert.IsFalse(tool.flashlight.enabled, "Flashlight should start OFF if not test will fail.");
+        Assert.IsFalse(GetFlashlight(tool).enabled, "Flashlight should start OFF if not test will fail.");
     }
 
 
@@ -127,7 +136,7 @@ public class ReusableToolClassPlayModeTests
 
             // Check flashlight state is correct 
               bool expectedState = (i % 2 == 0) ? true : false;
-                 Assert.AreEqual(tool.flashlight.enabled, expectedState,
+                 Assert.AreEqual(GetFlashlight(tool).enabled, expectedState,
                 $"Flashlight state mismatch at toggle {i + 1}");
 
             // wait a few seconds before the next toggle

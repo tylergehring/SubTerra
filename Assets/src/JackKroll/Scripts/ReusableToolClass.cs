@@ -4,8 +4,8 @@ using UnityEngine;
 public class ReusableToolClass : ToolSystem
 {
     [Header("Flashlight Settings")]
-    public Light flashlight;
-    
+    //public Light flashlight;
+    [SerializeField] private Light flashlight;
 
 
 
@@ -39,25 +39,7 @@ public class ReusableToolClass : ToolSystem
         transform.rotation = Quaternion.LookRotation(direction);
         
 
-        //old code for using keys to rotate light
-        /*
-        if (_isOn && Input.GetKeyDown(KeyCode.A))
-        {
-            transform.localRotation = Quaternion.Euler(180f, 90f, 0f);
-
-        }
-
-        if (_isOn && Input.GetKeyDown(KeyCode.D))
-        {
-            transform.localRotation = Quaternion.Euler(0f, 90f, 0f);
-
-        }
-        if (_isOn && Input.GetKeyDown(KeyCode.P))
-        {
-            transform.Rotate(10f, 5f, 0f);
-
-        }
-        */
+       
 
 
 
@@ -91,13 +73,6 @@ public class ReusableToolClass : ToolSystem
 
         _isOn = !_isOn;
         flashlight.enabled = _isOn;
-        //for testing 
-       // Debug.Log(_toolName + " turned " + (_isOn ? "ON" : "OFF"));
-        /* if (Input.GetKeyDown(KeyCode.A))
-         {
-             m_LocalRotation = m_LocalRotation + 90;
-         }*/
-        
 
 
     }
