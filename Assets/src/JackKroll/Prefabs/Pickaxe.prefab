@@ -45,7 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 251b6e60c0aea2147a3e4d3aa9f537ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: JackKroll_Scripts::PickaxeTool
-  breakRadius: 1.7
+  _toolDamage: 10
+  _toolTerLeval: 10
+  flashlight: {fileID: 0}
+  durability: 100
 --- !u!212 &8414845128804857389
 SpriteRenderer:
   m_ObjectHideFlags: 0
