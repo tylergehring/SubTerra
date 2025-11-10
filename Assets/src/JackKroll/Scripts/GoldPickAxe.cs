@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class GoldPickAxe : UtilityTool
 {
+    private float mineTimer;
     private AudioSource audioSource;
     private float breakRadius = 3f; // Radius to destroy chunks
     private TerrainHandler _terrain;
@@ -24,7 +25,7 @@ public class GoldPickAxe : UtilityTool
 
     void Update()
     {
-
+        mineTimer += Time.deltaTime;
         //cnages position 
         if (gameObject.activeSelf) // checks if the prefab (this GameObject) is active
         {
@@ -66,7 +67,11 @@ public class GoldPickAxe : UtilityTool
 
         if ((Input.GetMouseButton(0) && !Input.GetKeyDown(KeyCode.F)) || ((!Input.GetMouseButton(0) && Input.GetKeyDown(KeyCode.F)))) // Left mouse button held down
         {
-            DestroyChunksAtPosition();
+            if (mineTimer > 0.8f)
+            {
+                mineTimer = 0;
+                DestroyChunksAtPosition();
+            }
         }
     }
 

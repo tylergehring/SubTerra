@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class PickaxeTool : UtilityTool
 {
+    private float mineTimer;
     private AudioSource audioSource;
     private float breakRadius = 1.6f; // Radius to destroy chunks
 
@@ -26,7 +27,7 @@ public class PickaxeTool : UtilityTool
 
 void Update()
     {
-
+        mineTimer += Time.deltaTime;
         //cnages position 
         if (gameObject.activeSelf) // checks if the prefab (this GameObject) is active
         {
@@ -69,7 +70,11 @@ void Update()
 
         if ((Input.GetMouseButton(0) && !Input.GetKeyDown(KeyCode.F)) || ((!Input.GetMouseButton(0) && Input.GetKeyDown(KeyCode.F)))) // Left mouse button held down
         {
-            DestroyChunksAtPosition();
+            if (mineTimer > 1f)
+            {
+                mineTimer = 0;
+                DestroyChunksAtPosition();
+            }
         }
 
     }

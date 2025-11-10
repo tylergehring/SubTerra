@@ -19,6 +19,7 @@ public class Rasor : UtilityTool
 
     private void Update()
     {
+        
         if (player != null && gameObject.activeSelf)
         {
             // Keep Rasor positioned relative to player

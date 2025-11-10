@@ -1,10 +1,12 @@
 using UnityEngine;
 
 public class WoodPickaxe : UtilityTool
-
+    
+    
 {
-    private AudioSource audioSource;
-private float breakRadius = 1.6f; // Radius to destroy chunks
+private float mineTimer;
+private AudioSource audioSource;
+private float breakRadius = 1.4f; // Radius to destroy chunks
 
 private TerrainHandler _terrain;
 
@@ -27,7 +29,7 @@ private void Start()
 
 void Update()
 {
-
+    mineTimer += Time.deltaTime;
     //cnages position 
     if (gameObject.activeSelf) // checks if the prefab (this GameObject) is active
     {
@@ -46,8 +48,8 @@ void Update()
         {
             // Rotate around the Y axis (you can change to X/Z as needed)
             transform.Rotate(0f, rotationSpeed * Time.deltaTime, 90f);
-
-
+            
+           
             if (!audioSource.isPlaying)
             {
                 audioSource.Play();
@@ -70,7 +72,11 @@ void Update()
 
     if ((Input.GetMouseButton(0) && !Input.GetKeyDown(KeyCode.F)) || ((!Input.GetMouseButton(0) && Input.GetKeyDown(KeyCode.F)))) // Left mouse button held down
     {
-        DestroyChunksAtPosition();
+        if (mineTimer > 1.4f)
+        {
+            mineTimer = 0;
+            DestroyChunksAtPosition();
+        }
     }
 
 }
