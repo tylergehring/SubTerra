@@ -1,5 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+
+
 
 public class RelicSpawnerScript : MonoBehaviour
 {
@@ -8,12 +11,34 @@ public class RelicSpawnerScript : MonoBehaviour
      
      */
 
-    [SerializeField] private List<(GameObject, float)> _relicList;
+    [SerializeField] private List<GameObject> _relics;
+    [SerializeField] private List<float> _weights;
+
+    private List<(GameObject, float)> _relicList;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
+        _SetList();
         _SpawnRelic();  
+    }
+
+    private void _SetList()
+    {
+        // Ensure both lists have the same length
+        if (_relics == null || _weights == null || _relics.Count != _weights.Count)
+        {
+            Debug.LogError("Relics and weights lists must be non-null and of equal length. No relic list set.");
+            return;
+        }
+
+        _relicList = new List<(GameObject, float)>();
+
+        for (int i=0; i < _relics.Count; i++)
+        {
+            _relicList.Add((_relics[i], _weights[i]));
+        }
+
     }
 
     private void _SpawnRelic()

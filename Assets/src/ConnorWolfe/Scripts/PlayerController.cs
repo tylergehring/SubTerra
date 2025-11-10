@@ -149,7 +149,7 @@ public class PlayerController : MonoBehaviour
     */
     void FixedUpdate()
     {
-        CheckHealth();
+        _CheckHealth();
         if (_isPaused) return;
         _CheckSurface(); // raycasting is expensive, now only runs when we intend to use it
         _GoundMove();
@@ -400,7 +400,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void CheckHealth()
+    private void _CheckHealth()
     {
         if (_health == 0 && _playerAlive)
         {
