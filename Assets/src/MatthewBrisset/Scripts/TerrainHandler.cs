@@ -20,7 +20,6 @@ public class TerrainHandler : MonoBehaviour
     {
         noiseHandler = GetComponent<NoiseHandler>();
         viewer = FindFirstObjectByType<Camera>().transform;
-        GenerateTerrain();
     }
 
     public void GenerateTerrain()
@@ -32,7 +31,7 @@ public class TerrainHandler : MonoBehaviour
         }
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (viewer != null)
         {
@@ -112,7 +111,7 @@ public class TerrainHandler : MonoBehaviour
         {
             if (loadedChunks.ContainsKey(points[i]))
             {
-                loadedChunks[points[i]].gameObject.SetActive(true);
+                loadedChunks[points[i]].GetComponent<MeshRenderer>().enabled = true;
             }
         }
     }
