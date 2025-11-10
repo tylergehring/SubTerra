@@ -11,6 +11,7 @@ public class Item
     public float minDepth = 0; // 1 -> Top of map, 0 -> bottom of map
     [Range(0, 1f)]
     public float maxDepth = 1; // 1 -> Top of map, 0 -> bottom of map
+    public float spacing = 3;
 }
 
 [RequireComponent(typeof(TerrainHandler))]
@@ -31,7 +32,7 @@ public class ItemSpawner : MonoBehaviour
         {
             for (int i = 0; i<item.numSpawns; i++)
             {
-                StartCoroutine(SpawnItem(item.prefab, RandomSpawnPoint(item)));
+                StartCoroutine(SpawnItem(item, RandomSpawnPoint(item)));
             }
         }
     }
@@ -48,11 +49,11 @@ public class ItemSpawner : MonoBehaviour
         return position;
     }
 
-    IEnumerator SpawnItem(GameObject newItem, Vector3 position)
+    IEnumerator SpawnItem(Item newItem, Vector3 position)
     {
-        GameObject item = GameObject.Instantiate(newItem);
+        GameObject item = GameObject.Instantiate(newItem.prefab);
         item.transform.position = position;
         yield return new WaitForSeconds(0.1f); // Wait for 3 seconds
-        _terrain.DestroyInRadius(position, 5);
+        _terrain.DestroyInRadius(position, newItem.spacing);
     }
 }

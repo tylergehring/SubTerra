@@ -19,7 +19,8 @@ public class TerrainHandler : MonoBehaviour
     void Start()
     {
         noiseHandler = GetComponent<NoiseHandler>();
-        viewer = FindFirstObjectByType<Camera>().transform;
+        if (FindFirstObjectByType<Camera>() != null)
+            viewer = FindFirstObjectByType<Camera>().transform;
     }
 
     public void GenerateTerrain()

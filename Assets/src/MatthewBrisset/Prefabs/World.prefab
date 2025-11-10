@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Scripts::TerrainHandler
   viewDistance: 4
-  worldWidth: 10
+  worldWidth: 6
   worldHeight: 15
   chunkSize: 30
   chunkPrefab: {fileID: 828049035977371626, guid: c3c237cdababdb64394bb3f9ca962491, type: 3}
@@ -107,9 +107,21 @@ MonoBehaviour:
   items:
   - prefab: {fileID: 8059002163368872690, guid: 60b43e6ccf4e47144856de688a5fafe0, type: 3}
     numSpawns: 1
-    minDepth: 0.8
-    maxDepth: 0.8
-  - prefab: {fileID: 3137267048003401807, guid: b87b7e40407fa014c94209fcccb380af, type: 3}
+    minDepth: 0.9
+    maxDepth: 0.9
+    spacing: 10
+  - prefab: {fileID: 162057111100810249, guid: 3c2f18537dcd80745a932984b5b153aa, type: 3}
     numSpawns: 1
     minDepth: 0.8
     maxDepth: 0.8
+    spacing: 3
+  - prefab: {fileID: 8442999165812983917, guid: 919180cbd917ae54aba3ba7df3c274ba, type: 3}
+    numSpawns: 50
+    minDepth: 0.2
+    maxDepth: 0.8
+    spacing: 2
+  - prefab: {fileID: 145847473481628924, guid: ed2c4866ed9283746ba66f4116b7360f, type: 3}
+    numSpawns: 30
+    minDepth: 0.2
+    maxDepth: 0.7
+    spacing: 2
