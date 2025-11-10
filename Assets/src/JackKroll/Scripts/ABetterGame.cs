@@ -1,13 +1,10 @@
 using UnityEngine;
 
-public class PickaxeTool : UtilityTool
+public class ABetterGame : Weapon_Class
 {
     private float mineTimer;
     private AudioSource audioSource;
-    private float breakRadius = 1.6f; // Radius to destroy chunks
-
-    private TerrainHandler _terrain;
-
+    
     private Transform player;
     private float rotationSpeed = 40f; // degrees per second
 
@@ -16,16 +13,16 @@ public class PickaxeTool : UtilityTool
     {
         audioSource = GetComponent<AudioSource>();
 
-        _terrain = FindFirstObjectByType<TerrainHandler>();
+        
 
         if (player == null)
         {
             player = GameObject.FindGameObjectWithTag("Player").transform;
         }
     }
-   
 
-void Update()
+
+    void Update()
     {
         mineTimer += Time.deltaTime;
         //cnages position 
@@ -41,7 +38,7 @@ void Update()
             pos.y = player.position.y + 0.1f;
             pos.z = -1f;
             transform.position = pos;
-           
+
             if ((Input.GetMouseButton(0) && !Input.GetKeyDown(KeyCode.F)) || ((!Input.GetMouseButton(0) && Input.GetKeyDown(KeyCode.F)))) // Left mouse button held down
             {
                 // Rotate around the Y axis (you can change to X/Z as needed)
@@ -64,28 +61,15 @@ void Update()
             }
         }
 
-
-
-
-
         if ((Input.GetMouseButton(0) && !Input.GetKeyDown(KeyCode.F)) || ((!Input.GetMouseButton(0) && Input.GetKeyDown(KeyCode.F)))) // Left mouse button held down
         {
-            if (mineTimer > 1f)
+            if (mineTimer > 1.4f)
             {
                 mineTimer = 0;
-                DestroyChunksAtPosition();
+               
             }
         }
 
     }
 
-    
-
-    private void DestroyChunksAtPosition()
-    {
-        if (_terrain != null)
-        {
-            _terrain.DestroyInRadius(transform.position, breakRadius);
-        }
-    }
 }

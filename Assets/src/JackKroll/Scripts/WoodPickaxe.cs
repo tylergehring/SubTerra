@@ -81,11 +81,7 @@ void Update()
 
 }
 
-// added by Connor
-public void DoThing()
-{
-    DestroyChunksAtPosition();
-}
+
 
 private void DestroyChunksAtPosition()
 {
