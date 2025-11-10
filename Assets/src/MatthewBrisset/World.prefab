@@ -9,8 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6524427682187458361}
+  - component: {fileID: 2557313325530965944}
   - component: {fileID: 6425490995061977469}
   - component: {fileID: 3299503267647058370}
+  - component: {fileID: 6812292034956268252}
   m_Layer: 0
   m_Name: World
   m_TagString: Untagged
@@ -33,6 +35,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2557313325530965944
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4847456795695038773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36b38cd98434b3949b026118364cc81a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Scripts::World
 --- !u!114 &6425490995061977469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -46,8 +60,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Scripts::TerrainHandler
   viewDistance: 4
-  worldWidth: 15
-  worldHeight: 30
+  worldWidth: 10
+  worldHeight: 15
   chunkSize: 30
   chunkPrefab: {fileID: 828049035977371626, guid: c3c237cdababdb64394bb3f9ca962491, type: 3}
   textureAtlas:
@@ -76,5 +90,26 @@ MonoBehaviour:
   - frequency: 6.6
     intensity: 0.298
   terrainThreshold: 0.345
-  edgeThickness: 80
-  seed: 10000
+  edgeThickness: 40
+  seed: 5000
+--- !u!114 &6812292034956268252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4847456795695038773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ab54e0aa63a84d4a8fadae961af0ad0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Scripts::ItemSpawner
+  items:
+  - prefab: {fileID: 8059002163368872690, guid: 60b43e6ccf4e47144856de688a5fafe0, type: 3}
+    numSpawns: 1
+    minDepth: 0.8
+    maxDepth: 0.8
+  - prefab: {fileID: 3137267048003401807, guid: b87b7e40407fa014c94209fcccb380af, type: 3}
+    numSpawns: 1
+    minDepth: 0.8
+    maxDepth: 0.8
