@@ -447,9 +447,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3299503267647058370, guid: 48f0d4a8567c4a641a6a8d08c9dac25f, type: 3}
+      propertyPath: edgeThickness
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 4847456795695038773, guid: 48f0d4a8567c4a641a6a8d08c9dac25f, type: 3}
       propertyPath: m_Name
       value: World
+      objectReference: {fileID: 0}
+    - target: {fileID: 6425490995061977469, guid: 48f0d4a8567c4a641a6a8d08c9dac25f, type: 3}
+      propertyPath: worldWidth
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6425490995061977469, guid: 48f0d4a8567c4a641a6a8d08c9dac25f, type: 3}
+      propertyPath: worldHeight
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6524427682187458361, guid: 48f0d4a8567c4a641a6a8d08c9dac25f, type: 3}
       propertyPath: m_LocalPosition.x

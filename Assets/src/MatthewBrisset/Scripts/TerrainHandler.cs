@@ -149,15 +149,19 @@ public class TerrainHandler : MonoBehaviour
 
         if (terrainNoiseValue > noiseHandler.terrainThreshold + (1 - noiseHandler.terrainThreshold) / 3)
             textureIndex = 1;
-        else if (terrainNoiseValue > noiseHandler.terrainThreshold + (1 - noiseHandler.terrainThreshold) / 2)
+        
+        if (terrainNoiseValue > noiseHandler.terrainThreshold + (1 - noiseHandler.terrainThreshold) / 2)
             textureIndex = 2;
-        else if (terrainNoiseValue > noiseHandler.terrainThreshold + (1 - noiseHandler.terrainThreshold) / 1.5f)
+        
+        if (terrainNoiseValue > noiseHandler.terrainThreshold + (1 - noiseHandler.terrainThreshold) / 1.5f)
             textureIndex = 3;
 
-        float depth01 = point.y / (worldHeight * chunkSize);
-        int depthType = Mathf.RoundToInt(depth01 * 4f);
 
-        textureIndex *= depthType;
+        float depthVariation = Mathf.PerlinNoise(point.x / 10, point.y / 10);
+        float depth01 = 1 - (point.y + depthVariation * 2) / (worldHeight * chunkSize);
+        int depthType = Mathf.RoundToInt(depth01 * 3f);
+
+        textureIndex += 4 * (depthType);
 
         return textureIndex;
     }
