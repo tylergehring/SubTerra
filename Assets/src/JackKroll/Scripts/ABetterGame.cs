@@ -1,19 +1,15 @@
+
 using UnityEngine;
 
 public class ABetterGame : Weapon_Class
 {
     private float mineTimer;
     private AudioSource audioSource;
-    
-    private Transform player;
-    private float rotationSpeed = 40f; // degrees per second
-
+    private float rotationSpeed = 40f;
 
     private void Start()
     {
         audioSource = GetComponent<AudioSource>();
-
-        
 
         if (player == null)
         {
@@ -21,55 +17,73 @@ public class ABetterGame : Weapon_Class
         }
     }
 
-
-    void Update()
+    private void Update()
     {
         mineTimer += Time.deltaTime;
-        //cnages position 
-        if (gameObject.activeSelf) // checks if the prefab (this GameObject) is active
-        {
-            transform.position = player.position + player.forward * 1f;
 
-
-
-            // Keep Z position fixed at 1
-            var pos = transform.position;
-            pos.y = player.position.x + -0.5f;
-            pos.y = player.position.y + 0.1f;
-            pos.z = -1f;
-            transform.position = pos;
-
-            if ((Input.GetMouseButton(0) && !Input.GetKeyDown(KeyCode.F)) || ((!Input.GetMouseButton(0) && Input.GetKeyDown(KeyCode.F)))) // Left mouse button held down
-            {
-                // Rotate around the Y axis (you can change to X/Z as needed)
-                transform.Rotate(0f, rotationSpeed * Time.deltaTime, 90f);
-
-
-                if (!audioSource.isPlaying)
-                {
-                    audioSource.Play();
-                }
-
-
-            }
-            else
-            {
-                if (audioSource.isPlaying)
-                {
-                    audioSource.Stop();
-                }
-            }
-        }
-
-        if ((Input.GetMouseButton(0) && !Input.GetKeyDown(KeyCode.F)) || ((!Input.GetMouseButton(0) && Input.GetKeyDown(KeyCode.F)))) // Left mouse button held down
-        {
-            if (mineTimer > 1.4f)
-            {
-                mineTimer = 0;
-               
-            }
-        }
-
+        if (!gameObject.activeSelf) return;
+        // Dynamically bounded function call
+        UpdatePosition();  
+        HandleInput();
     }
 
+    // Override superclass version
+    //Comment out for defalt positining.
+    protected override void UpdatePosition()
+    {
+        
+        // Add or modify subclass-specific behavior
+        // (for example, rotate slightly, or change offset)
+        Vector3 pos = player.position + player.forward * 1.2f; // slightly farther
+        pos.y = player.position.y + 2.1f;
+        pos.z = -1f;
+        transform.position = pos;
+    }
+    
+    private void HandleInput()
+    {
+        bool shouldRotate = ShouldRotate();
+
+        if (shouldRotate)
+        {
+            RotateWeapon();
+            PlaySound();
+            HandleMineTimer();
+        }
+        else
+        {
+            StopSound();
+        }
+    }
+
+    private bool ShouldRotate()
+    {
+        return (Input.GetMouseButton(0) && !Input.GetKeyDown(KeyCode.F))
+            || (!Input.GetMouseButton(0) && Input.GetKeyDown(KeyCode.F));
+    }
+
+    private void RotateWeapon()
+    {
+        transform.Rotate(0f, rotationSpeed * Time.deltaTime, 90f);
+    }
+
+    private void PlaySound()
+    {
+        if (!audioSource.isPlaying)
+            audioSource.Play();
+    }
+
+    private void StopSound()
+    {
+        if (audioSource.isPlaying)
+            audioSource.Stop();
+    }
+
+    private void HandleMineTimer()
+    {
+        if (mineTimer > 1.4f)
+        {
+            mineTimer = 0;
+        }
+    }
 }
