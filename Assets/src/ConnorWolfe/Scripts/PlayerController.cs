@@ -7,6 +7,48 @@ using UnityEngine.UIElements;
 using static UnityEditor.PlayerSettings;
 
 
+/* Example of dynamic binding
+ 
+ */
+public class SpeedSuperC
+{
+    protected float _speed = 0f;
+
+    public void SetSpeed(float newSpeed)
+    {
+        _speed = newSpeed;
+    }
+    // dynamic version
+    public virtual float GetSpeed()
+    {
+        return Random.Range(0, 2 * _speed);
+        // return Speed
+    }
+    /* static version
+    public float GetSpeed()
+    {
+        return Random.Range(0, 2 * _speed);
+        // return Speed
+    }
+    */
+}
+
+public class Speed : SpeedSuperC
+{
+    // dynamic version
+    public override float GetSpeed()
+    {
+        return _speed;
+    }
+    /* static version
+    public override float GetSpeed()
+    {
+        return _speed;
+    }
+    */
+}
+
+
 public class PlayerController : MonoBehaviour
 {
     // this script handles systems for the player (Arjun)
@@ -83,8 +125,17 @@ public class PlayerController : MonoBehaviour
     // The inventory for the player
     private QuickAccess _inventory = new QuickAccess();
 
+    // Speed class (used to showcase static vs. dynamic binding to meet class requirements)
+    // dynamic version
+    private SpeedSuperC _movementSpeed = new Speed();
+    // static version
+    // private SpeedSuperC _movementSpeed;
+
+
     void Start()
     {
+        _movementSpeed.SetSpeed(_moveSpeed);
+
         _health = 100;  // Player health start form 100
         // if the key's are not set / set in inspector, I set them manually here
         if (mvRightKey == KeyCode.None) // right: D
@@ -125,7 +176,10 @@ public class PlayerController : MonoBehaviour
         if (!_staminaWheel)
             _staminaWheel = GetComponentInChildren<StaminaWheelScript>();
 
-
+        if (!_camera)
+        {
+//            _camera = ();
+        }
     }
 
 
@@ -173,15 +227,7 @@ public class PlayerController : MonoBehaviour
 
         _horizontalMovement = rightMv - leftMv;
 
-
-
-
-        if (Input.GetKey(jumpKey))
-            _isJumping = true;
-        else
-            _isJumping= false;
-
-        //    Debug.Log("_isJumping == " + _isJumping);
+        _isJumping = Input.GetKey(jumpKey);
 
         // inventory actions
         if (Input.GetKeyDown(dropKey))
@@ -217,30 +263,27 @@ public class PlayerController : MonoBehaviour
     // move the player if its on the ground
     private void _GoundMove()
     {
+        // to meet the requirements of the class I must use the defined class in code to showcase the differences in static vs. dynamic
+        float setSpeed = _movementSpeed.GetSpeed();
 
         if (!_staminaWheel.IsExhausted())
         {
-            _rb.linearVelocityX = !_isSprinting ? _horizontalMovement * _moveSpeed : _horizontalMovement * _moveSpeed * 2f;
-            if (_isSprinting)
-            {
-                _staminaWheel.ChangeStamina((-1f * _sprintSRate) * Time.deltaTime);
-            }
+            _rb.linearVelocityX = !_isSprinting ? _horizontalMovement * setSpeed : _horizontalMovement * setSpeed * 2f;
+            if (_isSprinting && _horizontalMovement != 0)
+               _staminaWheel.ChangeStamina((-1f * _sprintSRate) * Time.deltaTime);
         }
         else
         {
-           _rb.linearVelocityX = _horizontalMovement * _moveSpeed;
+           _rb.linearVelocityX = _horizontalMovement * setSpeed;
            _isSprinting = false;
         }
 
-            _rb.linearVelocityX = !_isSprinting ? _horizontalMovement * _moveSpeed : _horizontalMovement * _moveSpeed * 2f;
+            _rb.linearVelocityX = !_isSprinting ? _horizontalMovement * setSpeed: _horizontalMovement * setSpeed * 2f;
 
         if (_isJumping && _onGround)
         {
             if (!_staminaWheel.IsExhausted())
-            {
                 _rb.linearVelocityY = _jumpStrength;
-//                _staminaWheel.ChangeStamina(-1f * 10f);
-            }
             else
                 _rb.linearVelocityY = _jumpStrength * 0.5f;
         }
@@ -268,8 +311,6 @@ public class PlayerController : MonoBehaviour
         _onGround = Physics2D.Raycast(transform.position, Vector2.down, _halfHeight + _raycastRange, LayerMask.GetMask("Environment"));
         _onWall = (Physics2D.Raycast(transform.position, Vector2.left, _halfWidth + _raycastRange, LayerMask.GetMask("Environment")) ||
             Physics2D.Raycast(transform.position, Vector2.right, _halfWidth + _raycastRange, LayerMask.GetMask("Environment")));
-//        _onLeftWall = Physics2D.Raycast(transform.position, Vector2.left, _halfWidth + 0.1f, LayerMask.GetMask("Environment"));
-  //      _onRightWall = Physics2D.Raycast(transform.position, Vector2.right, _halfWidth + 0.1f, LayerMask.GetMask("Environment"));
     }
 
     private void _UseCurrentItem()
@@ -283,13 +324,6 @@ public class PlayerController : MonoBehaviour
             nrTool.Use(this);
             return;
         }
-
-
-// didn't work due to assembly defs
-//        PickaxeTool axe = current.GetComponent<PickaxeTool>();
-
-
-
     }
 
     // drop an item from the inventory
@@ -333,10 +367,8 @@ public class PlayerController : MonoBehaviour
         if (_horizontalMovement != 0)
         {
             if ((_horizontalMovement < 0 && _wasRight) || (_horizontalMovement > 0 && !_wasRight))
-            {
                 _playerAnimator.Play("Player Turn Around");
 
-            }
             _wasRight = (_horizontalMovement > 0);
             _playerSprite.flipX = (_horizontalMovement < 0);
         }
@@ -356,19 +388,13 @@ public class PlayerController : MonoBehaviour
             if (_horizontalMovement == 0)
             {
                 if (_animTimer <= 25)
-                {
                     _animTimer += Time.deltaTime;
-                }
                 else
-                {
                     _playerAnimator.SetBool("doIdleC", true);
-                }
 
                 int randNum = Random.Range(-1000, 1000);
                 if (randNum == 0)
-                {
                     _playerAnimator.SetBool("doIdleB", true);
-                }
 
             }
             else // running / sprinting
@@ -387,17 +413,10 @@ public class PlayerController : MonoBehaviour
         else /*if (_isJumping)*/ // in air
         {
             if (_rb.linearVelocityY > 0)
-            {
                 _playerAnimator.SetBool("isJumping", true);
-            }
             else if (_rb.linearVelocityY < 0)
-            {
                 _playerAnimator.SetBool("isFalling", true);
-            }
-
         }
-
-
     }
 
     private void _CheckHealth()
@@ -571,4 +590,11 @@ public class PlayerController : MonoBehaviour
         Pause(true);
 
     }
+
+    public void ChangeStamina(float amount)
+    {
+        _staminaWheel.ChangeStamina(amount);
+    }
 }
+
+
