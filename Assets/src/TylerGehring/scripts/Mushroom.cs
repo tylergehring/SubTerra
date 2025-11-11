@@ -76,4 +76,14 @@ public class Mushroom : NonReusableTools
 
         _spriteRenderer = GetComponent<SpriteRenderer>();
     }
+
+    public override string GetToolSummary()
+    {
+        return $"{ToolName} restores {_healthRestoreAmount} health when eaten.";
+    }
+
+    public new string GetStaticSummary()
+    {
+        return $"{ToolName} is food with a predictable effect.";
+    }
 }

@@ -15,6 +15,18 @@ public abstract class NonReusableTools : MonoBehaviour
     public PlayerController Owner => _owner;
     public bool IsConsumed => _consumed;
 
+    // Demonstrates dynamic binding. Gets overwritten by children
+    public virtual string GetToolSummary()
+    {
+        return $"{_toolName} is a single-use tool.";
+    }
+
+    // Demonstrates Static Binding. Solved at compile time doesn't get overwritten by children
+    public string GetStaticSummary()
+    {
+        return $"{_toolName} behaves like a basic single-use tool.";
+    }
+
     protected virtual void OnEnable()
     {
         _consumed = false;
