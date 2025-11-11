@@ -301,6 +301,53 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66a9cc21f34a7ab408f36f3b7b2f5b3b, type: 3}
+--- !u!1 &244715701
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 244715703}
+  - component: {fileID: 244715702}
+  m_Layer: 0
+  m_Name: DynamicBinding-Tyler
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &244715702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244715701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb4b5fc27f03e8049bc38a5ebb0005b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: GameScripts::ToolBindingDemonstrator
+  sampleTools:
+  - {fileID: -5303625747170622167, guid: 919180cbd917ae54aba3ba7df3c274ba, type: 3}
+  - {fileID: 6644525040323197559, guid: ed2c4866ed9283746ba66f4116b7360f, type: 3}
+--- !u!4 &244715703
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 244715701}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3.70618, y: 0, z: 0.45505}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &254227045
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,13 +863,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11e59a0b02c45b24ab241b5f6cd5107f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ToolSpawnTester
-  player: {fileID: 7201442491657833152}
+  player: {fileID: 1745852979279447411, guid: 60b43e6ccf4e47144856de688a5fafe0, type: 3}
   itemHandlerPrefab: {fileID: 7548606447075148978, guid: 66a9cc21f34a7ab408f36f3b7b2f5b3b, type: 3}
   toolPrefab: {fileID: -5303625747170622167, guid: 919180cbd917ae54aba3ba7df3c274ba, type: 3}
   spawnKey: 99
   randomizePosition: 0
   spawnDistance: 1.25
   randomSpawnRange: {x: 3, y: 1.5}
+  autoBindPlayer: 1
+  autoBindRetryInterval: 0.35
 --- !u!4 &1309536186
 Transform:
   m_ObjectHideFlags: 0
@@ -1100,13 +1149,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11e59a0b02c45b24ab241b5f6cd5107f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: GameScripts::ToolSpawnTester
-  player: {fileID: 5622190785968900652, guid: 6ebeffd54bd0e0f4689c46eeca5c6b51, type: 3}
+  player: {fileID: 1745852979279447411, guid: 60b43e6ccf4e47144856de688a5fafe0, type: 3}
   itemHandlerPrefab: {fileID: 7548606447075148978, guid: 66a9cc21f34a7ab408f36f3b7b2f5b3b, type: 3}
   toolPrefab: {fileID: 6644525040323197559, guid: ed2c4866ed9283746ba66f4116b7360f, type: 3}
   spawnKey: 118
   randomizePosition: 0
-  spawnDistance: 1.25
+  spawnDistance: 0.5
   randomSpawnRange: {x: 3, y: 1.5}
+  autoBindPlayer: 1
+  autoBindRetryInterval: 0.35
 --- !u!1 &1637223033
 GameObject:
   m_ObjectHideFlags: 0
@@ -2027,7 +2078,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ReusableToolClass
   _toolDamage: 0
   _toolTerLeval: 10
-  flashlight: {fileID: 6632631963726354519}
+  _flashlight: {fileID: 0}
 --- !u!4 &7591049498140545482 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1980970612056311668, guid: 3c2f18537dcd80745a932984b5b153aa, type: 3}
@@ -2387,3 +2438,4 @@ SceneRoots:
   - {fileID: 316412868}
   - {fileID: 1872673576}
   - {fileID: 1574086783}
+  - {fileID: 244715703}
