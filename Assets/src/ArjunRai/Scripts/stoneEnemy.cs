@@ -17,31 +17,19 @@ public class Hazard : MonoBehaviour
     private bool isMoving = false; // Flag if the hazard is currently moving 
     private float moveStartTime; // Record when the movement started 
     private PlayerController player;
-    private bool _playerMissingLogged;
     private float lastDamageTime;
     private DamageSuper damageObject = new Damage(); // static type - DamageSuper    |  --- Damage(), dynamic type 
-    void Awake()
-    {
-        TryResolvePlayer();
+    void Start()
+    {  
+        player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerController>();   // Take the reference of the playercontroller script into player 
+        if (player == null) Debug.LogError("Player not found! Ensure Player has 'Player' tag and PlayerController script.");
         lastDamageTime = Time.time;
-    }
-
-    void OnEnable()
-    {
-        TryResolvePlayer();
     }
 
 
     void Update()
     {
-        if (!player)
-        {
-            TryResolvePlayer();
-            if (!player)
-            {
-                return;
-            }
-        }
+        if (player == null) return; // If player is null, the function exits immediately.
 
         // Check if the player is witin range to follow by the game hazard
         if (Vector3.Distance(transform.position, player.transform.position) < followRange && !isMoving)
@@ -113,11 +101,6 @@ public class Hazard : MonoBehaviour
     //  a function to return a random position within the bounds:
     Vector3 GetRandomSpawnPosition()
     {
-        if (!player)
-        {
-            return transform.position;
-        }
-
         float x = player.transform.position.x + Random.Range(spawnMin.x, spawnMax.x);
         float y = player.transform.position.y + Random.Range(spawnMin.y, spawnMax.y);
         return new Vector3(x, y, 0);
@@ -144,27 +127,6 @@ public class Hazard : MonoBehaviour
     {
        // damage = damage1;
        damageObject.setDamage(damage1);
-    }
-
-    private void TryResolvePlayer()
-    {
-        if (player)
-        {
-            return;
-        }
-
-        var candidate = GameObject.FindGameObjectWithTag("Player");
-        player = candidate ? candidate.GetComponent<PlayerController>() : null;
-
-        if (!player && !_playerMissingLogged)
-        {
-            Debug.LogWarning("Hazard: Player not found. Hazard will stay idle until a player is available.");
-            _playerMissingLogged = true;
-        }
-        else if (player)
-        {
-            _playerMissingLogged = false;
-        }
     }
 }
 

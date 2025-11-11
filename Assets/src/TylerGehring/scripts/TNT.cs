@@ -331,14 +331,28 @@ public class TNT : NonReusableTools
 
     private void CachePhysicsComponents()
     {
-        if (!_rigidbody && !TryGetComponent(out _rigidbody))
+        // Try to get existing Rigidbody2D first
+        if (!_rigidbody)
+        {
+            _rigidbody = GetComponent<Rigidbody2D>();
+        }
+        
+        // Only add if it doesn't exist
+        if (!_rigidbody)
         {
             _rigidbody = gameObject.AddComponent<Rigidbody2D>();
             _rigidbody.gravityScale = 1f;
             _rigidbody.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         }
 
-        if (!_collider && !TryGetComponent(out _collider))
+        // Try to get existing CircleCollider2D first
+        if (!_collider)
+        {
+            _collider = GetComponent<CircleCollider2D>();
+        }
+        
+        // Only add if it doesn't exist
+        if (!_collider)
         {
             _collider = gameObject.AddComponent<CircleCollider2D>();
             _collider.radius = Mathf.Max(_collider.radius, 0.5f);
