@@ -44,5 +44,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/src/MatthewBrisset/MultiChunkTest.unity
     guid: f0e909fc9da85864083ad4775c7d3997
+  - enabled: 1
+    path: Assets/src/JackKroll/Scenes Folder/MVP_Jack.unity
+    guid: 1bb8681e5cb174f48aa8af4734e4a6cb
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

@@ -25,7 +25,7 @@ public class ReusableToolClassPlayModeTests
     public IEnumerator Setup()
     {
         // Loadads the MVP sean 
-        SceneManager.LoadScene("MVP");
+        SceneManager.LoadScene("MVP_jack");
         yield return null; // wait a frame for scene load to complete
 
 
