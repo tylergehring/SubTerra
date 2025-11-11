@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Simplified test spawner for spawning tools using the existing ItemHandler system.
@@ -14,9 +15,28 @@ public class ToolSpawnTester : MonoBehaviour
     [SerializeField] private bool randomizePosition = false;
     [SerializeField, Range(0.5f, 5f)] private float spawnDistance = 1.25f;
     [SerializeField] private Vector2 randomSpawnRange = new Vector2(3f, 1.5f);
+    [SerializeField] private bool autoBindPlayer = true;
+    [SerializeField, Min(0.05f)] private float autoBindRetryInterval = 0.35f;
+
+    private float _nextAutoBindAttempt;
+    private bool _loggedMissingPlayer;
+
+    private void Awake()
+    {
+        // Try to grab an instance immediately so we work in scenes where the player is already present.
+        if (autoBindPlayer)
+        {
+            TryAutoBindPlayer(logOnBind: false);
+        }
+    }
 
     private void Update()
     {
+        if (!EnsurePlayerReference())
+        {
+            return;
+        }
+
         if (Input.GetKeyDown(spawnKey))
         {
             SpawnTool();
@@ -65,5 +85,71 @@ public class ToolSpawnTester : MonoBehaviour
         handler.UpdateSprite();
 
         Debug.Log($"INFORMATION: Spawned {toolPrefab.ToolName} in ItemHandler at {spawnPos}");
+    }
+
+    private bool EnsurePlayerReference()
+    {
+        if (HasValidPlayer())
+        {
+            return true;
+        }
+
+        if (autoBindPlayer && Time.time >= _nextAutoBindAttempt)
+        {
+            _nextAutoBindAttempt = Time.time + autoBindRetryInterval;
+            TryAutoBindPlayer();
+        }
+
+        if (HasValidPlayer())
+        {
+            return true;
+        }
+
+        if (!_loggedMissingPlayer)
+        {
+            Debug.LogWarning($"{name}: Player reference is missing—enable auto bind or assign a runtime PlayerController manually.");
+            _loggedMissingPlayer = true;
+        }
+
+        return false;
+    }
+
+    private bool HasValidPlayer()
+    {
+        if (!player)
+        {
+            return false;
+        }
+
+        if (!player.isActiveAndEnabled)
+        {
+            player = null;
+            return false;
+        }
+
+        if (!player.gameObject.scene.IsValid())
+        {
+            player = null;
+            return false;
+        }
+
+        return true;
+    }
+
+    private void TryAutoBindPlayer(bool logOnBind = true)
+    {
+        PlayerController candidate = FindObjectOfType<PlayerController>();
+        if (!candidate || !candidate.gameObject.scene.IsValid())
+        {
+            return;
+        }
+
+        player = candidate;
+        _loggedMissingPlayer = false;
+
+        if (logOnBind)
+        {
+            Debug.Log($"{name}: Auto-bound to PlayerController '{player.name}'.");
+        }
     }
 }
