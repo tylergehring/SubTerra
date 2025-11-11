@@ -25,35 +25,15 @@ public class TNT : NonReusableTools
     private static readonly WaitForSeconds CollisionGraceDelay = new WaitForSeconds(0.2f);
     private Coroutine _fuseCoroutine;
     private float _fuseEndTime;
+    private PhysicsMaterial2D _cachedPhysicsMaterial;
+    private bool _warnedAboutMissingPhysics;
 
     protected override void OnEnable()
     {
         base.OnEnable();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
-        _rigidbody = GetComponent<Rigidbody2D>();
-        _collider = GetComponent<CircleCollider2D>();
-        
-        // Add Rigidbody2D if it doesn't exist
-        if (!_rigidbody)
-        {
-            _rigidbody = gameObject.AddComponent<Rigidbody2D>();
-            _rigidbody.gravityScale = 1f;
-            _rigidbody.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
-        }
-        
-        // Add CircleCollider2D if it doesn't exist
-        if (!_collider)
-        {
-            _collider = gameObject.AddComponent<CircleCollider2D>();
-            _collider.radius = 0.5f; // Adjust based on your TNT sprite size
-        }
-        
-        // Create and apply physics material for bouncing
-        PhysicsMaterial2D bounceMaterial = new PhysicsMaterial2D("TNT_Bounce");
-        bounceMaterial.bounciness = _bounciness;
-        bounceMaterial.friction = 0.3f;
-        _rigidbody.sharedMaterial = bounceMaterial;
-        
+        CacheComponents();
+        ConfigurePhysics();
+
         if (_spriteRenderer)
         {
             _originalColor = _spriteRenderer.color;
@@ -94,12 +74,15 @@ public class TNT : NonReusableTools
         base.OnPickup(player);
         
         // Hide the sprite when in inventory
+        CacheSpriteRenderer();
         if (_spriteRenderer)
         {
             _spriteRenderer.enabled = false;
         }
         
         // Disable physics when in inventory
+        CachePhysicsComponents();
+        ConfigurePhysics();
         if (_rigidbody)
         {
             _rigidbody.linearVelocity = Vector2.zero;
@@ -113,9 +96,17 @@ public class TNT : NonReusableTools
         base.OnDropped(player);
         
         // Show the sprite when dropped
+        CacheSpriteRenderer();
         if (_spriteRenderer)
         {
             _spriteRenderer.enabled = true;
+        }
+
+        CachePhysicsComponents();
+        ConfigurePhysics();
+        if (_rigidbody)
+        {
+            _rigidbody.isKinematic = false;
         }
     }
 
@@ -207,6 +198,7 @@ public class TNT : NonReusableTools
 
     protected override void OnConsumed(PlayerController player)
     {
+        CacheComponents();
         // Don't immediately destroy - the TNT needs to exist for the explosion
         // The explosion will handle destroying the GameObject
         Debug.Log($"INFORMATION: {player?.name ?? "Unknown"} threw TNT.");
@@ -312,5 +304,104 @@ public class TNT : NonReusableTools
         // Draw explosion radius in editor
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _explosionRadius);
+    }
+
+    private void Update()
+    {
+        if (!_rigidbody || !_collider || _rigidbody.sharedMaterial == null)
+        {
+            CacheComponents();
+            ConfigurePhysics();
+        }
+    }
+
+    private void CacheComponents()
+    {
+        CacheSpriteRenderer();
+        CachePhysicsComponents();
+    }
+
+    private void CacheSpriteRenderer()
+    {
+        if (!_spriteRenderer)
+        {
+            TryGetComponent(out _spriteRenderer);
+        }
+    }
+
+    private void CachePhysicsComponents()
+    {
+        if (!_rigidbody && !TryGetComponent(out _rigidbody))
+        {
+            _rigidbody = gameObject.AddComponent<Rigidbody2D>();
+            _rigidbody.gravityScale = 1f;
+            _rigidbody.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+        }
+
+        if (!_collider && !TryGetComponent(out _collider))
+        {
+            _collider = gameObject.AddComponent<CircleCollider2D>();
+            _collider.radius = Mathf.Max(_collider.radius, 0.5f);
+        }
+
+        if (_rigidbody && _collider)
+        {
+            _warnedAboutMissingPhysics = false;
+        }
+    }
+
+    private void ConfigurePhysics()
+    {
+        CachePhysicsComponents();
+
+        if (!_rigidbody)
+        {
+            return;
+        }
+
+        _rigidbody.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+
+        if (_cachedPhysicsMaterial == null)
+        {
+            _cachedPhysicsMaterial = new PhysicsMaterial2D("TNT_Bounce")
+            {
+                bounciness = _bounciness,
+                friction = 0.3f
+            };
+        }
+
+        if (_rigidbody.sharedMaterial == null || !Mathf.Approximately(_rigidbody.sharedMaterial.bounciness, _bounciness))
+        {
+            _rigidbody.sharedMaterial = _cachedPhysicsMaterial;
+        }
+
+        if (_collider)
+        {
+            if (_collider.radius <= 0f)
+            {
+                _collider.radius = 0.5f;
+            }
+
+            if (_collider.sharedMaterial == null)
+            {
+                _collider.sharedMaterial = _cachedPhysicsMaterial;
+            }
+        }
+        else if (!_warnedAboutMissingPhysics)
+        {
+            Debug.LogWarning($"{name}: TNT could not obtain a CircleCollider2D.");
+            _warnedAboutMissingPhysics = true;
+        }
+    }
+
+    private void WarnMissingPhysics()
+    {
+        if (_warnedAboutMissingPhysics)
+        {
+            return;
+        }
+
+        Debug.LogWarning($"{name}: TNT is missing required physics components; behaviour may be limited during tests.");
+        _warnedAboutMissingPhysics = true;
     }
 }

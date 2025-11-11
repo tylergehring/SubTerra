@@ -508,9 +508,9 @@ public class PlayerController : MonoBehaviour
 
         GameObject removed = _inventory.SetItem(null);
         if (destroyInstance && removed)
+        {
             Destroy(removed);
-        else if (destroyInstance && !removed && tool)
-            Destroy(tool.gameObject);
+        }
 
         _inventoryHotBar.UpdateSlotItem(_inventory.GetIndex(), null);
     }

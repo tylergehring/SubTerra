@@ -14,7 +14,7 @@ public class Mushroom : NonReusableTools
     protected override void OnEnable()
     {
         base.OnEnable();
-        _spriteRenderer = GetComponent<SpriteRenderer>();
+        CacheSpriteRenderer();
     }
 
     /// Called when the mushroom enters the player's inventory.
@@ -23,6 +23,7 @@ public class Mushroom : NonReusableTools
         base.OnPickup(player);
         
         // Hide the sprite when in inventory
+        CacheSpriteRenderer();
         if (_spriteRenderer)
         {
             _spriteRenderer.enabled = false;
@@ -35,6 +36,7 @@ public class Mushroom : NonReusableTools
         base.OnDropped(player);
         
         // Show the sprite when dropped
+        CacheSpriteRenderer();
         if (_spriteRenderer)
         {
             _spriteRenderer.enabled = true;
@@ -55,12 +57,23 @@ public class Mushroom : NonReusableTools
 
     protected virtual void ApplyFoodEffect(PlayerController player)
     {
-        player.ChangeHealth(_healthRestoreAmount);
+        // Note: ChangeHealth subtracts the amount, so we negate to heal (this is so Arjuns enemies can subract health and my code will just negate that value)
+        player.ChangeHealth(-_healthRestoreAmount);
         Debug.Log($"INFORMATION: {player.name} consumed a mushroom and restored {_healthRestoreAmount} health.");
 
         if (_consumeSound)
         {
             AudioSource.PlayClipAtPoint(_consumeSound, player.transform.position);
         }
+    }
+
+    private void CacheSpriteRenderer()
+    {
+        if (_spriteRenderer)
+        {
+            return;
+        }
+
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 }
