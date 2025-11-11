@@ -10,9 +10,9 @@ using System.Reflection;
 //these are needed for my tests and often used in others 
 public class ReusableToolClassPlayModeTests
 {//temp game objet created durring the test sean 
-    private GameObject testObj;
-    private ReusableToolClass tool;
-    private Light lightComponent;
+    private GameObject _testObj;
+    private ReusableToolClass _tool;
+    private Light _lightComponent;
 
     private Light GetFlashlight(ReusableToolClass tool)
     {
@@ -29,21 +29,21 @@ public class ReusableToolClassPlayModeTests
         yield return null; // wait a frame for scene load to complete
 
 
-        tool = GameObject.FindObjectOfType<ReusableToolClass>();
+        _tool = GameObject.FindObjectOfType<ReusableToolClass>();
 
 
-        lightComponent = GetFlashlight(tool);
+        _lightComponent = GetFlashlight(_tool);
 
         //sets flashligh off before test
-        lightComponent.enabled = false;
+        _lightComponent.enabled = false;
     }
     //destroys the temporyry test game objects if one was created
     //this is more of a extra safty mesure then anything else
     [UnityTearDown]
     public IEnumerator Teardown()
     {
-        if (testObj != null)
-            Object.Destroy(testObj);
+        if (_testObj != null)
+            Object.Destroy(_testObj);
         yield return null;
     }
     // This is the stress test that simply turns/toggles the flashlight
@@ -72,7 +72,7 @@ public class ReusableToolClassPlayModeTests
                 Debug.Log($" Intal FPS is {fps:F2}");
             }
 
-            tool.UseTool(); // toggle flashlight on/off
+            _tool.UseTool(); // toggle flashlight on/off
             yield return null; // wait a frame
 
             // Calculate FPS (smoothed average)
@@ -84,7 +84,7 @@ public class ReusableToolClassPlayModeTests
                 Debug.Log($"Iteration {i} | Current FPS: {fps:F2}");
 
             // Verify flashlight state
-            Assert.AreEqual(GetFlashlight(tool).enabled, i % 2 == 0);
+            Assert.AreEqual(GetFlashlight(_tool).enabled, i % 2 == 0);
             
             i++;
         }
@@ -114,7 +114,7 @@ public class ReusableToolClassPlayModeTests
         yield return null;
 
         // Flashlight should start off if the flashing starts on then this is a improper initialization error. 
-        Assert.IsFalse(GetFlashlight(tool).enabled, "Flashlight should start OFF if not test will fail.");
+        Assert.IsFalse(GetFlashlight(_tool).enabled, "Flashlight should start OFF if not test will fail.");
     }
 
 
@@ -131,12 +131,12 @@ public class ReusableToolClassPlayModeTests
 
         for (int i = 0; i < toggleCount; i++)
         {
-            tool.UseTool(); // toggle flashlight
+            _tool.UseTool(); // toggle flashlight
             yield return null;
 
             // Check flashlight state is correct 
               bool expectedState = (i % 2 == 0) ? true : false;
-                 Assert.AreEqual(GetFlashlight(tool).enabled, expectedState,
+                 Assert.AreEqual(GetFlashlight(_tool).enabled, expectedState,
                 $"Flashlight state mismatch at toggle {i + 1}");
 
             // wait a few seconds before the next toggle

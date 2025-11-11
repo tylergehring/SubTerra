@@ -3,12 +3,12 @@ using System.Collections;
 
 public class Rasor : UtilityTool
 {
-    private AudioSource audioSource;
+    private AudioSource _audioSource;
     private Transform player;
 
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        _audioSource = GetComponent<AudioSource>();
 
         // Find player if not assigned
         if (player == null)
@@ -45,11 +45,11 @@ public class Rasor : UtilityTool
 
     private IEnumerator PlaySoundForTwoSeconds()
     {
-        if (audioSource != null)
+        if (_audioSource != null)
         {
-            audioSource.Play();
+            _audioSource.Play();
             yield return new WaitForSeconds(0.8f);
-            audioSource.Stop();
+            _audioSource.Stop();
         }
     }
 }

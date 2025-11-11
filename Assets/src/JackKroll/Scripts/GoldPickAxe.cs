@@ -3,17 +3,17 @@ using UnityEngine;
 
 public class GoldPickAxe : UtilityTool
 {
-    private float mineTimer;
-    private AudioSource audioSource;
-    private float breakRadius = 3f; // Radius to destroy chunks
+    private float _mineTimer;
+    private AudioSource _audioSource;
+    private float _breakRadius = 3f; // Radius to destroy chunks
     private TerrainHandler _terrain;
     private Transform player;
-    private float rotationSpeed = 50f; // degrees per second
+    private float _rotationSpeed = 50f; // degrees per second
 
 
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        _audioSource = GetComponent<AudioSource>();
         _terrain = FindFirstObjectByType<TerrainHandler>();
         
         if (player == null)
@@ -25,7 +25,7 @@ public class GoldPickAxe : UtilityTool
 
     void Update()
     {
-        mineTimer += Time.deltaTime;
+        _mineTimer += Time.deltaTime;
         //cnages position 
         if (gameObject.activeSelf) // checks if the prefab (this GameObject) is active
         {
@@ -43,21 +43,21 @@ public class GoldPickAxe : UtilityTool
             if ((Input.GetMouseButton(0) && !Input.GetKeyDown(KeyCode.F)) || ((!Input.GetMouseButton(0) && Input.GetKeyDown(KeyCode.F)))) // Left mouse button held down
             {
                 // Rotate around the Y axis (you can change to X/Z as needed)
-                transform.Rotate(0f, rotationSpeed * Time.deltaTime, 90f);
+                transform.Rotate(0f, _rotationSpeed * Time.deltaTime, 90f);
 
 
-                if (!audioSource.isPlaying)
+                if (!_audioSource.isPlaying)
                 {
-                    audioSource.Play();
+                    _audioSource.Play();
                 }
 
 
             }
             else
             {
-                if (audioSource.isPlaying)
+                if (_audioSource.isPlaying)
                 {
-                    audioSource.Stop();
+                    _audioSource.Stop();
                 }
             }
 
@@ -67,9 +67,9 @@ public class GoldPickAxe : UtilityTool
 
         if ((Input.GetMouseButton(0) && !Input.GetKeyDown(KeyCode.F)) || ((!Input.GetMouseButton(0) && Input.GetKeyDown(KeyCode.F)))) // Left mouse button held down
         {
-            if (mineTimer > 0.8f)
+            if (_mineTimer > 0.8f)
             {
-                mineTimer = 0;
+                _mineTimer = 0;
                 DestroyChunksAtPosition();
             }
         }
@@ -79,7 +79,7 @@ public class GoldPickAxe : UtilityTool
     {
         if (_terrain != null)
         {
-            _terrain.DestroyInRadius(transform.position, breakRadius);
+            _terrain.DestroyInRadius(transform.position, _breakRadius);
         }
     }
 }

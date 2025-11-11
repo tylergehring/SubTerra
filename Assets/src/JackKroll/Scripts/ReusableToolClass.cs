@@ -5,8 +5,7 @@ public class ReusableToolClass : ToolSystem
 {
     [Header("Flashlight Settings")]
     //public Light flashlight;
-    [SerializeField] private Light flashlight;
-
+    [SerializeField] private Light _flashlight;
 
 
     private bool _isOn = false;   
@@ -14,15 +13,15 @@ public class ReusableToolClass : ToolSystem
     void Start()
     {
         
-        if (flashlight == null)
+        if (_flashlight == null)
         {
-            flashlight = GetComponent<Light>();
+            _flashlight = GetComponent<Light>();
         }
 
         // Start with flashlight off
-        if (flashlight != null)
+        if (_flashlight != null)
         {
-            flashlight.enabled = _isOn;
+            _flashlight.enabled = _isOn;
         }
     }
 
@@ -64,7 +63,7 @@ public class ReusableToolClass : ToolSystem
     //this will be updated 
     private void ToggleFlashlight()
     {
-        if (flashlight == null)
+        if (_flashlight == null)
         {
            
            Debug.LogWarning("No Light assigned to " + _toolName);
@@ -72,7 +71,7 @@ public class ReusableToolClass : ToolSystem
         }
 
         _isOn = !_isOn;
-        flashlight.enabled = _isOn;
+        _flashlight.enabled = _isOn;
 
 
     }

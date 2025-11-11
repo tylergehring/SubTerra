@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class ABetterGame : Weapon_Class
 {
-    private float mineTimer;
-    private AudioSource audioSource;
-    private float rotationSpeed = 40f;
+    private float _mineTimer;
+    private AudioSource _audioSource;
+    private float _rotationSpeed = 40f;
 
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        _audioSource = GetComponent<AudioSource>();
 
         if (player == null)
         {
@@ -19,7 +19,7 @@ public class ABetterGame : Weapon_Class
 
     private void Update()
     {
-        mineTimer += Time.deltaTime;
+        _mineTimer += Time.deltaTime;
 
         if (!gameObject.activeSelf) return;
         // Dynamically bounded function call
@@ -64,26 +64,26 @@ public class ABetterGame : Weapon_Class
 
     private void RotateWeapon()
     {
-        transform.Rotate(0f, rotationSpeed * Time.deltaTime, 90f);
+        transform.Rotate(0f, _rotationSpeed * Time.deltaTime, 90f);
     }
 
     private void PlaySound()
     {
-        if (!audioSource.isPlaying)
-            audioSource.Play();
+        if (!_audioSource.isPlaying)
+            _audioSource.Play();
     }
 
     private void StopSound()
     {
-        if (audioSource.isPlaying)
-            audioSource.Stop();
+        if (_audioSource.isPlaying)
+            _audioSource.Stop();
     }
 
     private void HandleMineTimer()
     {
-        if (mineTimer > 1.4f)
+        if (_mineTimer > 1.4f)
         {
-            mineTimer = 0;
+            _mineTimer = 0;
         }
     }
 }
