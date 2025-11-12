@@ -14,9 +14,9 @@ public class ReusableToolClassPlayModeTests
     private ReusableToolClass _tool;
     private Light _lightComponent;
 
-    private Light GetFlashlight(ReusableToolClass tool)
+    private Light Get_Flashlight(ReusableToolClass tool)
     {
-        var f = typeof(ReusableToolClass).GetField("flashlight", BindingFlags.NonPublic | BindingFlags.Instance);
+        var f = typeof(ReusableToolClass).GetField("_flashlight", BindingFlags.NonPublic | BindingFlags.Instance);
         return (Light)f.GetValue(tool);
     }
 
@@ -32,7 +32,7 @@ public class ReusableToolClassPlayModeTests
         _tool = GameObject.FindObjectOfType<ReusableToolClass>();
 
 
-        _lightComponent = GetFlashlight(_tool);
+        _lightComponent = Get_Flashlight(_tool);
 
         //sets flashligh off before test
         _lightComponent.enabled = false;
@@ -56,7 +56,7 @@ public class ReusableToolClassPlayModeTests
     // 10000 toggles is a time constraint prmiter that could be changed
 
     [UnityTest]
-    public IEnumerator Stress_ToggleFlashlightRapidly()
+    public IEnumerator Stress_Toggle_FlashlightRapidly()
     {
         float deltaTime = 0f;
         float fps = 999f; // start high so loop runs initially
@@ -84,7 +84,7 @@ public class ReusableToolClassPlayModeTests
                 Debug.Log($"Iteration {i} | Current FPS: {fps:F2}");
 
             // Verify flashlight state
-            Assert.AreEqual(GetFlashlight(_tool).enabled, i % 2 == 0);
+            Assert.AreEqual(Get_Flashlight(_tool).enabled, i % 2 == 0);
             
             i++;
         }
@@ -108,13 +108,13 @@ public class ReusableToolClassPlayModeTests
     //The purpous for tetsing the lower bound is 
     // to catch improper initialization.
     [UnityTest]
-    public IEnumerator Flashlight_StartsOff()
+    public IEnumerator _Flashlight_StartsOff()
     {
         // Wait one frame for initialization
         yield return null;
 
         // Flashlight should start off if the flashing starts on then this is a improper initialization error. 
-        Assert.IsFalse(GetFlashlight(_tool).enabled, "Flashlight should start OFF if not test will fail.");
+        Assert.IsFalse(Get_Flashlight(_tool).enabled, "_Flashlight should start OFF if not test will fail.");
     }
 
 
@@ -122,7 +122,7 @@ public class ReusableToolClassPlayModeTests
     //with 2 second intervols witch automates checking the bounds of normal use.
     // with a uper bound of 20 uses
     [UnityTest]
-    public IEnumerator Flashlight_ToggleOnOff_10Times_WithDelay()
+    public IEnumerator _Flashlight_ToggleOnOff_10Times_WithDelay()
     {
         yield return null; // wait a frame for initialization
 
@@ -136,8 +136,8 @@ public class ReusableToolClassPlayModeTests
 
             // Check flashlight state is correct 
               bool expectedState = (i % 2 == 0) ? true : false;
-                 Assert.AreEqual(GetFlashlight(_tool).enabled, expectedState,
-                $"Flashlight state mismatch at toggle {i + 1}");
+                 Assert.AreEqual(Get_Flashlight(_tool).enabled, expectedState,
+                $"_Flashlight state mismatch at toggle {i + 1}");
 
             // wait a few seconds before the next toggle
             yield return new WaitForSecondsRealtime(interval);

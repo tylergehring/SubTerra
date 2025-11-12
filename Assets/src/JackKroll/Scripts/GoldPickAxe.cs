@@ -3,6 +3,34 @@ using UnityEngine;
 
 public class GoldPickAxe : UtilityTool
 {
+    private PickaxeFacade _facade;
+    private Transform _player;
+    private AudioSource _audioSource;
+    private TerrainHandler _terrain;
+
+    [SerializeField] private float _rotationSpeed = 50f;
+    [SerializeField] private float _breakRadius = 3f;
+    [SerializeField] private float _mineDelay = 0.8f;
+
+    private void Start()
+    {
+        _audioSource = GetComponent<AudioSource>();
+        _terrain = FindFirstObjectByType<TerrainHandler>();
+        _player = GameObject.FindGameObjectWithTag("Player").transform;
+        _facade = new PickaxeFacade(_audioSource, _terrain);
+    }
+
+    private void Update()
+    {
+        _facade.UpdatePickaxe(transform, _player, Time.deltaTime, _rotationSpeed, _breakRadius, _mineDelay);
+    }
+}
+
+/*
+using UnityEngine;
+
+public class GoldPickAxe : UtilityTool
+{
     private float _mineTimer;
     private AudioSource _audioSource;
     private float _breakRadius = 3f; // Radius to destroy chunks
@@ -83,3 +111,4 @@ public class GoldPickAxe : UtilityTool
         }
     }
 }
+*/

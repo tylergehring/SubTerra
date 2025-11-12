@@ -696,11 +696,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4250133090246198559, guid: 66a9cc21f34a7ab408f36f3b7b2f5b3b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 129.04
+      value: 128.71
       objectReference: {fileID: 0}
     - target: {fileID: 4250133090246198559, guid: 66a9cc21f34a7ab408f36f3b7b2f5b3b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 104.38
+      value: 105.8
       objectReference: {fileID: 0}
     - target: {fileID: 4250133090246198559, guid: 66a9cc21f34a7ab408f36f3b7b2f5b3b, type: 3}
       propertyPath: m_LocalPosition.z
@@ -888,6 +888,8 @@ MonoBehaviour:
   randomizePosition: 0
   spawnDistance: 1.25
   randomSpawnRange: {x: 3, y: 1.5}
+  autoBindPlayer: 1
+  autoBindRetryInterval: 0.35
 --- !u!4 &1309536186
 Transform:
   m_ObjectHideFlags: 0
@@ -1196,6 +1198,8 @@ MonoBehaviour:
   randomizePosition: 0
   spawnDistance: 1.25
   randomSpawnRange: {x: 3, y: 1.5}
+  autoBindPlayer: 1
+  autoBindRetryInterval: 0.35
 --- !u!1 &1637223033
 GameObject:
   m_ObjectHideFlags: 0
@@ -2116,7 +2120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ReusableToolClass
   _toolDamage: 0
   _toolTerLeval: 10
-  flashlight: {fileID: 6632631963726354519}
+  _flashlight: {fileID: 0}
 --- !u!4 &7591049498140545482 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1980970612056311668, guid: 3c2f18537dcd80745a932984b5b153aa, type: 3}

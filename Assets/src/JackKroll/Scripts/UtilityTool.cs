@@ -4,7 +4,7 @@ public class UtilityTool : ReusableToolClass
 {
     [Header("Utility Settings")]
   
-    [SerializeField] private float _durability = 100f;
+    [SerializeField] private float durability = 100f;
     
 
    

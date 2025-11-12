@@ -1,3 +1,32 @@
+
+using UnityEngine;
+
+public class WoodPickaxe : UtilityTool
+{
+    private PickaxeFacade _facade;
+    private Transform _player;
+    private AudioSource _audioSource;
+    private TerrainHandler _terrain;
+
+    [SerializeField] private float _rotationSpeed = 40f;
+    [SerializeField] private float _breakRadius = 1.4f;
+    [SerializeField] private float _mineDelay = 1.4f;
+
+    private void Start()
+    {
+        _audioSource = GetComponent<AudioSource>();
+        _terrain = FindFirstObjectByType<TerrainHandler>();
+        _player = GameObject.FindGameObjectWithTag("Player").transform;
+        _facade = new PickaxeFacade(_audioSource, _terrain);
+    }
+
+    private void Update()
+    {
+        _facade.UpdatePickaxe(transform, _player, Time.deltaTime, _rotationSpeed, _breakRadius, _mineDelay);
+    }
+}
+
+/*
 using UnityEngine;
 
 public class WoodPickaxe : UtilityTool
@@ -91,3 +120,4 @@ private void DestroyChunksAtPosition()
     }
 }
 }
+*/
