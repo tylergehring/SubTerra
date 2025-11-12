@@ -24,7 +24,7 @@ public class ToolBindingDemonstrator : MonoBehaviour
             NonReusableTools baseReference = tool;
             string dynamicResult = baseReference.GetToolSummary();
             string staticResult = baseReference.GetStaticSummary();
-            string derivedStaticResult = GetDerivedStaticSummary(tool);
+            string derivedStaticResult = _GetDerivedStaticSummary(tool);
 
             Debug.Log($"Dynamic binding ({tool.GetType().Name}): {dynamicResult}");
             Debug.Log($"Static binding via base ({tool.GetType().Name}): {staticResult}");
@@ -32,7 +32,7 @@ public class ToolBindingDemonstrator : MonoBehaviour
         }
     }
 
-    private string GetDerivedStaticSummary(NonReusableTools tool)
+    private string _GetDerivedStaticSummary(NonReusableTools tool)
     {
         // Casting to the concrete type lets the compiler pick the hidden method, demonstrating static binding.
         // (Tells the compiler to use the derived types mehtod.)

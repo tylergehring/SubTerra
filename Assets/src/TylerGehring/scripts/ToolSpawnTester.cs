@@ -26,24 +26,24 @@ public class ToolSpawnTester : MonoBehaviour
         // Try to grab an instance immediately so we work in scenes where the player is already present.
         if (autoBindPlayer)
         {
-            TryAutoBindPlayer(logOnBind: false);
+            _TryAutoBindPlayer(logOnBind: false);
         }
     }
 
     private void Update()
     {
-        if (!EnsurePlayerReference())
+        if (!_IsPlayerReferenceReady())
         {
             return;
         }
 
         if (Input.GetKeyDown(spawnKey))
         {
-            SpawnTool();
+            _SpawnTool();
         }
     }
 
-    private void SpawnTool()
+    private void _SpawnTool()
     {
         if (!player || !toolPrefab || !itemHandlerPrefab)
         {
@@ -87,9 +87,9 @@ public class ToolSpawnTester : MonoBehaviour
         Debug.Log($"INFORMATION: Spawned {toolPrefab.ToolName} in ItemHandler at {spawnPos}");
     }
 
-    private bool EnsurePlayerReference()
+    private bool _IsPlayerReferenceReady()
     {
-        if (HasValidPlayer())
+        if (_HasValidPlayer())
         {
             return true;
         }
@@ -97,10 +97,10 @@ public class ToolSpawnTester : MonoBehaviour
         if (autoBindPlayer && Time.time >= _nextAutoBindAttempt)
         {
             _nextAutoBindAttempt = Time.time + autoBindRetryInterval;
-            TryAutoBindPlayer();
+            _TryAutoBindPlayer();
         }
 
-        if (HasValidPlayer())
+        if (_HasValidPlayer())
         {
             return true;
         }
@@ -114,7 +114,7 @@ public class ToolSpawnTester : MonoBehaviour
         return false;
     }
 
-    private bool HasValidPlayer()
+    private bool _HasValidPlayer()
     {
         if (!player)
         {
@@ -136,7 +136,7 @@ public class ToolSpawnTester : MonoBehaviour
         return true;
     }
 
-    private void TryAutoBindPlayer(bool logOnBind = true)
+    private void _TryAutoBindPlayer(bool logOnBind = true)
     {
         PlayerController candidate = FindObjectOfType<PlayerController>();
         if (!candidate || !candidate.gameObject.scene.IsValid())

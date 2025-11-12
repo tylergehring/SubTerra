@@ -14,7 +14,7 @@ public class Mushroom : NonReusableTools
     protected override void OnEnable()
     {
         base.OnEnable();
-        CacheSpriteRenderer();
+    _CacheSpriteRenderer();
     }
 
     /// Called when the mushroom enters the player's inventory.
@@ -23,7 +23,7 @@ public class Mushroom : NonReusableTools
         base.OnPickup(player);
         
         // Hide the sprite when in inventory
-        CacheSpriteRenderer();
+    _CacheSpriteRenderer();
         if (_spriteRenderer)
         {
             _spriteRenderer.enabled = false;
@@ -36,7 +36,7 @@ public class Mushroom : NonReusableTools
         base.OnDropped(player);
         
         // Show the sprite when dropped
-        CacheSpriteRenderer();
+    _CacheSpriteRenderer();
         if (_spriteRenderer)
         {
             _spriteRenderer.enabled = true;
@@ -67,7 +67,7 @@ public class Mushroom : NonReusableTools
         }
     }
 
-    private void CacheSpriteRenderer()
+    private void _CacheSpriteRenderer()
     {
         if (_spriteRenderer)
         {
