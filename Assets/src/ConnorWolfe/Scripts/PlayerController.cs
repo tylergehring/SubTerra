@@ -18,34 +18,20 @@ public class SpeedSuperC
     {
         _speed = newSpeed;
     }
-    // dynamic version
-    public virtual float GetSpeed()
-    {
-        return Random.Range(0, 2 * _speed);
-        // return Speed
+
+    //    public float GetSpeed() { // static version
+    public virtual float GetSpeed() { // dynamic version
+        return 3*_speed;
     }
-    /* static version
-    public float GetSpeed()
-    {
-        return Random.Range(0, 2 * _speed);
-        // return Speed
-    }
-    */
 }
 
 public class Speed : SpeedSuperC
 {
-    // dynamic version
-    public override float GetSpeed()
-    {
+    //    public float GetSpeed() { // static version
+    public override float GetSpeed() { // dynamic version
+    
         return _speed;
     }
-    /* static version
-    public override float GetSpeed()
-    {
-        return _speed;
-    }
-    */
 }
 
 
@@ -126,10 +112,7 @@ public class PlayerController : MonoBehaviour
     private QuickAccess _inventory = new QuickAccess();
 
     // Speed class (used to showcase static vs. dynamic binding to meet class requirements)
-    // dynamic version
     private SpeedSuperC _movementSpeed = new Speed();
-    // static version
-    // private SpeedSuperC _movementSpeed;
 
 
     void Start()
