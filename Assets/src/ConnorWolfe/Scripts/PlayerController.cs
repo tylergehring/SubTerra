@@ -602,6 +602,11 @@ public class PlayerController : MonoBehaviour
     {
         _staminaWheel.ChangeStamina(amount);
     }
+
+    public GameObject GetObject()
+    {
+        return this.gameObject;
+    }
 }
 
 

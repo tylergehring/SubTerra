@@ -57,7 +57,10 @@ public class ItemHandler : MonoBehaviour
         if (collision.CompareTag("Player") && Input.GetKey(_interactKey) && !_onCooldown)
         {
             _onCooldown = true;
-            _heldItem = collision.GetComponent<PlayerController>().PickUp(_heldItem);
+            // without singleton
+            //            _heldItem = collision.GetComponent<PlayerController>().PickUp(_heldItem);
+            // with singleton
+            _heldItem = PlayerController.Instance.PickUp(_heldItem);
             if (!_heldItem)
                 Destroy(this.gameObject);
             else

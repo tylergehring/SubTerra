@@ -13,8 +13,8 @@ public class TreasureScript : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             Debug.Log($"Collided with {collision.name}");
-            PlayerController playerController = collision.GetComponent<PlayerController>();
-            playerController.ChangeScore(value);
+//            PlayerController playerController = collision.GetComponent<PlayerController>();
+            PlayerController.Instance.ChangeScore(value);
             Destroy(this);
             this.gameObject.SetActive(false); // if Destroy doesn't work
         }

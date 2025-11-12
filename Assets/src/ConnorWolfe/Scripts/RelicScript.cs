@@ -6,7 +6,10 @@ public class RelicScript : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            collision.gameObject.GetComponent<PlayerController>().Victory();
+            // without Sigleton pattern
+            //            collision.gameObject.GetComponent<PlayerController>().Victory();
+            // with singleton pattern
+            PlayerController.Instance.Victory();
         }
     }
 }
