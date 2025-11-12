@@ -15,7 +15,9 @@ public class PickaxeTool : UtilityTool
     {
         _audioSource = GetComponent<AudioSource>();
         _terrain = FindFirstObjectByType<TerrainHandler>();
-        _player = GameObject.FindGameObjectWithTag("Player").transform;
+        //NEW WAY TO GET PLAYER POSITION. 
+        _player = PlayerController.Instance.transform;
+        // _player = GameObject.FindGameObjectWithTag("Player").transform;
         _facade = new PickaxeFacade(_audioSource, _terrain);
     }
 

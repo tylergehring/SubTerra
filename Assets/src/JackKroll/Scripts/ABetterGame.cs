@@ -11,9 +11,11 @@ public class ABetterGame : Weapon_Class
     {
         _audioSource = GetComponent<AudioSource>();
 
-        if (player == null)
+        if (_player == null)
         {
-            player = GameObject.FindGameObjectWithTag("Player").transform;
+            //NEW WAY TO GET PLAYER POSITION. 
+            _player = PlayerController.Instance.transform;
+            // _player = GameObject.FindGameObjectWithTag("Player").transform;
         }
     }
 
@@ -34,8 +36,8 @@ public class ABetterGame : Weapon_Class
         
         // Add or modify subclass-specific behavior
         // (for example, rotate slightly, or change offset)
-        Vector3 pos = player.position + player.forward * 1.2f; // slightly farther
-        pos.y = player.position.y + 2.1f;
+        Vector3 pos = _player.position + _player.forward * 1.2f; // slightly farther
+        pos.y = _player.position.y + 2.1f;
         pos.z = -1f;
         transform.position = pos;
     }

@@ -4,28 +4,30 @@ using System.Collections;
 public class Rasor : UtilityTool
 {
     private AudioSource _audioSource;
-    private Transform player;
+    private Transform _player;
 
     private void Start()
     {
         _audioSource = GetComponent<AudioSource>();
 
         // Find player if not assigned
-        if (player == null)
+        if (_player == null)
         {
-            player = GameObject.FindGameObjectWithTag("Player").transform;
+            //NEW WAY TO GET PLAYER POSITION. 
+            _player = PlayerController.Instance.transform;
+            // _player = GameObject.FindGameObjectWithTag("Player").transform;
         }
     }
 
     private void Update()
     {
         
-        if (player != null && gameObject.activeSelf)
+        if (_player != null && gameObject.activeSelf)
         {
             // Keep Rasor positioned relative to player
             Vector3 pos = transform.position;
-            pos.x = player.position.x + 0.6f;
-            pos.y = player.position.y + 0.1f;
+            pos.x = _player.position.x + 0.6f;
+            pos.y = _player.position.y + 0.1f;
             pos.z = -1f; // fixed Z position
             transform.position = pos;
 
