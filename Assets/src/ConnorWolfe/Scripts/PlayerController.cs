@@ -37,7 +37,11 @@ public class Speed : SpeedSuperC
 
 public class PlayerController : MonoBehaviour
 {
+
     // this script handles systems for the player (Arjun)
+
+    // static instance (thread-safe lazy intialization)
+    [HideInInspector] public static PlayerController Instance { get; private set; }
 
     // public as to be able to change the key binds in other scripts
     // using Old Unity Input systems
@@ -165,6 +169,26 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /* in Awake:
+     we check that there is only one instance of the player on the screen
+     */
+    private void Awake()
+    {
+        if (Instance != null && Instance != null)
+            Destroy(this.gameObject);
+
+        Instance = this;
+        Debug.Log($"instance == {Instance.name}");
+    }
+
+    /* in OnDestroy()
+        prevent false duplicates in the scene
+     */
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
 
     /* in Update:
         - We get input
