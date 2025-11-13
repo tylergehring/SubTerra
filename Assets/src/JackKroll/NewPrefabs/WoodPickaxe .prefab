@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6470709265069396597
 Transform:
   m_ObjectHideFlags: 0
@@ -203,5 +203,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: JackKroll_Scripts::WoodPickaxe
   _toolDamage: 10
   _toolTerLeval: 10
-  flashlight: {fileID: 0}
+  _flashlight: {fileID: 0}
   durability: 100
+  _rotationSpeed: 40
+  _breakRadius: 1.4
+  _mineDelay: 1.4

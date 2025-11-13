@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2912410322505708914
 Transform:
   m_ObjectHideFlags: 0
@@ -48,8 +48,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: JackKroll_Scripts::PickaxeTool
   _toolDamage: 10
   _toolTerLeval: 10
-  flashlight: {fileID: 0}
+  _flashlight: {fileID: 0}
   durability: 100
+  _rotationSpeed: 40
+  _breakRadius: 1.6
+  _mineDelay: 1
 --- !u!212 &7280321799360464492
 SpriteRenderer:
   m_ObjectHideFlags: 0
