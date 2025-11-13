@@ -30,13 +30,13 @@ public class BoundaryTests
     {
         Debug.Log("Running test for extreme noise values");
 
-        world.worldHeight = 100;
-        world.worldWidth = 100;
-        world.viewDistance = 5;
-        world.noiseHandler.terrainThreshold = 1000;
+        world.SetWorldHeight(100);
+        world.SetWorldWidth(100);
+        world.SetViewDistance(5);
+        world.GetComponent<NoiseHandler>().SetTerrainThreshold(1000);
         world.gameObject.SetActive(true);
         world.GenerateTerrain();
-        Debug.Log($"Created terrain with terrain threshold {world.noiseHandler.terrainThreshold}");
+        Debug.Log($"Created terrain with terrain threshold {world.GetComponent<NoiseHandler>().GetTerrainThreshold()}");
 
         yield return new WaitForSeconds(1.0f);
         Assert.Pass();
@@ -48,9 +48,9 @@ public class BoundaryTests
     {
         Debug.Log("Running test for destroying terrain outside chunks");
 
-        world.worldHeight = 100;
-        world.worldWidth = 100;
-        world.viewDistance = 5;
+        world.SetWorldHeight(100);
+        world.SetWorldWidth(100);
+        world.SetViewDistance(5);
         world.gameObject.SetActive(true);
         world.GenerateTerrain();
         Debug.Log("Created terrain");
@@ -69,9 +69,9 @@ public class BoundaryTests
     {
         Debug.Log("Running test for destroying terrain outside chunks");
 
-        world.worldHeight = 100;
-        world.worldWidth = 100;
-        world.viewDistance = 5;
+        world.SetWorldHeight(100);
+        world.SetWorldWidth(100);
+        world.SetViewDistance(5);
         world.gameObject.SetActive(true);
         world.GenerateTerrain();
         Debug.Log("Created terrain");

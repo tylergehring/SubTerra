@@ -16,11 +16,14 @@ public class NoiseLayer
 // Used to generate noise based on a point
 public class NoiseHandler : MonoBehaviour
 {
-    public List<NoiseLayer> noise;
+    public List<NoiseLayer> noise; // MUST be public
+    [SerializeField]
     [Range(0, 1)]
-    public float terrainThreshold = 0.5f;
-    public int edgeThickness = 10;
-    public float seed = 10000;
+    private float terrainThreshold = 0.5f;
+    [SerializeField]
+    private int edgeThickness = 10;
+    [SerializeField]
+    private float seed = 10000;
 
     private TerrainHandler handler;
     private int chunkSize;
@@ -30,9 +33,9 @@ public class NoiseHandler : MonoBehaviour
     private void Start()
     {
         handler = FindFirstObjectByType<TerrainHandler>();
-        chunkSize = handler.chunkSize;
-        worldWidth = handler.worldWidth;
-        worldHeight = handler.worldHeight;
+        chunkSize = handler.GetChunkSize();
+        worldWidth = handler.GetWorldWidth();
+        worldHeight = handler.GetWorldHeight();
     }
 
     public float TerrainNoiseValue(float x, float y)
@@ -60,5 +63,18 @@ public class NoiseHandler : MonoBehaviour
 
         float finalValue = Mathf.Lerp(1, baseNoise, edgeValue);
         return finalValue;
+    }
+
+    public float GetEdgeThickness()
+    {
+        return edgeThickness;
+    }
+    public float GetTerrainThreshold()
+    {
+        return terrainThreshold;
+    }
+    public void SetTerrainThreshold(float threshold)
+    {
+        terrainThreshold = threshold;
     }
 }

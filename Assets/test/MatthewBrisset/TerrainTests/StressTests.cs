@@ -31,9 +31,9 @@ public class StressTests
     {
         Debug.Log("Running test for large view distance");
 
-        world.worldHeight = 100;
-        world.worldWidth = 100;
-        world.viewDistance = 1;
+        world.SetWorldHeight(100);
+        world.SetWorldWidth(100);
+        world.SetViewDistance(1);
         world.gameObject.SetActive(true);
         world.GenerateTerrain();
         Camera _camera = GameObject.FindFirstObjectByType<Camera>();
@@ -46,9 +46,9 @@ public class StressTests
 
         while (sw.Elapsed.TotalSeconds < endTime)
         {
-            _camera.orthographicSize += world.chunkSize;
-            world.viewDistance += 1;
-            _chunks = world.viewDistance * world.viewDistance;
+            _camera.orthographicSize += world.GetChunkSize();
+            world.SetViewDistance(world.GetViewDistance());
+            _chunks = world.GetViewDistance() * world.GetViewDistance();
             float _fps = 1f / Time.unscaledDeltaTime;
             Debug.Log($"FPS: {_fps}, Chunks: {_chunks}");
             yield return new WaitForSeconds(DESTROY_INTERVAL);
@@ -65,12 +65,12 @@ public class StressTests
     {
         Debug.Log("Running test for large map generation");
 
-        world.worldHeight = 100;
-        world.worldWidth = 100;
-        world.viewDistance = 20;
+        world.SetWorldHeight(100);
+        world.SetWorldWidth(100);
+        world.SetViewDistance(20);
         world.gameObject.SetActive(true);
         world.GenerateTerrain();
-        Debug.Log($"Generated {world.worldWidth * world.worldHeight} chunks");
+        Debug.Log($"Generated {world.GetWorldWidth() * world.GetWorldHeight()} chunks");
 
         yield return new WaitForSeconds(1.0f);
 
@@ -84,14 +84,14 @@ public class StressTests
     {
         Debug.Log("Running test for extreme destruction");
 
-        world.worldHeight = 100;
-        world.worldWidth = 100;
-        world.viewDistance = 20;
+        world.SetWorldHeight(100);
+        world.SetWorldWidth(100);
+        world.SetViewDistance(20);
         world.gameObject.SetActive(true);
         Camera _camera = GameObject.FindFirstObjectByType<Camera>();
         _camera.orthographicSize = 100;
         world.GenerateTerrain();
-        Debug.Log($"Generated {world.worldWidth * world.worldHeight} chunks");
+        Debug.Log($"Generated {world.GetWorldWidth() * world.GetWorldHeight()} chunks");
 
         yield return new WaitForSeconds(1.0f);
 

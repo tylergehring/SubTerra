@@ -17,17 +17,18 @@ public class Item
 [RequireComponent(typeof(TerrainHandler))]
 public class ItemSpawner : MonoBehaviour
 {
-    public List<Item> items;
+    public List<Item> items; // MUST be public or else I cannot modify these in the editor. Lists are weird that way.
     private TerrainHandler _terrain;
+    private NoiseHandler _noise;
 
     void Awake()
     {
         _terrain = GetComponent<TerrainHandler>();
+        _noise = GetComponent<NoiseHandler>();
     }
     
     public void SpawnAllItems()
     {
-        print("asda");
         foreach (Item item in items)
         {
             for (int i = 0; i<item.numSpawns; i++)
@@ -39,10 +40,10 @@ public class ItemSpawner : MonoBehaviour
 
     Vector3 RandomSpawnPoint(Item item)
     {
-        float minY = _terrain.worldHeight * _terrain.chunkSize * item.minDepth;
-        float maxY = _terrain.worldHeight * _terrain.chunkSize * item.maxDepth;
-        float minX = _terrain.noiseHandler.edgeThickness;
-        float maxX = _terrain.worldWidth * _terrain.chunkSize - _terrain.noiseHandler.edgeThickness;
+        float minY = _terrain.GetWorldHeight() * _terrain.GetChunkSize() * item.minDepth;
+        float maxY = _terrain.GetWorldHeight() * _terrain.GetChunkSize() * item.maxDepth;
+        float minX = _noise.GetEdgeThickness();
+        float maxX = _terrain.GetWorldWidth() * _terrain.GetChunkSize() - _noise.GetEdgeThickness();
 
         Vector3 position = new Vector3(Random.Range(minX, maxX), Random.Range(minY, maxY));
 

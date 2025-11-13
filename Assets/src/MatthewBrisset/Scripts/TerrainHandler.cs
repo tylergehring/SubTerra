@@ -4,16 +4,23 @@ using System.Collections.Generic;
 [RequireComponent(typeof(NoiseHandler))]
 public class TerrainHandler : MonoBehaviour
 {
-    public int viewDistance = 30;
-    public int worldWidth = 10;
-    public int worldHeight = 20;
-    public int chunkSize = 10;
-    public StaticChunk chunkPrefab;
-    public TextureAtlas textureAtlas;
-    public NoiseHandler noiseHandler;
+    [SerializeField]
+    private int viewDistance = 30;
+    [SerializeField]
+    private int worldWidth = 10;
+    [SerializeField]
+    private int worldHeight = 20;
+    [SerializeField]
+    private int chunkSize = 10;
+    [SerializeField]
+    private StaticChunk chunkPrefab;
+    [SerializeField]
+    private TextureAtlas textureAtlas;
+    [SerializeField]
+    private NoiseHandler noiseHandler;
 
     private Transform viewer; // Find first camera object, use for view culling. This is a good example of low coupling
-    public Dictionary<Vector2Int, StaticChunk> loadedChunks = new Dictionary<Vector2Int, StaticChunk>();
+    private Dictionary<Vector2Int, StaticChunk> loadedChunks = new Dictionary<Vector2Int, StaticChunk>();
     private bool isLoaded = false;
 
     void Start()
@@ -57,8 +64,8 @@ public class TerrainHandler : MonoBehaviour
                 chunk.transform.position = new Vector3(x * chunkSize, y * chunkSize, 0);
                 chunk.transform.parent = transform;
                 chunk.name = $"Chunk {x}, {y}";
-                chunk.chunkSize = chunkSize;
-                chunk.terrainHandler = this;
+                chunk.SetChunkSize(chunkSize);
+                chunk.SetTerrainHandler(this);
                 loadedChunks[new Vector2Int(x, y)] = chunk;
             }
         }
@@ -146,14 +153,14 @@ public class TerrainHandler : MonoBehaviour
 
         // Use different textures based on how close to walls
         float terrainNoiseValue = noiseHandler.TerrainNoiseValue(point.x, point.y);
-
-        if (terrainNoiseValue > noiseHandler.terrainThreshold + (1 - noiseHandler.terrainThreshold) / 3)
+        float threshold = noiseHandler.GetTerrainThreshold();
+        if (terrainNoiseValue > threshold + (1 - threshold) / 3)
             textureIndex = 1;
         
-        if (terrainNoiseValue > noiseHandler.terrainThreshold + (1 - noiseHandler.terrainThreshold) / 2)
+        if (terrainNoiseValue > threshold + (1 - threshold) / 2)
             textureIndex = 2;
         
-        if (terrainNoiseValue > noiseHandler.terrainThreshold + (1 - noiseHandler.terrainThreshold) / 1.5f)
+        if (terrainNoiseValue > threshold + (1 - threshold) / 1.5f)
             textureIndex = 3;
 
 
@@ -164,5 +171,38 @@ public class TerrainHandler : MonoBehaviour
         textureIndex += 4 * (depthType);
 
         return textureIndex;
+    }
+
+    public int GetChunkSize()
+    {
+        return chunkSize;
+    }
+    public int GetWorldWidth()
+    {
+        return worldWidth;
+    }
+    public int GetWorldHeight()
+    {
+        return worldHeight;
+    }
+    public TextureAtlas GetTextureAtlas()
+    {
+        return textureAtlas;
+    }
+    public void SetWorldWidth(int width)
+    {
+        worldWidth = width;
+    }
+    public void SetWorldHeight(int height)
+    {
+        worldHeight = height;
+    }
+    public void SetViewDistance(int dist)
+    {
+        viewDistance = dist;
+    }
+    public int GetViewDistance()
+    {
+        return viewDistance;
     }
 }
