@@ -12,6 +12,28 @@ public class Item
     [Range(0, 1f)]
     public float maxDepth = 1; // 1 -> Top of map, 0 -> bottom of map
     public float spacing = 3;
+
+    // ?? Virtual function — can be overridden by subclasses
+    public virtual void OnSpawned(Vector3 position)
+    {
+        Debug.Log("An item was spawned at " + position);
+    }
+}
+
+public class HealingItem : Item
+{
+    public override void OnSpawned(Vector3 position)
+    {
+        Debug.Log("Healing item spawned! Restores health.");
+    }
+}
+
+public class ExplosiveItem : Item
+{
+    public override void OnSpawned(Vector3 position)
+    {
+        Debug.Log("Explosive item spawned! Watch out!");
+    }
 }
 
 [RequireComponent(typeof(TerrainHandler))]

@@ -5,6 +5,7 @@ using UnityEngine;
 [RequireComponent(typeof(NoiseHandler))]
 public class World : MonoBehaviour
 {
+    public static World Instance { get; private set; }
     private TerrainHandler _terrainHandler;
     private ItemSpawner _itemSpawner;
     private NoiseHandler _noiseHandler;
@@ -17,5 +18,13 @@ public class World : MonoBehaviour
 
         _terrainHandler.GenerateTerrain();
         _itemSpawner.SpawnAllItems();
+
+        // If another instance exists, destroy this one
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
     }
 }
