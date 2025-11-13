@@ -17,7 +17,9 @@ public class GoldPickAxe : UtilityTool
         _audioSource = GetComponent<AudioSource>();
         _terrain = FindFirstObjectByType<TerrainHandler>();
         //NEW WAY TO GET PLAYER POSITION. 
-        _player = PlayerController.Instance.transform;
+//        _player = GameObject.FindWithTag("Player").transform;
+         _player = PlayerController.Instance.transform;
+     //   _player = PlayerController.Instance.GetObject().transform;
        // _player = GameObject.FindGameObjectWithTag("Player").transform;
         _facade = new PickaxeFacade(_audioSource, _terrain);
     }
