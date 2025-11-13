@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1980970612056311668
 Transform:
   m_ObjectHideFlags: 0
@@ -108,6 +108,9 @@ MonoBehaviour:
   _toolTerLeval: 10
   _flashlight: {fileID: 0}
   durability: 1000
+  _rotationSpeed: 50
+  _breakRadius: 3
+  _mineDelay: 0.8
 --- !u!82 &5643419673802659941
 AudioSource:
   m_ObjectHideFlags: 0
