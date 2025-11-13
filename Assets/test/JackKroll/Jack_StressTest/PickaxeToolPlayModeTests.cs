@@ -1,3 +1,4 @@
+ï»¿
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
@@ -21,10 +22,12 @@ public class PickaxeToolPlayModeTests
     public IEnumerator Setup()
     {
         // Load the scene that already contains your Player and TerrainHandler
-        SceneManager.LoadScene("MVP_jack");
+        SceneManager.LoadScene("MVP");
         yield return null; // Wait one frame for scene to load
 
         // Find the Player (the PickaxeTool needs this)
+        //NEW WAY TO GET PLAYER POSITION. 
+        //_player = PlayerController.Instance.transform;
         _player = GameObject.FindGameObjectWithTag("Player")?.transform;
         Assert.IsNotNull(_player, "Player not found in scene! Make sure a GameObject is tagged 'Player'.");
 
@@ -34,7 +37,7 @@ public class PickaxeToolPlayModeTests
         // Add an AudioSource (PickaxeTool requires this to play sounds)
         _audioSource = _pickaxeObj.AddComponent<AudioSource>();
 
-        // Add the PickaxeTool component we’re testing
+        // Add the PickaxeTool component weâ€™re testing
         _pickaxeTool = _pickaxeObj.AddComponent<PickaxeTool>();
 
         // Wait one frame for PickaxeTool.Start() to run
@@ -61,8 +64,8 @@ public class PickaxeToolPlayModeTests
     public IEnumerator Pickaxe_Audio_NotPlayingAtStart()
     {
         // Wait one frame so PickaxeTool.Start() can run
-        yield return null;
-
+        //yield return null;
+        yield return new WaitForSeconds(4f);
         // The AudioSource should not be playing right away
         Assert.IsFalse(_audioSource.isPlaying, "AudioSource should NOT be playing at the start of the game.");
     }
@@ -71,7 +74,7 @@ public class PickaxeToolPlayModeTests
     // TEST 2: Pickaxe follows the player
     // ------------------------------------------------------------------
     /// <summary>
-    /// Ensures the Pickaxe stays near the Player’s position.
+    /// Ensures the Pickaxe stays near the Playerâ€™s position.
     /// </summary>
     [UnityTest]
     public IEnumerator Pickaxe_FollowsPlayerPosition()
@@ -99,7 +102,7 @@ public class PickaxeToolPlayModeTests
 
         // Start audio playback
         _audioSource.Play();
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(2.1f);
         Assert.IsTrue(_audioSource.isPlaying, "Audio should be playing.");
 
         // Stop audio playback

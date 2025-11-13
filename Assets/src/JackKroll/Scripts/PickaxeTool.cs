@@ -2,13 +2,17 @@ using UnityEngine;
 
 public class PickaxeTool : UtilityTool
 {
+    //I use the facade pattern for the pickaxes 
+    //varible defnitions
     private PickaxeFacade _facade;
     private Transform _player;
     private AudioSource _audioSource;
     private TerrainHandler _terrain;
-
+    //speed of the pickax movment when being used 
     [SerializeField] private float _rotationSpeed = 40f;
+    //The varible that defines the radius that will brake in the destry chunk function
     [SerializeField] private float _breakRadius = 1.6f;
+    //the varible that defins the time that it takes before the destry chunk function can be used.
     [SerializeField] private float _mineDelay = 1.0f;
 
     private void Start()
@@ -18,6 +22,7 @@ public class PickaxeTool : UtilityTool
         //NEW WAY TO GET PLAYER POSITION. 
         _player = PlayerController.Instance.transform;
         // _player = GameObject.FindGameObjectWithTag("Player").transform;
+        // uses facade pattern to reduce the redundent code with helps with errors and keeps things consistent
         _facade = new PickaxeFacade(_audioSource, _terrain);
     }
 

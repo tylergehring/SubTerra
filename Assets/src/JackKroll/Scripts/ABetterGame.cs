@@ -1,4 +1,4 @@
-
+//Jack Kroll
 using UnityEngine;
 
 public class ABetterGame : Weapon_Class

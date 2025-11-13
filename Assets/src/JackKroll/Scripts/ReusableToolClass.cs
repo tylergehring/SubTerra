@@ -1,13 +1,12 @@
+//Jack Kroll
 using UnityEngine;
-
-// Jack Kroll
 public class ReusableToolClass : ToolSystem
 {
     [Header("Flashlight Settings")]
     //public Light flashlight;
     [SerializeField] private Light _flashlight;
 
-
+    // bool for truning flashlight on and off 
     private bool _isOn = false;   
 
     void Start()
@@ -37,12 +36,7 @@ public class ReusableToolClass : ToolSystem
         // make the flashlight look toward the mouse (affects X and Y rotations)
         transform.rotation = Quaternion.LookRotation(direction);
         
-
-       
-
-
-
-        // F to use the flashlight tool
+        // L or right mouse to use the flashlight tool
         if (Input.GetKeyDown(KeyCode.L) || Input.GetKeyDown(KeyCode.Mouse1))
         {
             UseTool();
@@ -51,10 +45,11 @@ public class ReusableToolClass : ToolSystem
        
 
     }
-   
+   //overides name from tool system 
     public override void UseTool(GameObject target = null)
     {
-        LogUsage();       
+        LogUsage();
+        //truns flashligh on and off. 
         ToggleFlashlight();
     }
 
