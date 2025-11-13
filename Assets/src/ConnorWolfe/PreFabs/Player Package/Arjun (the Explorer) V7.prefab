@@ -200,6 +200,8 @@ GameObject:
   - component: {fileID: 5849959239784795147}
   - component: {fileID: 2366595189490524366}
   - component: {fileID: 1507472174424086582}
+  - component: {fileID: 9062426277652424328}
+  - component: {fileID: 2954629559826608546}
   m_Layer: 0
   m_Name: Player Camera
   m_TagString: MainCamera
@@ -267,7 +269,7 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
-  m_AllowMSAA: 1
+  m_AllowMSAA: 0
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
@@ -281,6 +283,39 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3374740466577465756}
   m_Enabled: 1
+--- !u!114 &9062426277652424328
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3374740466577465756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6bfd822cc4b3ea8479a73c7c5279b822, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Scripts::CameraFollow
+  _pixelsPerUnit: 8
+--- !u!114 &2954629559826608546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3374740466577465756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a160d838ff8b4b4693ac20007e008c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.2D.PixelPerfect::UnityEngine.U2D.PixelPerfectCamera
+  m_AssetsPPU: 8
+  m_RefResolutionX: 320
+  m_RefResolutionY: 180
+  m_UpscaleRT: 1
+  m_PixelSnapping: 0
+  m_CropFrameX: 0
+  m_CropFrameY: 0
+  m_StretchFill: 0
 --- !u!1 &3787895789159698441
 GameObject:
   m_ObjectHideFlags: 0
@@ -1519,10 +1554,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abe030ccf641f0349bf5b019fb543ed5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ReusableToolClass
-  _toolName: Flashlight
   _toolDamage: 0
   _toolTerLeval: 10
-  flashlight: {fileID: 3390840405566349566}
+  _flashlight: {fileID: 0}
 --- !u!1 &8786165100496458194
 GameObject:
   m_ObjectHideFlags: 0
