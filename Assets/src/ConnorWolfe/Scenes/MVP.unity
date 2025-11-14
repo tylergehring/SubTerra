@@ -888,7 +888,7 @@ PrefabInstance:
     - target: {fileID: 6812292034956268252, guid: 48f0d4a8567c4a641a6a8d08c9dac25f, type: 3}
       propertyPath: items.Array.data[7].prefab
       value: 
-      objectReference: {fileID: 8924874959211992705, guid: be192e1d2f33f604caaafd6393361abb, type: 3}
+      objectReference: {fileID: 5294169781651675498, guid: 626d322fe5d448c43983365926efd29d, type: 3}
     - target: {fileID: 6812292034956268252, guid: 48f0d4a8567c4a641a6a8d08c9dac25f, type: 3}
       propertyPath: items.Array.data[8].prefab
       value: 
