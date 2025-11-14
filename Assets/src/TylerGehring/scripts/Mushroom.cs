@@ -14,7 +14,7 @@ public class Mushroom : NonReusableTools
     protected override void OnEnable()
     {
         base.OnEnable();
-    _CacheSpriteRenderer();
+    _CacheSpriteRenderer(); // ensures sprite render is found and labeled in our environment
     }
 
     /// Called when the mushroom enters the player's inventory.
