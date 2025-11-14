@@ -13,7 +13,7 @@ public class Item
     public float maxDepth = 1; // 1 -> Top of map, 0 -> bottom of map
     public float spacing = 3;
 
-    // ?? Virtual function — can be overridden by subclasses
+    // Virtual function — can be overridden by subclasses
     public virtual void OnSpawned(Vector3 position)
     {
         Debug.Log("An item was spawned at " + position);
@@ -43,10 +43,10 @@ public class ItemSpawner : MonoBehaviour
     private TerrainHandler _terrain;
     private NoiseHandler _noise;
 
-    void Awake()
+    void Start()
     {
-        _terrain = GetComponent<TerrainHandler>();
-        _noise = GetComponent<NoiseHandler>();
+        _terrain = World.Instance.GetTerrainHandler();
+        _noise = World.Instance.GetNoiseHandler();
     }
     
     public void SpawnAllItems()

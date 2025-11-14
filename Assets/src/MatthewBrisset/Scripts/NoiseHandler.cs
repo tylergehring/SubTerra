@@ -32,7 +32,7 @@ public class NoiseHandler : MonoBehaviour
 
     private void Start()
     {
-        handler = FindFirstObjectByType<TerrainHandler>();
+        handler = World.Instance.GetTerrainHandler();
         chunkSize = handler.GetChunkSize();
         worldWidth = handler.GetWorldWidth();
         worldHeight = handler.GetWorldHeight();

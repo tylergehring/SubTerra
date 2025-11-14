@@ -14,8 +14,6 @@ public class TextureAtlas
 public class StaticChunk : MonoBehaviour
 {
     [SerializeField]
-    private TerrainHandler terrainHandler;
-    [SerializeField]
     private NoiseHandler noiseHandler;
     [SerializeField]
     private int chunkSize = 10;
@@ -35,10 +33,12 @@ public class StaticChunk : MonoBehaviour
     private MeshFilter filter;
     private MeshRenderer rend;
     private ChunkCollider coll;
+    private TerrainHandler terrainHandler;
 
     void Start()
     {
         // Initialize chunk renderer information
+        terrainHandler = World.Instance.GetTerrainHandler();
         mesh = new Mesh();
 
         filter = GetComponent<MeshFilter>();
@@ -93,7 +93,6 @@ public class StaticChunk : MonoBehaviour
 
     void _ChunkSetup()
     {
-        SetTerrainHandler(FindFirstObjectByType<TerrainHandler>());
         noiseHandler = terrainHandler.GetComponent<NoiseHandler>();
         nodeMap = new bool[chunkSize + 1, chunkSize + 1];
 

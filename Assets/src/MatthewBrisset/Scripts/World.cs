@@ -10,14 +10,11 @@ public class World : MonoBehaviour
     private ItemSpawner _itemSpawner;
     private NoiseHandler _noiseHandler;
 
-    void Start()
+    void Awake()
     {
         _terrainHandler = GetComponent<TerrainHandler>();
         _itemSpawner = GetComponent<ItemSpawner>();
         _noiseHandler = GetComponent<NoiseHandler>();
-
-        _terrainHandler.GenerateTerrain();
-        _itemSpawner.SpawnAllItems();
 
         // If another instance exists, destroy this one
         if (Instance != null && Instance != this)
@@ -26,5 +23,24 @@ public class World : MonoBehaviour
             return;
         }
         Instance = this;
+    }
+
+    private void Start()
+    {
+        _terrainHandler.GenerateTerrain();
+        _itemSpawner.SpawnAllItems();
+    }
+
+    public TerrainHandler GetTerrainHandler()
+    {
+        return _terrainHandler;
+    }
+    public NoiseHandler GetNoiseHandler()
+    {
+        return _noiseHandler;
+    }
+    public ItemSpawner GetItemSpawner()
+    {
+        return _itemSpawner;
     }
 }

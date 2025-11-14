@@ -25,7 +25,7 @@ public class TerrainHandler : MonoBehaviour
 
     void Start()
     {
-        noiseHandler = GetComponent<NoiseHandler>();
+        noiseHandler = World.Instance.GetNoiseHandler();
         if (FindFirstObjectByType<Camera>() != null)
             viewer = FindFirstObjectByType<Camera>().transform;
     }
