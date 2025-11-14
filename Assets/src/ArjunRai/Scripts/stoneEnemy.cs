@@ -18,7 +18,7 @@ public class Hazard : MonoBehaviour
     private float moveStartTime; // Record when the movement started 
     private PlayerController player;
     private float lastDamageTime;
-    private DamageSuper damageObject = new Damage(); // static type - DamageSuper    |  --- Damage(), dynamic type 
+    private DamageSuper damageObject = new Damage(); // static type - DamageSuper | --- Damage(), dynamic type  | compiler only allowes me to call the methods that exist inside the DamageSuper class.
     void Start()
     {  
         player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerController>();   // Take the reference of the playercontroller script into player 
@@ -132,13 +132,13 @@ public class Hazard : MonoBehaviour
 
 public class DamageSuper 
 {
-    protected float damage = 2f;
+    protected float damage = 5f;
     
     public void setDamage(float damage1)
     {
         damage = damage1;
     }
-   public virtual float getDamage()   //Dynamic
+     public virtual float getDamage()   //Dynamic // runs at a runtimr 
    // public float getDamage()     // Static
     {
         Debug.Log($"DamageSuper: 10000f");
@@ -146,12 +146,12 @@ public class DamageSuper
         return 10000f;
     }
 
-
 }
+
 
 public class Damage : DamageSuper
 {
-    public override float getDamage()        // Dynamic
+    public override float getDamage()  // Dynamic
     //public float getDamage()         // Static
     {
         Debug.Log($"Damage : {damage}");
