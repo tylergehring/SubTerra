@@ -408,16 +408,6 @@ public class TNT : NonReusableTools
         }
     }
 
-    public override string GetToolSummary()
-    {
-        return $"{ToolName} explodes after {_fuseTime} seconds with radius {_explosionRadius}.";
-    }
-
-    public new string GetStaticSummary()
-    {
-        return $"{ToolName} is an explosive with a timed fuse.";
-    }
-
     private void _WarnMissingPhysics()
     {
         if (_warnedAboutMissingPhysics)

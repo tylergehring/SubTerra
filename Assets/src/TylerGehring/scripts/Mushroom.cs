@@ -14,16 +14,16 @@ public class Mushroom : NonReusableTools
     protected override void OnEnable()
     {
         base.OnEnable();
-    _CacheSpriteRenderer(); // ensures sprite render is found and labeled in our environment
+        _CacheSpriteRenderer(); // ensures sprite render is found and labeled in our environment
     }
 
     /// Called when the mushroom enters the player's inventory.
     public override void OnPickup(PlayerController player)
     {
         base.OnPickup(player);
-        
+
         // Hide the sprite when in inventory
-    _CacheSpriteRenderer();
+        _CacheSpriteRenderer();
         if (_spriteRenderer)
         {
             _spriteRenderer.enabled = false;
@@ -34,9 +34,9 @@ public class Mushroom : NonReusableTools
     public override void OnDropped(PlayerController player)
     {
         base.OnDropped(player);
-        
+
         // Show the sprite when dropped
-    _CacheSpriteRenderer();
+        _CacheSpriteRenderer();
         if (_spriteRenderer)
         {
             _spriteRenderer.enabled = true;
@@ -77,13 +77,4 @@ public class Mushroom : NonReusableTools
         _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    public override string GetToolSummary()
-    {
-        return $"{ToolName} restores {_healthRestoreAmount} health when eaten.";
-    }
-
-    public new string GetStaticSummary()
-    {
-        return $"{ToolName} is food with a predictable effect.";
-    }
 }
