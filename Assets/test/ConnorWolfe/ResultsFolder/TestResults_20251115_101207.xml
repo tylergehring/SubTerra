@@ -1,0 +1,494 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="20" result="Failed(Child)" total="20" passed="2" failed="18" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2025-11-15 18:09:55Z" end-time="2025-11-15 18:10:08Z" duration="13.2461722">
+  <test-suite type="TestSuite" id="1086" name="SubTerra" fullname="SubTerra" runstate="Runnable" testcasecount="68" result="Failed" site="Child" start-time="2025-11-15 18:09:55Z" end-time="2025-11-15 18:10:08Z" duration="13.246172" total="20" passed="2" failed="18" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1027" name="CW_PlayMode.dll" fullname="C:/Users/Conno/OneDrive/MyProjects/Echos Of Subterra/RepoFolder/SubTerra/Library/ScriptAssemblies/CW_PlayMode.dll" runstate="Runnable" testcasecount="20" result="Failed" site="Child" start-time="2025-11-15 18:09:55Z" end-time="2025-11-15 18:10:08Z" duration="13.219049" total="20" passed="2" failed="18" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="21304" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestFixture" id="1006" name="Testing" fullname="Testing" classname="Testing" runstate="Runnable" testcasecount="20" result="Failed" site="Child" start-time="2025-11-15 18:09:55Z" end-time="2025-11-15 18:10:08Z" duration="13.211336" total="20" passed="2" failed="18" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-case id="1022" name="Animator_FlipXWhenMovingLeft" fullname="Testing.Animator_FlipXWhenMovingLeft" methodname="Animator_FlipXWhenMovingLeft" classname="Testing" runstate="Runnable" seed="288730282" result="Failed" start-time="2025-11-15 18:09:55Z" end-time="2025-11-15 18:09:56Z" duration="0.971086" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : Unhandled log message: '[Error] Player not found! Ensure Player has 'Player' tag and PlayerController script.'. Use UnityEngine.TestTools.LogAssert.Expect]]></message>
+            <stack-trace><![CDATA[Hazard:Start () (at Assets/src/ArjunRai/Scripts/stoneEnemy.cs:25)
+
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[Player not found! Ensure Player has 'Player' tag and PlayerController script.
+instance == Arjun (the Explorer) V7(Clone)
+Spawned relic: Relic V3(Clone)
+No viewer detected. Attempting to find camera object
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1019" name="Drop_RemovesItemAndSpawnsHandler" fullname="Testing.Drop_RemovesItemAndSpawnsHandler" methodname="Drop_RemovesItemAndSpawnsHandler" classname="Testing" runstate="Runnable" seed="678667253" result="Failed" start-time="2025-11-15 18:09:56Z" end-time="2025-11-15 18:09:57Z" duration="0.648369" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[  Drop must remove item from inventory
+  Expected: null
+  But was:  <Droppable (UnityEngine.GameObject)>
+]]></message>
+            <stack-trace><![CDATA[at Testing+<Drop_RemovesItemAndSpawnsHandler>d__17.MoveNext () [0x0007b] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:329
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:44
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[instance == Arjun (the Explorer) V7(Clone)
+Spawned relic: Relic V3(Clone)
+No viewer detected. Attempting to find camera object
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+INFORMATION: Added Droppable to inventory at slot 0
+]]></output>
+        </test-case>
+        <test-case id="1026" name="Edge_SingletonEnforcesOneInstance" fullname="Testing.Edge_SingletonEnforcesOneInstance" methodname="Edge_SingletonEnforcesOneInstance" classname="Testing" runstate="Runnable" seed="1703212474" result="Passed" start-time="2025-11-15 18:09:57Z" end-time="2025-11-15 18:09:57Z" duration="0.629561" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[instance == Arjun (the Explorer) V7(Clone)
+Spawned relic: Relic V3(Clone)
+No viewer detected. Attempting to find camera object
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+instance == Arjun (the Explorer) V7(Clone)(Clone)
+]]></output>
+        </test-case>
+        <test-case id="1012" name="Health_BoundaryHealthTests" fullname="Testing.Health_BoundaryHealthTests" methodname="Health_BoundaryHealthTests" classname="Testing" runstate="Runnable" seed="1579597954" result="Failed" start-time="2025-11-15 18:09:57Z" end-time="2025-11-15 18:09:58Z" duration="0.722033" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[  -! Health Test Failure!:
+ -> health should be 0
+ -> health is instead 255
+  Expected: 255
+  But was:  0
+]]></message>
+            <stack-trace><![CDATA[at Testing+<Health_BoundaryHealthTests>d__10.MoveNext () [0x000ad] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:215
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:44
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[instance == Arjun (the Explorer) V7(Clone)
+Spawned relic: Relic V3(Clone)
+No viewer detected. Attempting to find camera object
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+PlayerController: ChangeHealth -> amount == 8553
+& -> _health == 100
+PlayerController: ChangeHealth -> amount == -7856
+& -> _health == 255
+PlayerController: ChangeHealth -> amount == -6136
+& -> _health == 0
+PlayerController: ChangeHealth -> amount == -752
+& -> _health == 0
+PlayerController: ChangeHealth -> amount == -9501
+& -> _health == 0
+PlayerController: ChangeHealth -> amount == -5682
+& -> _health == 0
+PlayerController: ChangeHealth -> amount == 2521
+& -> _health == 0
+PlayerController: ChangeHealth -> amount == -8763
+& -> _health == 255
+PlayerController: ChangeHealth -> amount == 5827
+& -> _health == 0
+PlayerController: ChangeHealth -> amount == 5442
+& -> _health == 255
+PlayerController: ChangeHealth -> amount == -169
+& -> _health == 255
+Player health changed by -169. Previous: 255, Current: 255
+]]></output>
+        </test-case>
+        <test-case id="1013" name="Health_GetHealthReturnsCurrentValue" fullname="Testing.Health_GetHealthReturnsCurrentValue" methodname="Health_GetHealthReturnsCurrentValue" classname="Testing" runstate="Runnable" seed="738803088" result="Failed" start-time="2025-11-15 18:09:58Z" end-time="2025-11-15 18:09:59Z" duration="0.608432" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : Unhandled log message: '[Error] Player not found! Ensure Player has 'Player' tag and PlayerController script.'. Use UnityEngine.TestTools.LogAssert.Expect]]></message>
+            <stack-trace><![CDATA[Hazard:Start () (at Assets/src/ArjunRai/Scripts/stoneEnemy.cs:25)
+
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[Player not found! Ensure Player has 'Player' tag and PlayerController script.
+Player not found! Ensure Player has 'Player' tag and PlayerController script.
+instance == Arjun (the Explorer) V7(Clone)
+Spawned relic: Relic V3(Clone)
+No viewer detected. Attempting to find camera object
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1010" name="Inventory_BoundaryInventoryBounds" fullname="Testing.Inventory_BoundaryInventoryBounds" methodname="Inventory_BoundaryInventoryBounds" classname="Testing" runstate="Runnable" seed="516174217" result="Failed" start-time="2025-11-15 18:09:59Z" end-time="2025-11-15 18:09:59Z" duration="0.637206" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : Unhandled log message: '[Error] Player not found! Ensure Player has 'Player' tag and PlayerController script.'. Use UnityEngine.TestTools.LogAssert.Expect]]></message>
+            <stack-trace><![CDATA[Hazard:Start () (at Assets/src/ArjunRai/Scripts/stoneEnemy.cs:25)
+
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[Player not found! Ensure Player has 'Player' tag and PlayerController script.
+instance == Arjun (the Explorer) V7(Clone)
+Spawned relic: Relic 2 V4(Clone)
+No viewer detected. Attempting to find camera object
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1009" name="Inventory_GetItemNeverReturnsDestroyed" fullname="Testing.Inventory_GetItemNeverReturnsDestroyed" methodname="Inventory_GetItemNeverReturnsDestroyed" classname="Testing" runstate="Runnable" seed="692594234" result="Failed" start-time="2025-11-15 18:09:59Z" end-time="2025-11-15 18:10:00Z" duration="0.644327" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : Unhandled log message: '[Error] Player not found! Ensure Player has 'Player' tag and PlayerController script.'. Use UnityEngine.TestTools.LogAssert.Expect]]></message>
+            <stack-trace><![CDATA[skeletonEnemy:Start () (at Assets/src/ArjunRai/Scripts/skeletonEnemy.cs:12)
+
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[Player not found! Ensure Player has 'Player' tag and PlayerController script.
+Player not found! Ensure Player has 'Player' tag and PlayerController script.
+instance == Arjun (the Explorer) V7(Clone)
+Spawned relic: Relic V3(Clone)
+No viewer detected. Attempting to find camera object
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1007" name="Inventory_InitialSlotIsZero" fullname="Testing.Inventory_InitialSlotIsZero" methodname="Inventory_InitialSlotIsZero" classname="Testing" runstate="Runnable" seed="874361810" result="Failed" start-time="2025-11-15 18:10:00Z" end-time="2025-11-15 18:10:01Z" duration="0.667286" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : Unhandled log message: '[Error] Player not found! Ensure Player has 'Player' tag and PlayerController script.'. Use UnityEngine.TestTools.LogAssert.Expect]]></message>
+            <stack-trace><![CDATA[Hazard:Start () (at Assets/src/ArjunRai/Scripts/stoneEnemy.cs:25)
+
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[Player not found! Ensure Player has 'Player' tag and PlayerController script.
+instance == Arjun (the Explorer) V7(Clone)
+Spawned relic: Relic V3(Clone)
+No viewer detected. Attempting to find camera object
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1011" name="Inventory_StressLoading" fullname="Testing.Inventory_StressLoading" methodname="Inventory_StressLoading" classname="Testing" runstate="Runnable" seed="599006856" result="Failed" start-time="2025-11-15 18:10:01Z" end-time="2025-11-15 18:10:01Z" duration="0.643193" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : Unhandled log message: '[Error] Player not found! Ensure Player has 'Player' tag and PlayerController script.'. Use UnityEngine.TestTools.LogAssert.Expect]]></message>
+            <stack-trace><![CDATA[Hazard:Start () (at Assets/src/ArjunRai/Scripts/stoneEnemy.cs:25)
+
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[Player not found! Ensure Player has 'Player' tag and PlayerController script.
+instance == Arjun (the Explorer) V7(Clone)
+Spawned relic: Relic V3(Clone)
+No viewer detected. Attempting to find camera object
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1008" name="Inventory_TabWrapsAround" fullname="Testing.Inventory_TabWrapsAround" methodname="Inventory_TabWrapsAround" classname="Testing" runstate="Runnable" seed="1782195874" result="Failed" start-time="2025-11-15 18:10:01Z" end-time="2025-11-15 18:10:02Z" duration="0.595713" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : Unhandled log message: '[Error] Player not found! Ensure Player has 'Player' tag and PlayerController script.'. Use UnityEngine.TestTools.LogAssert.Expect]]></message>
+            <stack-trace><![CDATA[skeletonEnemy:Start () (at Assets/src/ArjunRai/Scripts/skeletonEnemy.cs:12)
+
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[Player not found! Ensure Player has 'Player' tag and PlayerController script.
+instance == Arjun (the Explorer) V7(Clone)
+Spawned relic: Relic V3(Clone)
+No viewer detected. Attempting to find camera object
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1025" name="ItemFactory_HandlesNull" fullname="Testing.ItemFactory_HandlesNull" methodname="ItemFactory_HandlesNull" classname="Testing" runstate="Runnable" seed="1667185657" result="Failed" start-time="2025-11-15 18:10:02Z" end-time="2025-11-15 18:10:03Z" duration="0.693979" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : Unhandled log message: '[Error] Player not found! Ensure Player has 'Player' tag and PlayerController script.'. Use UnityEngine.TestTools.LogAssert.Expect]]></message>
+            <stack-trace><![CDATA[Hazard:Start () (at Assets/src/ArjunRai/Scripts/stoneEnemy.cs:25)
+
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[Player not found! Ensure Player has 'Player' tag and PlayerController script.
+Player not found! Ensure Player has 'Player' tag and PlayerController script.
+instance == Arjun (the Explorer) V7(Clone)
+Spawned relic: Relic 2 V4(Clone)
+No viewer detected. Attempting to find camera object
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1016" name="Movement_HorizontalInputChangesVelocity" fullname="Testing.Movement_HorizontalInputChangesVelocity" methodname="Movement_HorizontalInputChangesVelocity" classname="Testing" runstate="Runnable" seed="412652760" result="Failed" start-time="2025-11-15 18:10:03Z" end-time="2025-11-15 18:10:03Z" duration="0.612986" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : Unhandled log message: '[Error] Player not found! Ensure Player has 'Player' tag and PlayerController script.'. Use UnityEngine.TestTools.LogAssert.Expect]]></message>
+            <stack-trace><![CDATA[Hazard:Start () (at Assets/src/ArjunRai/Scripts/stoneEnemy.cs:25)
+
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[Player not found! Ensure Player has 'Player' tag and PlayerController script.
+instance == Arjun (the Explorer) V7(Clone)
+Spawned relic: Relic V3(Clone)
+No viewer detected. Attempting to find camera object
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1017" name="Movement_JumpOnlyWhenOnGround" fullname="Testing.Movement_JumpOnlyWhenOnGround" methodname="Movement_JumpOnlyWhenOnGround" classname="Testing" runstate="Runnable" seed="1105367498" result="Failed" start-time="2025-11-15 18:10:03Z" end-time="2025-11-15 18:10:04Z" duration="0.637556" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[  Jump must be ignored when not on ground
+  Expected: 0.0d +/- 0.0099999997764825821d
+  But was:  -0.78479969501495361d
+]]></message>
+            <stack-trace><![CDATA[at Testing+<Movement_JumpOnlyWhenOnGround>d__15.MoveNext () [0x0009f] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:294
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:44
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[instance == Arjun (the Explorer) V7(Clone)
+Spawned relic: Relic V3(Clone)
+No viewer detected. Attempting to find camera object
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1021" name="Pause_StopsMovement" fullname="Testing.Pause_StopsMovement" methodname="Pause_StopsMovement" classname="Testing" runstate="Runnable" seed="1571479258" result="Failed" start-time="2025-11-15 18:10:04Z" end-time="2025-11-15 18:10:05Z" duration="0.629968" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : Unhandled log message: '[Error] Player not found! Ensure Player has 'Player' tag and PlayerController script.'. Use UnityEngine.TestTools.LogAssert.Expect]]></message>
+            <stack-trace><![CDATA[skeletonEnemy:Start () (at Assets/src/ArjunRai/Scripts/skeletonEnemy.cs:12)
+
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[Player not found! Ensure Player has 'Player' tag and PlayerController script.
+instance == Arjun (the Explorer) V7(Clone)
+Spawned relic: Relic V3(Clone)
+No viewer detected. Attempting to find camera object
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1018" name="Pickup_AddsItemToNextEmptySlot" fullname="Testing.Pickup_AddsItemToNextEmptySlot" methodname="Pickup_AddsItemToNextEmptySlot" classname="Testing" runstate="Runnable" seed="417964396" result="Failed" start-time="2025-11-15 18:10:05Z" end-time="2025-11-15 18:10:05Z" duration="0.633757" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : Unhandled log message: '[Error] Player not found! Ensure Player has 'Player' tag and PlayerController script.'. Use UnityEngine.TestTools.LogAssert.Expect]]></message>
+            <stack-trace><![CDATA[Hazard:Start () (at Assets/src/ArjunRai/Scripts/stoneEnemy.cs:25)
+
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[Player not found! Ensure Player has 'Player' tag and PlayerController script.
+Player not found! Ensure Player has 'Player' tag and PlayerController script.
+instance == Arjun (the Explorer) V7(Clone)
+Spawned relic: Relic 2 V4(Clone)
+No viewer detected. Attempting to find camera object
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1014" name="Score_ChangeScoreClampsToUIntRange" fullname="Testing.Score_ChangeScoreClampsToUIntRange" methodname="Score_ChangeScoreClampsToUIntRange" classname="Testing" runstate="Runnable" seed="1135118007" result="Failed" start-time="2025-11-15 18:10:05Z" end-time="2025-11-15 18:10:06Z" duration="0.608156" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : Unhandled log message: '[Error] Player not found! Ensure Player has 'Player' tag and PlayerController script.'. Use UnityEngine.TestTools.LogAssert.Expect]]></message>
+            <stack-trace><![CDATA[skeletonEnemy:Start () (at Assets/src/ArjunRai/Scripts/skeletonEnemy.cs:12)
+
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[Player not found! Ensure Player has 'Player' tag and PlayerController script.
+Player not found! Ensure Player has 'Player' tag and PlayerController script.
+instance == Arjun (the Explorer) V7(Clone)
+Spawned relic: Relic V3(Clone)
+No viewer detected. Attempting to find camera object
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1015" name="Score_GetScoreMatchesInternal" fullname="Testing.Score_GetScoreMatchesInternal" methodname="Score_GetScoreMatchesInternal" classname="Testing" runstate="Runnable" seed="1737061744" result="Failed" start-time="2025-11-15 18:10:06Z" end-time="2025-11-15 18:10:06Z" duration="0.632882" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : Unhandled log message: '[Error] Player not found! Ensure Player has 'Player' tag and PlayerController script.'. Use UnityEngine.TestTools.LogAssert.Expect]]></message>
+            <stack-trace><![CDATA[Hazard:Start () (at Assets/src/ArjunRai/Scripts/stoneEnemy.cs:25)
+
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[Player not found! Ensure Player has 'Player' tag and PlayerController script.
+Player not found! Ensure Player has 'Player' tag and PlayerController script.
+instance == Arjun (the Explorer) V7(Clone)
+Spawned relic: Relic V3(Clone)
+No viewer detected. Attempting to find camera object
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1024" name="StaminaWheel_ExhaustionDisablesGreenWheel" fullname="Testing.StaminaWheel_ExhaustionDisablesGreenWheel" methodname="StaminaWheel_ExhaustionDisablesGreenWheel" classname="Testing" runstate="Runnable" seed="91053539" result="Passed" start-time="2025-11-15 18:10:06Z" end-time="2025-11-15 18:10:07Z" duration="0.677874" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[instance == Arjun (the Explorer) V7(Clone)
+Spawned relic: Relic V3(Clone)
+No viewer detected. Attempting to find camera object
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1023" name="StaminaWheel_InitializesAtMax" fullname="Testing.StaminaWheel_InitializesAtMax" methodname="StaminaWheel_InitializesAtMax" classname="Testing" runstate="Runnable" seed="253947609" result="Failed" start-time="2025-11-15 18:10:07Z" end-time="2025-11-15 18:10:08Z" duration="0.627826" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : Unhandled log message: '[Error] Player not found! Ensure Player has 'Player' tag and PlayerController script.'. Use UnityEngine.TestTools.LogAssert.Expect]]></message>
+            <stack-trace><![CDATA[Hazard:Start () (at Assets/src/ArjunRai/Scripts/stoneEnemy.cs:25)
+
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[Player not found! Ensure Player has 'Player' tag and PlayerController script.
+instance == Arjun (the Explorer) V7(Clone)
+Spawned relic: Relic V3(Clone)
+No viewer detected. Attempting to find camera object
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1020" name="Victory_MultipliesScoreByInventoryCountPlusOne" fullname="Testing.Victory_MultipliesScoreByInventoryCountPlusOne" methodname="Victory_MultipliesScoreByInventoryCountPlusOne" classname="Testing" runstate="Runnable" seed="277439171" result="Failed" start-time="2025-11-15 18:10:08Z" end-time="2025-11-15 18:10:08Z" duration="0.635102" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : Unhandled log message: '[Error] Player not found! Ensure Player has 'Player' tag and PlayerController script.'. Use UnityEngine.TestTools.LogAssert.Expect]]></message>
+            <stack-trace><![CDATA[Hazard:Start () (at Assets/src/ArjunRai/Scripts/stoneEnemy.cs:25)
+
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[Player not found! Ensure Player has 'Player' tag and PlayerController script.
+instance == Arjun (the Explorer) V7(Clone)
+Spawned relic: Relic V3(Clone)
+No viewer detected. Attempting to find camera object
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+Saving results to: C:/Users/Conno/AppData/LocalLow/Sandstorm Games/SubTerra\TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

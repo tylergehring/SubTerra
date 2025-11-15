@@ -29,10 +29,16 @@ public class Testing
     private GameObject _badObj; // this object should never be added to player inventory in this test
                                 // might be used in future testing systems, currently a placeholder
                                 //    private List<GameObject> _extraObjs; // extra objects to use for testing 
-    [UnitySetUp] public IEnumerator Setup()
+    [UnitySetUp]
+    public IEnumerator Setup()
     {
+        // EXPECT the errors from enemies BEFORE they happen
+        // ignore errors from Enemies
+        LogAssert.Expect(LogType.Error, "Player not found! Ensure Player has 'Player' tag and PlayerController script.");
+
         SceneManager.LoadScene("MVP");
         yield return null; // give Unity time to actually load the Scene
+        yield return null; // give World a chance to generate        
 
         _inventory = new QuickAccess(); // inventory with 4 slots
         for (int i = 0; i < 4; i++)
@@ -43,20 +49,26 @@ public class Testing
         }
 
         _badObj = new GameObject("BadObject");
+        _controller = PlayerController.Instance;
+        if (!_controller) // if the instance fails then try to find it in the scene manually
+        {
+            GameObject _playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (_playerObj)
+                _controller = _playerObj.GetComponent<PlayerController>();
+        }
+        /*
 
-        GameObject _playerObj = GameObject.FindGameObjectWithTag("Player");
-        if (_playerObj)
-            _controller = _playerObj.GetComponent<PlayerController>();
-
+        */
         yield return null;
     }
 
-    [UnityTearDown] public IEnumerator Cleanup()
+    [UnityTearDown]
+    public IEnumerator Cleanup()
     {
         for (int i = 0; i < 4; i++) // clear inventory objects
         {
             GameObject temp = _inventory.SetItem(null);
-                    
+
             if (temp)
                 UnityEngine.Object.Destroy(temp);
         }
@@ -67,11 +79,40 @@ public class Testing
         yield return null;
     }
 
+
+    //// -- Inventory Tests -- ////
+
+    [UnityTest]
+    public IEnumerator Inventory_InitialSlotIsZero()
+    {
+        Assert.AreEqual(0, _inventory.GetIndex(), "Inventory should start at slot 0");
+        yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator Inventory_TabWrapsAround()
+    {
+        for (int i = 0; i < 6; i++) _inventory.Tab();
+        Assert.AreEqual(2, _inventory.GetIndex(), "Tab should wrap back to slot 2 after 4 slots");
+        yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator Inventory_GetItemNeverReturnsDestroyed()
+    {
+        GameObject obj = new GameObject("Temp");
+        _inventory.SetItem(obj);
+        UnityEngine.Object.DestroyImmediate(obj);
+        yield return null; // let destruction propagate
+        Assert.IsNull(_inventory.GetItem(), "GetItem must return null for destroyed objects");
+    }
+
     /* Purpose for this test
      * I want to ensure that the inventory properly handles adding Items to invalid out of bounds
      *      inventory slots
      */
-    [UnityTest] public IEnumerator BoundaryInventoryBounds()
+    [UnityTest]
+    public IEnumerator Inventory_BoundaryInventoryBounds()
     {
         if (!_badObj)
             _badObj = new GameObject("BadObject");
@@ -94,56 +135,12 @@ public class Testing
     }
 
     /* Purpose for this test
-     * The health system I made is important for many teamates scripts
-        So, I want to test and ensure it works
-      - this test simulates many invalid numbers to change health by and tracks failure
-     */
-    [UnityTest]
-    public IEnumerator BoundaryHealthTests()
-    {
-        int testRuns = 100;
-        // complicated, but essientially its how to read private data in functions
-        // this way we can track how health changes
-        var healthField = typeof(PlayerController).GetField("_health", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-        Assert.IsNotNull(healthField, "_health was not found in PlayerController script");
-
-        byte currentHealth = 0;
-
-        // generates values likely to be beyond 
-        int minRange = -10000;
-        int maxRange = 10000;
-        int temp;
-
-        byte minExpected = 0;
-        byte maxExpected = 255;
-
-        for (int i = 0; i < 100; i++)
-        {
-            temp = 0;
-            while (temp >= 0 && temp <= 255) // we only want out of bounds values
-                temp = UnityEngine.Random.Range(minRange, maxRange);
-            _controller.ChangeHealth(temp);
-            currentHealth = (byte)healthField.GetValue(_controller); // how to actually get the value from the private var
-            if (temp < minExpected)
-                Assert.AreEqual(currentHealth, minExpected, "-! Health Test Failure!:\n" +
-                $" -> health should be {minExpected}\n" +
-                $" -> health is instead {currentHealth}");
-            else if (temp > maxExpected)
-                Assert.AreEqual(currentHealth, maxExpected, "-! Health Test Failure!:\n" +
-                $" -> health should be {maxExpected}\n" +
-                $" -> health is instead {currentHealth}");
-        }
-
-        yield return null;
-    }
-
-
-    /* Purpose for this test
      * The inventory script loads and unloads objects when it does Tab()
      * So I want to stress test it's affect on Game performance
      * This test tabs through items quickly and reports the affect on FPS
      */
-    [UnityTest] public IEnumerator StressInventoryLoading()
+    [UnityTest]
+    public IEnumerator Inventory_StressLoading()
     {
         int testRuns = 10000;
         float totalTime = 0.0f;
@@ -183,6 +180,241 @@ public class Testing
                   $" -> Average FPS: {averageFPS:F2}\n" +
                   $" -> Min FPS: {minFPS:F2}\n" +
                   $" -> Max FPS: {maxFPS:F2}");
+    }
+
+
+    //// -- Health Tests -- ////
+    /* Purpose for this test
+     * The health system I made is important for many teamates scripts
+        So, I want to test and ensure it works
+      - this test simulates many invalid numbers to change health by and tracks failure
+     */
+    [UnityTest]
+    public IEnumerator Health_BoundaryHealthTests()
+    {
+        int testRuns = 100;
+        // complicated, but essientially its how to read private data in functions
+        // this way we can track how health changes
+        var healthField = typeof(PlayerController).GetField("_health", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        Assert.IsNotNull(healthField, "_health was not found in PlayerController script");
+
+        byte currentHealth = 0;
+
+        // generates values likely to be beyond 
+        int minRange = -10000;
+        int maxRange = 10000;
+        int temp;
+
+        byte minExpected = 0;
+        byte maxExpected = 255;
+
+        for (int i = 0; i < 100; i++)
+        {
+            temp = 0;
+            while (temp >= 0 && temp <= 255) // we only want out of bounds values
+                temp = UnityEngine.Random.Range(minRange, maxRange);
+            _controller.ChangeHealth(temp);
+            currentHealth = (byte)healthField.GetValue(_controller); // how to actually get the value from the private var
+            if (temp < minExpected)
+                Assert.AreEqual(currentHealth, minExpected, "-! Health Test Failure!:\n" +
+                $" -> health should be {minExpected}\n" +
+                $" -> health is instead {currentHealth}");
+            else if (temp > maxExpected)
+                Assert.AreEqual(currentHealth, maxExpected, "-! Health Test Failure!:\n" +
+                $" -> health should be {maxExpected}\n" +
+                $" -> health is instead {currentHealth}");
+        }
+        yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator Health_GetHealthReturnsCurrentValue()
+    {
+        typeof(PlayerController).GetField("_health",
+                    System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                .SetValue(_controller, (byte)0);
+
+        // test for equality:
+        _controller.ChangeHealth(42);
+        Assert.AreEqual(42, _controller.getHealth(), "Public getHealth must reflect internal value");
+        yield return null;
+    }
+
+    //// -- Score Tests ////
+    [UnityTest]
+    public IEnumerator Score_ChangeScoreClampsToUIntRange()
+    {
+        _controller.ChangeScore(int.MaxValue);
+        Assert.AreEqual(uint.MaxValue, _controller.GetScore(), "Score must clamp to uint.MaxValue");
+
+        // Reset to 0 then go negative
+        typeof(PlayerController).GetField("_playerScore",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+            .SetValue(_controller, (uint)0);
+
+        _controller.ChangeScore(-1);
+        Assert.AreEqual(0u, _controller.GetScore(), "Score must not go below 0");
+        yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator Score_GetScoreMatchesInternal()
+    {
+        // reset to 0
+        typeof(PlayerController).GetField("_playerScore",
+                        System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                    .SetValue(_controller, (uint)0);
+        _controller.ChangeScore(123);
+        Assert.AreEqual(123u, _controller.GetScore(), "Public getter must match internal field");
+        yield return null;
+    }
+
+    //// -- Movement tests -- ////
+    [UnityTest]
+    public IEnumerator Movement_HorizontalInputChangesVelocity()
+    {
+        _controller.GetType().GetField("_horizontalMovement",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+            .SetValue(_controller, 1f);
+
+        yield return new WaitForFixedUpdate();
+        float velX = _controller.GetComponent<Rigidbody2D>().linearVelocity.x;
+        Assert.Greater(velX, 0f, "Right input must produce positive X velocity");
+    }
+
+    [UnityTest]
+    public IEnumerator Movement_JumpOnlyWhenOnGround()
+    {
+        // Force off-ground
+        _controller.GetType().GetField("_onGround",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+            .SetValue(_controller, false);
+        _controller.GetType().GetField("_isJumping",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+            .SetValue(_controller, true);
+
+        yield return new WaitForFixedUpdate();
+        float velY = _controller.GetComponent<Rigidbody2D>().linearVelocity.y;
+        Assert.AreEqual(0f, velY, 0.01f, "Jump must be ignored when not on ground");
+    }
+
+    //// -- Player Controller Function tests -- ////
+    // tests the Pickup() function
+    [UnityTest]
+    public IEnumerator Pickup_AddsItemToNextEmptySlot()
+    {
+        // Clear inventory first
+        for (int i = 0; i < 4; i++) _inventory.SetItem(null);
+
+        GameObject item = new GameObject("PickupItem");
+        _controller.PickUp(item);
+        yield return null;
+
+        bool found = false;
+        for (int i = 0; i < 4; i++)
+        {
+            _inventory.Tab(i);
+            if (_inventory.GetItem() != null) { found = true; break; }
+        }
+        Assert.IsTrue(found, "Pickup() must have placed the item in an empty slot");
+        UnityEngine.Object.Destroy(item);
+    }
+
+    // tests the Drop() function
+    [UnityTest]
+    public IEnumerator Drop_RemovesItemAndSpawnsHandler()
+    {
+        GameObject item = new GameObject("Droppable");
+        _inventory.SetItem(item);
+        _controller.GetType().GetMethod("_Drop", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+            .Invoke(_controller, null);
+
+        yield return null;
+        Assert.IsNull(_inventory.GetItem(), "Drop must remove item from inventory");
+        ItemHandler[] handlers = UnityEngine.Object.FindObjectsOfType<ItemHandler>();
+        Assert.IsTrue(handlers.Length > 0, "Drop must instantiate an ItemHandler");
+        UnityEngine.Object.Destroy(item);
+    }
+
+    // tests the Victory() function
+    [UnityTest]
+    public IEnumerator Victory_MultipliesScoreByInventoryCountPlusOne()
+
+    {
+        // Set base score
+        _controller.ChangeScore(100);
+        // Fill 2 slots
+        for (int i = 0; i < 2; i++) _inventory.SetItem(new GameObject($"VictoryItem{i}"));
+
+        _controller.Victory();
+
+        uint expected = 100u * (1 + 2); // 1 (base) + 2 items
+        Assert.AreEqual(expected, _controller.GetScore(), "Victory must apply multiplier correctly");
+        yield return null;
+    }
+
+    // tests the Pause() function
+    [UnityTest]
+    public IEnumerator Pause_StopsMovement()
+    {
+        _controller.Pause(true);
+        _controller.GetType().GetField("_horizontalMovement",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+            .SetValue(_controller, 1f);
+
+        yield return new WaitForFixedUpdate();
+        float vel = _controller.GetComponent<Rigidbody2D>().linearVelocity.x;
+        Assert.AreEqual(0f, vel, 0.01f, "Movement must be zero when paused");
+    }
+
+    //// -- Animator Tests -- ////
+    [UnityTest]
+    public IEnumerator Animator_FlipXWhenMovingLeft()
+    {
+        _controller.GetType().GetField("_horizontalMovement",
+                System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+            .SetValue(_controller, -1f);
+
+        yield return new WaitForFixedUpdate();
+        Assert.IsTrue(_controller.GetComponent<SpriteRenderer>().flipX, "Sprite must flip when moving left");
+    }
+
+    //// -- Stamina Wheel tests -- ////
+    [UnityTest] public IEnumerator StaminaWheel_InitializesAtMax()
+    {
+        var stamina = _controller.GetObject().GetComponentInChildren<StaminaWheelScript>();
+        Assert.AreEqual(stamina.maxStamina, stamina.GetType().GetField("_currStamina",
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(stamina),
+            "Stamina should start at max value");
+        yield return null;
+    }
+
+    [UnityTest] public IEnumerator StaminaWheel_ExhaustionDisablesGreenWheel()
+    {
+        var stamina = _controller.GetObject().GetComponentInChildren<StaminaWheelScript>();
+        var greenWheel = (UnityEngine.UI.Image)stamina.GetType().GetField("_greenWheel",
+            System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance).GetValue(stamina);
+
+        stamina.ChangeStamina(-1000f);
+        yield return null;
+        Assert.IsFalse(greenWheel.enabled, "Green wheel must be disabled when stamina is 0");
+    }
+
+    //// -- Item Factory Tests -- ////
+
+    [UnityTest] public IEnumerator ItemFactory_HandlesNull()
+    {
+        GameObject result = ItemFactory.CreateItem(null);
+        Assert.IsNull(result, "Factory must return null for null input");
+        yield return null;
+    }
+
+    //// -- Edge tests -- ////
+    [UnityTest] public IEnumerator Edge_SingletonEnforcesOneInstance()
+    {
+        GameObject duplicate = UnityEngine.GameObject.Instantiate(_controller.GetObject());
+        yield return null;
+        Assert.IsTrue(duplicate == null || !duplicate.activeSelf, "Duplicate Player must be destroyed by singleton pattern");
     }
 
 
