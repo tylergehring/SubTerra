@@ -476,7 +476,8 @@ public class PlayerController : MonoBehaviour
         Debug.Log($"PlayerController: ChangeHealth -> amount == {amount}\n" +
                   $"& -> _health == {_health}");
 
-        int healthCheck = _health + amount;
+        int healthCheck = _health - amount;
+/*
         if (healthCheck < byte.MinValue)
         {
             _health = byte.MinValue;
@@ -486,15 +487,15 @@ public class PlayerController : MonoBehaviour
             _health = byte.MaxValue;
             return;
         }
-
+*/
     
         int previousHealth = _health;
-        int newHealth = _health + amount;
+        int newHealth = _health - amount;
 
-        if (newHealth < 0)
-            newHealth = 0;
-        if (newHealth > 255)
-            newHealth = 255;
+        if (newHealth < byte.MinValue)
+            newHealth = byte.MinValue;
+        if (newHealth > byte.MaxValue)
+            newHealth = byte.MaxValue;
 
 
         _health = (byte)newHealth;            

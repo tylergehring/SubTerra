@@ -91,7 +91,7 @@ public class Hazard : MonoBehaviour
         {
             if (Time.time - lastDamageTime >= damageInterval) // current game time in seconds - when the hazard last dealt damage.
             {
-                player.ChangeHealth((int)damageObject.getDamage()); // Deal damage to player
+                player.ChangeHealth(-(int)damageObject.getDamage()); // Deal damage to player
                 lastDamageTime = Time.time;  // Record the last time when the player got damaged.
             }
         }
