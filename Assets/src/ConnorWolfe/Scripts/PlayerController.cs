@@ -477,26 +477,17 @@ public class PlayerController : MonoBehaviour
                   $"& -> _health == {_health}");
 
         int healthCheck = _health - amount;
-/*
-        if (healthCheck < byte.MinValue)
-        {
-            _health = byte.MinValue;
-            return;
-        }
-        else if (healthCheck > byte.MaxValue) {
-            _health = byte.MaxValue;
-            return;
-        }
-*/
+
     
         int previousHealth = _health;
         int newHealth = _health - amount;
-
+        newHealth = Mathf.Clamp(newHealth, byte.MinValue,  byte.MaxValue);
+/*
         if (newHealth < byte.MinValue)
             newHealth = byte.MinValue;
         if (newHealth > byte.MaxValue)
             newHealth = byte.MaxValue;
-
+*/
 
         _health = (byte)newHealth;            
 
@@ -532,17 +523,19 @@ public class PlayerController : MonoBehaviour
 
     public void ChangeScore(int change)
     {
-        if (change + _playerScore > uint.MaxValue)
-        {
-            _playerScore = uint.MaxValue;
-            return;
-        } else if (change + _playerScore < uint.MinValue)
-        {
-            _playerScore = uint.MinValue;
-            return;
-        }
-        
-        _playerScore += (uint)change;
+        /*        if (change + _playerScore > uint.MaxValue)
+                {
+                    _playerScore = uint.MaxValue;
+                    return;
+                } else if (change + _playerScore < uint.MinValue)
+                {
+                    _playerScore = uint.MinValue;
+                    return;
+                }
+          */
+        long newScore = (long)_playerScore + change;
+        newScore = (uint)Mathf.Clamp(_playerScore, uint.MinValue, uint.MaxValue);
+        _playerScore = (uint)newScore;
     }
 
     public uint GetScore()

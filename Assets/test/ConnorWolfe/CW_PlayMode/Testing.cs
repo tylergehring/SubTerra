@@ -1,4 +1,4 @@
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
@@ -32,21 +32,10 @@ public class Testing
     [UnitySetUp]
     public IEnumerator Setup()
     {
-        // EXPECT the errors from enemies BEFORE they happen
-        // ignore errors from Enemies
-        LogAssert.Expect(LogType.Error, "Player not found! Ensure Player has 'Player' tag and PlayerController script.");
-
-        SceneManager.LoadScene("MVP");
+        SceneManager.LoadScene("CW_testingScene");
         yield return null; // give Unity time to actually load the Scene
         yield return null; // give World a chance to generate        
 
-        _inventory = new QuickAccess(); // inventory with 4 slots
-        for (int i = 0; i < 4; i++)
-        {
-            GameObject temp = new GameObject($"TestingObj{i}");
-            _inventory.SetItem(temp);
-            _inventory.Tab(); // move to the next slot
-        }
 
         _badObj = new GameObject("BadObject");
         _controller = PlayerController.Instance;
@@ -56,9 +45,26 @@ public class Testing
             if (_playerObj)
                 _controller = _playerObj.GetComponent<PlayerController>();
         }
+
+        var inventoryField = typeof(PlayerController).GetField("_inventory",
+                  System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+        _inventory = (QuickAccess)inventoryField.GetValue(_controller);
+        //        _inventory = new QuickAccess(); // inventory with 4 slots
+
+        for (int i = 0; i < 4; i++)
+        {
+            _inventory.Tab(i); // move to the next slot
+            GameObject temp = new GameObject($"TestingObj{i}");
+            _inventory.SetItem(temp);
+
+        }
+
+
         /*
 
         */
+
+      
         yield return null;
     }
 
@@ -235,7 +241,7 @@ public class Testing
                 .SetValue(_controller, (byte)0);
 
         // test for equality:
-        _controller.ChangeHealth(42);
+        _controller.ChangeHealth(-42);
         Assert.AreEqual(42, _controller.getHealth(), "Public getHealth must reflect internal value");
         yield return null;
     }
@@ -273,6 +279,7 @@ public class Testing
     [UnityTest]
     public IEnumerator Movement_HorizontalInputChangesVelocity()
     {
+        _controller.GetType().GetField("_horizontalMovement");
         _controller.GetType().GetField("_horizontalMovement",
                 System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
             .SetValue(_controller, 1f);
@@ -285,7 +292,9 @@ public class Testing
     [UnityTest]
     public IEnumerator Movement_JumpOnlyWhenOnGround()
     {
-        // Force off-ground
+        var rb = _controller.GetComponent<Rigidbody2D>();
+        rb.gravityScale = 0f; // disable gravity
+
         _controller.GetType().GetField("_onGround",
                 System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
             .SetValue(_controller, false);
@@ -294,7 +303,7 @@ public class Testing
             .SetValue(_controller, true);
 
         yield return new WaitForFixedUpdate();
-        float velY = _controller.GetComponent<Rigidbody2D>().linearVelocity.y;
+        float velY = rb.linearVelocity.y;
         Assert.AreEqual(0f, velY, 0.01f, "Jump must be ignored when not on ground");
     }
 
@@ -325,12 +334,14 @@ public class Testing
     public IEnumerator Drop_RemovesItemAndSpawnsHandler()
     {
         GameObject item = new GameObject("Droppable");
+        _inventory.Tab(0);
         _inventory.SetItem(item);
         _controller.GetType().GetMethod("_Drop", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
             .Invoke(_controller, null);
 
         yield return null;
         Assert.IsNull(_inventory.GetItem(), "Drop must remove item from inventory");
+
         ItemHandler[] handlers = UnityEngine.Object.FindObjectsOfType<ItemHandler>();
         Assert.IsTrue(handlers.Length > 0, "Drop must instantiate an ItemHandler");
         UnityEngine.Object.Destroy(item);
@@ -340,15 +351,14 @@ public class Testing
     [UnityTest]
     public IEnumerator Victory_MultipliesScoreByInventoryCountPlusOne()
 
-    {
-        // Set base score
+    {        
         _controller.ChangeScore(100);
-        // Fill 2 slots
-        for (int i = 0; i < 2; i++) _inventory.SetItem(new GameObject($"VictoryItem{i}"));
+
+        _inventory.Tab(0); _inventory.SetItem(new GameObject("VictoryItem0"));
+        _inventory.Tab(1); _inventory.SetItem(new GameObject("VictoryItem1"));
 
         _controller.Victory();
-
-        uint expected = 100u * (1 + 2); // 1 (base) + 2 items
+        uint expected = 100u * 3;  // 100 * (1 base + 2 items)
         Assert.AreEqual(expected, _controller.GetScore(), "Victory must apply multiplier correctly");
         yield return null;
     }
@@ -376,6 +386,7 @@ public class Testing
             .SetValue(_controller, -1f);
 
         yield return new WaitForFixedUpdate();
+        yield return new WaitForEndOfFrame(); // need to let the animator run and update sprites
         Assert.IsTrue(_controller.GetComponent<SpriteRenderer>().flipX, "Sprite must flip when moving left");
     }
 

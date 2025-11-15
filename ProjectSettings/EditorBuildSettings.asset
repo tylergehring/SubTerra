@@ -15,7 +15,7 @@ EditorBuildSettings:
     path: Assets/src/MatthewBrisset/TerrainDestructionTest.unity
     guid: f6fea666539197b439be0eee27c1f435
   - enabled: 1
-    path: Assets/src/ConnorWolfe/Scenes/MyTestScene.unity
+    path: Assets/src/ConnorWolfe/Scenes/CW_testingScene.unity
     guid: 15c01d5b3beb225409e17e2124d1ade4
   - enabled: 1
     path: Assets/src/ConnorWolfe/Scenes/TerrainTestCopy.unity
