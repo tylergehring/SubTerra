@@ -17,7 +17,8 @@ public class SoundManager : MonoBehaviour {
     [Header("Player Clips")]
     [SerializeField] private AudioClip playerJump;
     [SerializeField] private AudioClip[] footStep;
-    [SerializeField] private AudioClip enemyDamageClip;
+    [SerializeField] private AudioClip enemyDamage;
+    [SerializeField] private AudioClip enemyThrow;
 
     [Header("Tool Clips")]
     [SerializeField] private AudioClip useTool;
@@ -53,29 +54,26 @@ public class SoundManager : MonoBehaviour {
     SoundEvents.PlayerJump() is called --> SoundManager reacts with PlayJumpSound()
     Things here need to be done after Awake once scene is fully initialized 
     */
-    private void OnEnable()
-    {
-        SoundEvents.OnPlayerJump += PlaySFX(playerJump);
-        SoundEvents.OnToolUse += PlaySFX(useTool);
-        SoundEvents.OnToolPickup += PlaySFX(addTool);
-        SoundEvents.OnFootstep += PlayFootstep;
-        SoundEvents.OnEnemyDamage += () => PlaySFX(enemyDamageClip);
-        SoundEvents.OnEnemyThrow += () => PlaySFX(enemyThrowClip);
-        SoundEvents.OnToolUse += () => PlaySFX(toolUseClip);
+    private void OnEnable(){
+        SoundEvents.OnPlayerJump   += PlayJumpSound;
+        SoundEvents.OnToolUse      += PlayToolUseSound;
+        SoundEvents.OnToolPickup   += PlayToolPickupSound;
+        SoundEvents.OnFootstep     += PlayFootstep;
+        SoundEvents.OnEnemyDamage  += PlayEnemyDamageSound;
+        SoundEvents.OnEnemyThrow   += PlayEnemyThrowSound;
     }
+
 
     /* Runs when the gameObject = destroyed
     Unsubscribe to events so that Unity doesnt keep references to destroyed objects
     */
-    private void OnDisable()
-    {
-        SoundEvents.OnPlayerJump -= PlaySFX(playerJump);
-        SoundEvents.OnToolUse -= PlaySFX(useTool);
-        SoundEvents.OnToolPickup -= PlaySFX(addTool);
-        SoundEvents.OnFootstep -= PlayFootstep;
-        SoundEvents.OnEnemyDamage -= () => PlaySFX(enemyDamageClip);
-        SoundEvents.OnEnemyThrow -= () => PlaySFX(enemyThrowClip);
-        SoundEvents.OnToolUse -= () => PlaySFX(toolUseClip);
+    private void OnDisable(){
+        SoundEvents.OnPlayerJump   -= PlayJumpSound;
+        SoundEvents.OnToolUse      -= PlayToolUseSound;
+        SoundEvents.OnToolPickup   -= PlayToolPickupSound;
+        SoundEvents.OnFootstep     -= PlayFootstep;
+        SoundEvents.OnEnemyDamage  -= PlayEnemyDamageSound;
+        SoundEvents.OnEnemyThrow   -= PlayEnemyThrowSound;
     }
 
     // Runs once after Awake when scene is fully initialized
@@ -89,17 +87,20 @@ public class SoundManager : MonoBehaviour {
         backgroundSource.volume = Mathf.Clamp(background_volume, 0f, 0.5f);
         backgroundSource.Play();
     }
-    private void PlayFootstep()
-    {
+    private void PlayFootstep(){
         if (footStep == null || footStep.Length == 0) return;
 
         var idx = UnityEngine.Random.Range(0, footStep.Length);
         var clip = footStep[idx];
         if (clip != null) PlaySFX(clip);
-
-        if (clip == null) return; // avoid crashing
-        PlaySFX(clip);
     }
+
+    private void PlayJumpSound(){PlaySFX(playerJump);}
+    private void PlayToolUseSound(){PlaySFX(useTool);}
+    private void PlayToolPickupSound(){PlaySFX(addTool);}
+    private void PlayEnemyDamageSound(){PlaySFX(enemyDamage);}
+    private void PlayEnemyThrowSound() { PlaySFX(enemyThrow); }
+
 
     /* Helper Method
     PlayOneShot() - Plays audio clip once wihtout interrupting other sounds the AudioSource is playing
