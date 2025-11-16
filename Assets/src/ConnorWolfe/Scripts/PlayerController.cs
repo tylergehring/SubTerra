@@ -42,6 +42,9 @@ public class PlayerController : MonoBehaviour
     // static instance (thread-safe lazy intialization)
     [HideInInspector] public static PlayerController Instance { get; private set; }
 
+    [Header("BC mode toggle")]
+    [SerializeField] public bool isBCMode = false; // public so other scripts and change/set bcmode
+
     // public as to be able to change the key binds in other scripts
     // using Old Unity Input systems
     [Header("Keybind settings")]
@@ -271,6 +274,14 @@ public class PlayerController : MonoBehaviour
     {
         // to meet the requirements of the class I must use the defined class in code to showcase the differences in static vs. dynamic
         float setSpeed = _movementSpeed.GetSpeed();
+        if (isBCMode)
+        {
+            _rb.linearVelocityX = !_isSprinting ? _horizontalMovement * setSpeed : _horizontalMovement * setSpeed * 2f;
+            if (_isJumping)
+                _rb.linearVelocityY = _jumpStrength;
+            return;
+        }
+
 
         if (!_staminaWheel.IsExhausted())
         {
@@ -311,10 +322,11 @@ public class PlayerController : MonoBehaviour
         if (_onGround)
             return;
 
-        if (_isJumping && _onWall && !_staminaWheel.IsExhausted())
+        if (_isJumping && _onWall && (!_staminaWheel.IsExhausted() || isBCMode))
         {
             _rb.linearVelocityY = _climbSpeed;
-            _staminaWheel.ChangeStamina((-1f * _climbSRate) * Time.deltaTime);
+            if (!isBCMode)
+                _staminaWheel.ChangeStamina((-1f * _climbSRate) * Time.deltaTime);
         }
      
 
@@ -437,6 +449,9 @@ public class PlayerController : MonoBehaviour
 
     private void _CheckHealth()
     {
+        if (isBCMode)
+            return;
+
         if (_health == 0 && _playerAlive)
         {
             if (_deadPlayerBodyPrefab && _camera)

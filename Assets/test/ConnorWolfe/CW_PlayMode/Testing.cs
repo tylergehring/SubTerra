@@ -1,10 +1,12 @@
 ﻿using NUnit.Framework;
-using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.TestTools;
+using NUnit.Framework.Interfaces;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
 
 
 
@@ -307,8 +309,70 @@ public class Testing
         Assert.AreEqual(0f, velY, 0.01f, "Jump must be ignored when not on ground");
     }
 
+    [UnityTest]
+    public IEnumerator Movement_SprintDoublesSpeed()
+    {
+        // Set onGround, horizontalMovement=1, isSprinting=true
+        _controller.GetType().GetField("_onGround", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(_controller, true);
+        _controller.GetType().GetField("_horizontalMovement", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(_controller, 1f);
+        _controller.GetType().GetField("_isSprinting", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(_controller, true);
+
+        yield return new WaitForFixedUpdate();
+        float velX = _controller.GetComponent<Rigidbody2D>().linearVelocity.x;
+        float baseSpeed = ((Speed)_controller.GetType().GetField("_movementSpeed", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(_controller)).GetSpeed();
+        Assert.Greater(velX, baseSpeed * 1.9f, "Sprint must double speed when stamina available");
+    }
+
+    [UnityTest]
+    public IEnumerator Movement_NoSprintWhenExhausted()
+    {
+        var stamina = _controller.GetObject().GetComponentInChildren<StaminaWheelScript>();
+        stamina.ChangeStamina(-150f);  // Exhaust
+        yield return null;
+
+        _controller.GetType().GetField("_onGround", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(_controller, true);
+        _controller.GetType().GetField("_horizontalMovement", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(_controller, 1f);
+        _controller.GetType().GetField("_isSprinting", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(_controller, true);
+
+        yield return new WaitForFixedUpdate();
+        float velX = _controller.GetComponent<Rigidbody2D>().linearVelocity.x;
+        float baseSpeed = ((Speed)_controller.GetType().GetField("_movementSpeed", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(_controller)).GetSpeed();
+        Assert.AreEqual(baseSpeed, velX, 0.1f, "No sprint multiplier when exhausted");
+    }
+
+    [UnityTest]
+    public IEnumerator Movement_Stress_RapidMovementInput()
+    {
+        _controller.GetType().GetField("_onGround", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(_controller, true);
+        int runs = 1000;
+        for (int i = 0; i < runs; i++)
+        {
+            _controller.GetType().GetField("_horizontalMovement", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(_controller, i % 2 == 0 ? 1f : -1f);
+            yield return new WaitForFixedUpdate();
+        }
+        Assert.Pass("No crash after 1000 rapid direction changes");
+    }
+
     //// -- Player Controller Function tests -- ////
     // tests the Pickup() function
+
+    [UnityTest]
+    public IEnumerator Pickup_ReplacesExistingItem()
+    {
+        GameObject oldItem = new GameObject("OldI");
+        _controller.PickUp(oldItem);  // Fill slot 0
+        yield return null;
+
+        GameObject newItem = new GameObject("NewI");
+        GameObject replaced = _controller.PickUp(newItem);  // Should replace
+        yield return null;
+
+        Assert.AreEqual(oldItem, replaced, "Pickup must return replaced item");
+        Assert.AreNotEqual(oldItem, _inventory.GetItem(), "Old item must be replaced");
+        UnityEngine.Object.Destroy(oldItem);
+        UnityEngine.Object.Destroy(oldItem);
+    }
+
     [UnityTest]
     public IEnumerator Pickup_AddsItemToNextEmptySlot()
     {
@@ -329,6 +393,20 @@ public class Testing
         UnityEngine.Object.Destroy(item);
     }
 
+    [UnityTest]
+    public IEnumerator Pickup_RejectsNullItem()
+    {
+        // Clear a slot
+        _inventory.Tab(0);
+        _inventory.SetItem(null);
+
+        GameObject returned = _controller.PickUp(null);
+        yield return null;
+
+        Assert.IsNull(returned, "Pickup(null) must return null");
+        Assert.IsNull(_inventory.GetItem(), "Null must not be added to inventory");
+    }
+
     // tests the Drop() function
     [UnityTest]
     public IEnumerator Drop_RemovesItemAndSpawnsHandler()
@@ -347,6 +425,36 @@ public class Testing
         UnityEngine.Object.Destroy(item);
     }
 
+    [UnityTest]
+    public IEnumerator Drop_HandlerHasCorrectItemReference()
+    {
+        GameObject item = new GameObject("Droppable");
+        item.tag = "Item"; // Ensure pickup logic sees it
+        _inventory.Tab(0);
+        _inventory.SetItem(item);
+
+        var dropMethod = _controller.GetType().GetMethod("_Drop",
+            BindingFlags.NonPublic | BindingFlags.Instance);
+        dropMethod.Invoke(_controller, null);
+        yield return null;
+
+        ItemHandler handler = UnityEngine.Object.FindObjectOfType<ItemHandler>();
+        var prefabField = _controller.GetType().GetField("_itemHandlerPrefab",
+            BindingFlags.NonPublic | BindingFlags.Instance).GetValue(_controller);
+
+        if (prefabField != null && handler != null)
+        {
+            GameObject heldItem = (GameObject)handler.GetType()
+                .GetField("_heldItem", BindingFlags.NonPublic | BindingFlags.Instance)
+                .GetValue(handler);
+            Assert.AreSame(item, heldItem, "ItemHandler must hold reference to dropped item");
+        }
+        else
+        {
+            Assert.Pass("Drop called safely (no crash) even if prefab missing");
+        }
+    }
+
     // tests the Victory() function
     [UnityTest]
     public IEnumerator Victory_MultipliesScoreByInventoryCountPlusOne()
@@ -360,6 +468,16 @@ public class Testing
         _controller.Victory();
         uint expected = 100u * 3;  // 100 * (1 base + 2 items)
         Assert.AreEqual(expected, _controller.GetScore(), "Victory must apply multiplier correctly");
+        yield return null;
+    }
+
+    [UnityTest]
+    public IEnumerator Victory_EmptyInventoryMultipliesCountBy1()
+    {
+        _controller.ChangeScore(100);
+        for (int i = 0; i < 4; i++) _inventory.Tab(i); _inventory.SetItem(null);  // Clear
+        _controller.Victory();
+        Assert.AreEqual(100u, _controller.GetScore(), "Empty inventory = 1x multiplier");
         yield return null;
     }
 
@@ -390,7 +508,50 @@ public class Testing
         Assert.IsTrue(_controller.GetComponent<SpriteRenderer>().flipX, "Sprite must flip when moving left");
     }
 
+    [UnityTest]
+    public IEnumerator Animator_EntersIdleWhenNoInput()
+    {
+        // Ensure no movement
+        _controller.GetType().GetField("_horizontalMovement", BindingFlags.NonPublic | BindingFlags.Instance)
+            .SetValue(_controller, 0f);
+        _controller.GetType().GetField("_onGround", BindingFlags.NonPublic | BindingFlags.Instance)
+            .SetValue(_controller, true);
+
+        yield return new WaitForFixedUpdate();
+        yield return new WaitForEndOfFrame(); // Let animator update
+
+        var animator = _controller.GetComponent<Animator>();
+        Assert.IsTrue(animator.GetCurrentAnimatorStateInfo(0).IsName("Idle"),
+            "Animator must be in Idle state when no input and grounded");
+    }
+
     //// -- Stamina Wheel tests -- ////
+    [UnityTest]
+    public IEnumerator StaminaWheel_ChangeClampsToBounds()
+    {
+        var stamina = _controller.GetObject().GetComponentInChildren<StaminaWheelScript>();
+        stamina.ChangeStamina(1000f);  // Over max
+        yield return null;
+        float curr = (float)stamina.GetType().GetField("_currStamina",
+            BindingFlags.NonPublic | BindingFlags.Instance).GetValue(stamina);
+        Assert.AreEqual(stamina.maxStamina, curr, 0.01f, "Stamina must clamp to max");
+
+        stamina.ChangeStamina(-1000f);  // Under 0
+        yield return null;
+        curr = (float)stamina.GetType().GetField("_currStamina",
+            BindingFlags.NonPublic | BindingFlags.Instance).GetValue(stamina);
+        Assert.AreEqual(0f, curr, 0.01f, "Stamina must clamp to 0");
+    }
+
+    [UnityTest]
+    public IEnumerator StaminaWheel_IsExhaustedAfterDrain()
+    {
+        var stamina = _controller.GetObject().GetComponentInChildren<StaminaWheelScript>();
+        stamina.ChangeStamina(-150f);  // Drain past 0
+        yield return null;
+        Assert.IsTrue(stamina.IsExhausted(), "IsExhausted() must return true after full drain");
+    }
+
     [UnityTest] public IEnumerator StaminaWheel_InitializesAtMax()
     {
         var stamina = _controller.GetObject().GetComponentInChildren<StaminaWheelScript>();
@@ -419,6 +580,8 @@ public class Testing
         Assert.IsNull(result, "Factory must return null for null input");
         yield return null;
     }
+
+
 
     //// -- Edge tests -- ////
     [UnityTest] public IEnumerator Edge_SingletonEnforcesOneInstance()

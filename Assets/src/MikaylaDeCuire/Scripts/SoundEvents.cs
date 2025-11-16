@@ -62,7 +62,7 @@ public static class SoundEvents
         Static method is always called
         Even though jumpAction/toolAction have overriding methods (Look VS Code even uses different colors thats cool)
         */ 
-        baseAction.PlayStatic();            // "Super Static"            
+      //  baseAction.PlayStatic();            // "Super Static"            
         jumpAction.PlayStatic();            // "Super Static"       
         toolAction.PlayStatic();            // "Super Static" 
 
