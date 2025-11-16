@@ -337,6 +337,7 @@ public class PlayerController : MonoBehaviour
         NonReusableTools nrTool = current.GetComponent<NonReusableTools>();
         if (nrTool) {
             nrTool.Use(this);
+            SoundEvents.ToolUse();
             return;
         }
     }

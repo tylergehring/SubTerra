@@ -79,13 +79,15 @@ public class skeletonEnemy : MonoBehaviour
 
         yield return new WaitForSeconds(0.25f); // Wait for animation timing
 
-        GameObject attack = Instantiate(Bone, LeftHand.transform.position, Quaternion.identity); // spawns a new Bone object at the skeleton’s left hand.
+        GameObject attack = Instantiate(Bone, LeftHand.transform.position, Quaternion.identity); // spawns a new Bone object at the skeletonï¿½s left hand.
 
         Vector2 direction = (playerTransform.position - LeftHand.transform.position).normalized;  // Calculate the direction toward the player
 
         attack.GetComponent<Rigidbody2D>().AddForce(direction * 800f);  //Add force so the bone flies
 
         Destroy(attack, 3f);   // Destroy bone after 3 seconds
+
+        SoundEvents.EnemyThrow();   // Mikayla  -   Trigger Sound Event
 
         yield return new WaitForSeconds(throwCooldown);   // Wait for cooldown
 
@@ -111,6 +113,8 @@ public class skeletonEnemy : MonoBehaviour
         currentHealth -= damage; // Reduce health
 
         Debug.Log("Enemy took damage, remaining health: " + currentHealth);
+
+        SoundEvents.EnemyDamage();  // Mikayla - Notify SoundManager
 
         if (currentHealth <= 0)
         {

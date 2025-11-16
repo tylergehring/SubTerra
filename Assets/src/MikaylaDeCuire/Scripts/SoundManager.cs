@@ -16,8 +16,8 @@ public class SoundManager : MonoBehaviour {
 
     [Header("Player Clips")]
     [SerializeField] private AudioClip playerJump;
-    [SerializeField] private AudioClip playerLand;
     [SerializeField] private AudioClip[] footStep;
+    [SerializeField] private AudioClip enemyDamageClip;
 
     [Header("Tool Clips")]
     [SerializeField] private AudioClip useTool;
@@ -55,11 +55,13 @@ public class SoundManager : MonoBehaviour {
     */
     private void OnEnable()
     {
-        SoundEvents.OnPlayerJump += PlayJumpSound;
-        SoundEvents.OnPlayerLand += PlayLandSound;
-        SoundEvents.OnToolUse += PlayToolUseSound;
-        SoundEvents.OnToolPickup += PlayToolPickupSound;
+        SoundEvents.OnPlayerJump += PlaySFX(playerJump);
+        SoundEvents.OnToolUse += PlaySFX(useTool);
+        SoundEvents.OnToolPickup += PlaySFX(addTool);
         SoundEvents.OnFootstep += PlayFootstep;
+        SoundEvents.OnEnemyDamage += () => PlaySFX(enemyDamageClip);
+        SoundEvents.OnEnemyThrow += () => PlaySFX(enemyThrowClip);
+        SoundEvents.OnToolUse += () => PlaySFX(toolUseClip);
     }
 
     /* Runs when the gameObject = destroyed
@@ -67,11 +69,13 @@ public class SoundManager : MonoBehaviour {
     */
     private void OnDisable()
     {
-        SoundEvents.OnPlayerJump -= PlayJumpSound;
-        SoundEvents.OnPlayerLand -= PlayLandSound;
-        SoundEvents.OnToolUse -= PlayToolUseSound;
-        SoundEvents.OnToolPickup -= PlayToolPickupSound;
+        SoundEvents.OnPlayerJump -= PlaySFX(playerJump);
+        SoundEvents.OnToolUse -= PlaySFX(useTool);
+        SoundEvents.OnToolPickup -= PlaySFX(addTool);
         SoundEvents.OnFootstep -= PlayFootstep;
+        SoundEvents.OnEnemyDamage -= () => PlaySFX(enemyDamageClip);
+        SoundEvents.OnEnemyThrow -= () => PlaySFX(enemyThrowClip);
+        SoundEvents.OnToolUse -= () => PlaySFX(toolUseClip);
     }
 
     // Runs once after Awake when scene is fully initialized
@@ -85,12 +89,6 @@ public class SoundManager : MonoBehaviour {
         backgroundSource.volume = Mathf.Clamp(background_volume, 0f, 0.5f);
         backgroundSource.Play();
     }
-    
-    private void PlayJumpSound() { PlaySFX(playerJump); }
-    private void PlayLandSound(){ PlaySFX(playerLand);}
-    private void PlayToolUseSound(){ PlaySFX(useTool);}
-    private void PlayToolPickupSound(){ PlaySFX(addTool);}
-
     private void PlayFootstep()
     {
         if (footStep == null || footStep.Length == 0) return;

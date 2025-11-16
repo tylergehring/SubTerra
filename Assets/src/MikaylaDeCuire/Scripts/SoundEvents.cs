@@ -1,7 +1,8 @@
 using UnityEngine;
 using System;
 
-public static class SoundEvents {
+public static class SoundEvents
+{
     /* Observer Pattern -   Define a one-to-many dependency between objects 
     Game Objects (subjects) notify the SoundManager (observer) when events occur
     This makes it easy to add new sounds or modify existing onces without changing other scripts
@@ -12,10 +13,11 @@ public static class SoundEvents {
     // Action is a built-in type that represents a method with no parameters and no return value
 
     public static event Action OnPlayerJump;
-    public static event Action OnPlayerLand;
     public static event Action OnToolUse;
     public static event Action OnToolPickup;
     public static event Action OnFootstep;
+    public static event Action OnEnemyDamage;
+    public static event Action OnEnemyThrow;
 
     /* Methods to trigger events
     OnPlayerJump?.Invoke();  means "if OnPlayerJump is NOT null -> call Invoke(); else do nothing"
@@ -26,9 +28,10 @@ public static class SoundEvents {
     */
     // Technically Dynamic Binding  -   Actual methods called depend on which event is subscribed @ runtime (Not a good example because I do not use inheritences)
     public static void PlayerJump() => OnPlayerJump?.Invoke();
-    public static void PlayerLand() => OnPlayerLand?.Invoke();
     public static void ToolUse() => OnToolUse?.Invoke();
     public static void ToolPickup() => OnToolPickup?.Invoke();
     public static void Footstep() => OnFootstep?.Invoke();
+    public static void EnemyDamage() => OnEnemyDamage?.Invoke();
+    public static void EnemyThrow() => OnEnemyThrow?.Invoke();
     
 }

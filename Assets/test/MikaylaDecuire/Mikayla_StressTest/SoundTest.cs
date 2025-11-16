@@ -85,19 +85,19 @@ public class SoundManagerExtendedTests
         Assert.IsTrue(sources[1].isPlaying);
     }
 
-    // Call SoundEvents.PlayerLand() and confirm land sound plays.
+    // Call SoundEvents.EnemyDamage() and confirm sound plays.
     [UnityTest]
-    public IEnumerator Observer_PlayerLandEventTriggersSound()
+    public IEnumerator Observer_EnemyDamageEventTriggersSound()
     {
-        var clip = AudioClip.Create("Land", 44100, 1, 44100, false);
-        SetPrivateField("playerLand", clip);
-
-        SoundEvents.PlayerLand();
+        var clip = AudioClip.Create("EnemyDamage", 44100, 1, 44100, false);
+        SetPrivateField("enemyDamageClip", clip);
+        SoundEvents.EnemyDamage();
         yield return null;
 
         var sources = testObject.GetComponents<AudioSource>();
-        Assert.IsTrue(sources[1].isPlaying);
+        Assert.IsTrue(sources[1].isPlaying, "Enemy damage SFX should be playing");
     }
+
 
     // Call SoundEvents.ToolUse() and confirm tool-use sound plays
     [UnityTest]
@@ -264,19 +264,18 @@ public class SoundManagerExtendedTests
         Assert.IsTrue(sources[1].isPlaying);
     }
 
-    // Assign land clip and confirm playback
+    // Assign damage clip and confirm playback
     [UnityTest]
-    public IEnumerator SFX_LandClipPlaysCorrectly()
-    {
-        var clip = AudioClip.Create("Land", 44100, 1, 44100, false);
-        SetPrivateField("playerLand", clip);
-
-        SoundEvents.PlayerLand();
+    public IEnumerator SFX_EnemyDamageClipPlaysCorrectly(){
+        var clip = AudioClip.Create("EnemyDamage", 44100, 1, 44100, false);
+        SetPrivateField("enemyDamageClip", clip);
+        SoundEvents.EnemyDamage();
         yield return null;
 
         var sources = testObject.GetComponents<AudioSource>();
-        Assert.IsTrue(sources[1].isPlaying);
+        Assert.IsTrue(sources[1].isPlaying, "Enemy damage SFX should be playing");
     }
+
 
     // Assign tool-use clip and confirm playback.
     [UnityTest]
@@ -319,16 +318,16 @@ public class SoundManagerExtendedTests
     }
     /* ---------------- SFX SEQUENCE/OVERLAP Tests ---------------- */
 
-    // Play jump, land, tool-use in sequence and confirm all play
+    // Play jump, tool-add, tool-use in sequence and confirm all play
     [UnityTest]
     public IEnumerator SFX_PlayMultipleClipsSequentially()
     {
         var jump = AudioClip.Create("Jump", 44100, 1, 44100, false);
         var land = AudioClip.Create("Land", 44100, 1, 44100, false);
-        var tool = AudioClip.Create("ToolUse", 44100, 1, 44100, false);
+        var tool = AudioClip.Create("addTool", 44100, 1, 44100, false);
 
         SetPrivateField("playerJump", jump);
-        SetPrivateField("playerLand", land);
+        SetPrivateField("addTool", land);
         SetPrivateField("useTool", tool);
 
         SoundEvents.PlayerJump();
@@ -336,10 +335,10 @@ public class SoundManagerExtendedTests
         var sources = testObject.GetComponents<AudioSource>();
         Assert.IsTrue(sources[1].isPlaying, "Jump should be playing");
 
-        SoundEvents.PlayerLand();
+        SoundEvents.ToolPickup();
         yield return null;
         sources = testObject.GetComponents<AudioSource>();
-        Assert.IsTrue(sources[1].isPlaying, "Land should be playing");
+        Assert.IsTrue(sources[1].isPlaying, "Add-Tool should be playing");
 
         SoundEvents.ToolUse();
         yield return null;
@@ -353,15 +352,15 @@ public class SoundManagerExtendedTests
     public IEnumerator SFX_PlayMultipleClipsOverlap()
     {
         var jump = AudioClip.Create("Jump", 44100, 1, 44100, false);
-        var land = AudioClip.Create("Land", 44100, 1, 44100, false);
+        var tool = AudioClip.Create("ToolUse", 44100, 1, 44100, false);
 
         SetPrivateField("playerJump", jump);
-        SetPrivateField("playerLand", land);
+        SetPrivateField("toolUse", tool);
 
         SoundEvents.PlayerJump();
-        SoundEvents.PlayerLand();
+        SoundEvents.ToolUse();
         SoundEvents.PlayerJump();
-        SoundEvents.PlayerLand();
+        SoundEvents.ToolUse();
 
         yield return null;
 
