@@ -43,7 +43,7 @@ public class Hazard : MonoBehaviour
         }
 
         // Apply Gravity
-        rb.velocity += new Vector2(0, gravity.y) * Time.deltaTime; // gravity collides with walls.
+        rb.linearVelocity += new Vector2(0, gravity.y) * Time.deltaTime; // gravity collides with walls.
 
 
         // Follow the player if it is in follow Range
@@ -61,7 +61,7 @@ public class Hazard : MonoBehaviour
             velocity.z = direction.z * moveSpeed;
 
             // move the hazard 
-            rb.velocity = new Vector2(velocity.x, rb.velocity.y); //the rock collides with walls.
+            rb.linearVelocity = new Vector2(velocity.x, rb.linearVelocity.y); //the rock collides with walls.
 
 
 
