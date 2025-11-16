@@ -206,5 +206,5 @@ MonoBehaviour:
   _flashlight: {fileID: 0}
   durability: 100
   _rotationSpeed: 40
-  _breakRadius: 1.4
-  _mineDelay: 1.4
+  _breakRadius: 2.2
+  _mineDelay: 2.5

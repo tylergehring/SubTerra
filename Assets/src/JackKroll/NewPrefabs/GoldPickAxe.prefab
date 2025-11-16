@@ -110,7 +110,7 @@ MonoBehaviour:
   durability: 1000
   _rotationSpeed: 50
   _breakRadius: 3
-  _mineDelay: 0.8
+  _mineDelay: 0.5
 --- !u!82 &5643419673802659941
 AudioSource:
   m_ObjectHideFlags: 0
