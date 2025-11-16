@@ -1,9 +1,9 @@
 using UnityEngine;
 
-/// <summary>
 /// Demo script to show the difference between static and dynamic binding.
 /// Attach this to any GameObject to see the output in the console.
-/// </summary>
+/// "virtual" enables runtime method resolution. Instead of the compiler deciding which
+/// method to call at compile-time the decision is mae at runtime based on the actual object type.
 public class BindingDemo : MonoBehaviour
 {
     void Start()
