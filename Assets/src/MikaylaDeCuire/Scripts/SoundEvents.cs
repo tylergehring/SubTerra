@@ -34,4 +34,44 @@ public static class SoundEvents
     public static void EnemyDamage() => OnEnemyDamage?.Invoke();
     public static void EnemyThrow() => OnEnemyThrow?.Invoke();
     
+    /* --------------------------------
+        STATIC vs DYNAMIC BINDING DEMO
+    ------------------------------------- */
+
+    // SUPER CLASS
+    public class SoundAction {
+        public void PlayStatic() { Debug.Log("Super Static"); }
+        public virtual void PlayDynamic() { Debug.Log("Super Dynamic"); }
+    }
+
+    // SUB CLASSES
+    public class JumpSoundAction : SoundAction {
+        public override void PlayDynamic() { Debug.Log("Dynamic Jump!");}
+    }
+
+    public class ToolSoundAction : SoundAction {
+        public override void PlayDynamic() { Debug.Log("Dynamic Tool!");}
+    }
+
+    public static void RunBindingDemo() {
+        SoundAction action = new SoundAction();
+        SoundAction jumpAction = new JumpSoundAction();
+        SoundAction toolAction = new ToolSoundAction();
+
+        /* Static calls are resolved @ COMPILE TIME
+        Static method is always called
+        Even though jumpAction/toolAction have overriding methods (Look VS Code even uses different colors thats cool)
+        */ 
+        baseAction.PlayStatic();            // "Super Static"            
+        jumpAction.PlayStatic();            // "Super Static"       
+        toolAction.PlayStatic();            // "Super Static" 
+
+        /* Dynamic calls are resolved @ RUNTIME 
+        Changing the object's type now changes which function gets called
+        */
+        action.PlayDynamic();               // "Super Dynamic" 
+        jumpAction.PlayDynamic();           // "Dynamic Jump!"
+        toolAction.PlayDynamic();           // "Dynamic Tool!" 
+    }
+    //--------------------------------------------------------------------------------DemoDone
 }

@@ -1,7 +1,8 @@
 using UnityEngine;
 using System;
 
-public class SoundManager : MonoBehaviour {
+public class SoundManager : MonoBehaviour
+{
 
     /* Singleton Pattern 
     Public - Other scripts can reference it
@@ -36,8 +37,10 @@ public class SoundManager : MonoBehaviour {
     Singleton check - Ensure only one SM exists (if another is already active --> destory yourself)
     DontDestroyOnLoad keeps the manager across scene changes (persistent audio like background music)
     */
-    private void Awake(){
-        if (Instance != null && Instance != this){
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
             Destroy(gameObject);
             return;
         }
@@ -54,32 +57,35 @@ public class SoundManager : MonoBehaviour {
     SoundEvents.PlayerJump() is called --> SoundManager reacts with PlayJumpSound()
     Things here need to be done after Awake once scene is fully initialized 
     */
-    private void OnEnable(){
-        SoundEvents.OnPlayerJump   += PlayJumpSound;
-        SoundEvents.OnToolUse      += PlayToolUseSound;
-        SoundEvents.OnToolPickup   += PlayToolPickupSound;
-        SoundEvents.OnFootstep     += PlayFootstep;
-        SoundEvents.OnEnemyDamage  += PlayEnemyDamageSound;
-        SoundEvents.OnEnemyThrow   += PlayEnemyThrowSound;
+    private void OnEnable()
+    {
+        SoundEvents.OnPlayerJump += PlayJumpSound;
+        SoundEvents.OnToolUse += PlayToolUseSound;
+        SoundEvents.OnToolPickup += PlayToolPickupSound;
+        SoundEvents.OnFootstep += PlayFootstep;
+        SoundEvents.OnEnemyDamage += PlayEnemyDamageSound;
+        SoundEvents.OnEnemyThrow += PlayEnemyThrowSound;
     }
 
 
     /* Runs when the gameObject = destroyed
     Unsubscribe to events so that Unity doesnt keep references to destroyed objects
     */
-    private void OnDisable(){
-        SoundEvents.OnPlayerJump   -= PlayJumpSound;
-        SoundEvents.OnToolUse      -= PlayToolUseSound;
-        SoundEvents.OnToolPickup   -= PlayToolPickupSound;
-        SoundEvents.OnFootstep     -= PlayFootstep;
-        SoundEvents.OnEnemyDamage  -= PlayEnemyDamageSound;
-        SoundEvents.OnEnemyThrow   -= PlayEnemyThrowSound;
+    private void OnDisable()
+    {
+        SoundEvents.OnPlayerJump -= PlayJumpSound;
+        SoundEvents.OnToolUse -= PlayToolUseSound;
+        SoundEvents.OnToolPickup -= PlayToolPickupSound;
+        SoundEvents.OnFootstep -= PlayFootstep;
+        SoundEvents.OnEnemyDamage -= PlayEnemyDamageSound;
+        SoundEvents.OnEnemyThrow -= PlayEnemyThrowSound;
     }
 
     // Runs once after Awake when scene is fully initialized
-    private void Start() { BackgroundMusic();}
+    private void Start() { BackgroundMusic(); }
 
-    public void BackgroundMusic(){
+    public void BackgroundMusic()
+    {
         if (background_clip == null || backgroundSource == null || this == null) return;
 
         backgroundSource.clip = background_clip;
@@ -87,7 +93,8 @@ public class SoundManager : MonoBehaviour {
         backgroundSource.volume = Mathf.Clamp(background_volume, 0f, 0.5f);
         backgroundSource.Play();
     }
-    private void PlayFootstep(){
+    private void PlayFootstep()
+    {
         if (footStep == null || footStep.Length == 0) return;
 
         var idx = UnityEngine.Random.Range(0, footStep.Length);
@@ -95,10 +102,10 @@ public class SoundManager : MonoBehaviour {
         if (clip != null) PlaySFX(clip);
     }
 
-    private void PlayJumpSound(){PlaySFX(playerJump);}
-    private void PlayToolUseSound(){PlaySFX(useTool);}
-    private void PlayToolPickupSound(){PlaySFX(addTool);}
-    private void PlayEnemyDamageSound(){PlaySFX(enemyDamage);}
+    private void PlayJumpSound() { PlaySFX(playerJump); }
+    private void PlayToolUseSound() { PlaySFX(useTool); }
+    private void PlayToolPickupSound() { PlaySFX(addTool); }
+    private void PlayEnemyDamageSound() { PlaySFX(enemyDamage); }
     private void PlayEnemyThrowSound() { PlaySFX(enemyThrow); }
 
 
@@ -112,4 +119,12 @@ public class SoundManager : MonoBehaviour {
         if (clip == null) return;
         sfxSource.PlayOneShot(clip);
     }
+    
+    /* Hypothetical code from another developer's repo
+    private void PlaySFX(AudioClip clip)
+        {
+            if (clip == null) return;
+            CustomAudioPool.Instance.Play(clip);
+        }
+    */
 }
