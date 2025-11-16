@@ -140,6 +140,6 @@ public class skeletonEnemy : MonoBehaviour
 
     private void Die()
     {
-        // You can add death animation, particle effects, etc.
+        //
     }
 }
