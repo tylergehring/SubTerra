@@ -12,7 +12,7 @@ public class WoodPickaxe : UtilityTool
     //speed of the pickax movment when being used 
     [SerializeField] private float _rotationSpeed = 40f;
     //The varible that defines the radius that will brake in the destry chunk function
-    [SerializeField] private float _breakRadius = 1.4f;
+    [SerializeField] private float _breakRadius = 5f;
     //the varible that defins the time that it takes before the destry chunk function can be used.
     [SerializeField] private float _mineDelay = 1.4f;
 
