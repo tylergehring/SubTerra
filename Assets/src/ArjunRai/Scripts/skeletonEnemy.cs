@@ -103,7 +103,12 @@ public class skeletonEnemy : MonoBehaviour
 
         Destroy(attack, 3f); // Remove the bone after 3 seconds
 
-        yield return new WaitForSeconds(throwCooldown);
+        Destroy(attack, 3f);   // Destroy bone after 3 seconds
+
+        SoundEvents.EnemyThrow();   // Mikayla  -   Trigger Sound Event
+
+        yield return new WaitForSeconds(throwCooldown);   // Wait for cooldown
+
         canThrow = true;
     }
 
@@ -124,6 +129,8 @@ public class skeletonEnemy : MonoBehaviour
         currentHealth -= damage;
 
         Debug.Log("Enemy took damage, remaining health: " + currentHealth);
+
+        SoundEvents.EnemyDamage();  // Mikayla - Notify SoundManager
 
         if (currentHealth <= 0)
         {

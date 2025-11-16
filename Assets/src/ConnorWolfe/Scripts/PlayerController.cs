@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using static UnityEditor.PlayerSettings;
 
-
 /* Example of dynamic binding
  
  */
@@ -277,15 +276,15 @@ public class PlayerController : MonoBehaviour
         {
             _rb.linearVelocityX = !_isSprinting ? _horizontalMovement * setSpeed : _horizontalMovement * setSpeed * 2f;
             if (_isSprinting && _horizontalMovement != 0)
-               _staminaWheel.ChangeStamina((-1f * _sprintSRate) * Time.deltaTime);
+                _staminaWheel.ChangeStamina((-1f * _sprintSRate) * Time.deltaTime);
         }
         else
         {
-           _rb.linearVelocityX = _horizontalMovement * setSpeed;
-           _isSprinting = false;
+            _rb.linearVelocityX = _horizontalMovement * setSpeed;
+            _isSprinting = false;
         }
 
-            _rb.linearVelocityX = !_isSprinting ? _horizontalMovement * setSpeed: _horizontalMovement * setSpeed * 2f;
+        _rb.linearVelocityX = !_isSprinting ? _horizontalMovement * setSpeed : _horizontalMovement * setSpeed * 2f;
 
         if (_isJumping && _onGround)
         {
@@ -293,9 +292,18 @@ public class PlayerController : MonoBehaviour
                 _rb.linearVelocityY = _jumpStrength;
             else
                 _rb.linearVelocityY = _jumpStrength * 0.5f;
+
+            // Mikayla  -   Jump Sound
+            SoundEvents.PlayerJump();
         }
         else if (!_isJumping && _rb.linearVelocityY > 0)
             _rb.linearVelocityY = 0f;
+        
+        // Mikayla  -   Trigger Footstep sounds once horizontal velocity is applied
+        if (_onGround && Mathf.Abs(_horizontalMovement) > 0.1f){
+            SoundEvents.Footstep();
+        }
+
     }
 
     private void _WallMove()
@@ -329,6 +337,7 @@ public class PlayerController : MonoBehaviour
         NonReusableTools nrTool = current.GetComponent<NonReusableTools>();
         if (nrTool) {
             nrTool.Use(this);
+            SoundEvents.ToolUse();
             return;
         }
     }

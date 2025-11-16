@@ -1287,6 +1287,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3889987747707083888, guid: a5db66b81c6d665469f692161f73875c, type: 3}
+      propertyPath: _breakRadius
+      value: 2.8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2476,6 +2480,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1353826540}
     m_Modifications:
+    - target: {fileID: 2244944391272472109, guid: b87b7e40407fa014c94209fcccb380af, type: 3}
+      propertyPath: _breakRadius
+      value: 2.4
+      objectReference: {fileID: 0}
     - target: {fileID: 3137267048003401807, guid: b87b7e40407fa014c94209fcccb380af, type: 3}
       propertyPath: m_Name
       value: 'WoodPickaxe '
@@ -2598,4 +2606,5 @@ SceneRoots:
   - {fileID: 316412868}
   - {fileID: 1574086783}
   - {fileID: 1789369497}
-  - {fileID: 1740657376}
+  - {fileID: 1872673576}
+  - {fileID: 543581963}
