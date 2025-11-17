@@ -19,11 +19,13 @@ public class Hazard : MonoBehaviour
     private PlayerController player;
     private float lastDamageTime;
     private DamageSuper damageObject = new Damage(); // static type - DamageSuper | --- Damage(), dynamic type  | compiler only allowes me to call the methods that exist inside the DamageSuper class.
+    private Rigidbody2D rb; // to stop rock from passing through walls
     void Start()
     {  
         player = GameObject.FindGameObjectWithTag("Player")?.GetComponent<PlayerController>();   // Take the reference of the playercontroller script into player 
         if (player == null) Debug.LogError("Player not found! Ensure Player has 'Player' tag and PlayerController script.");
         lastDamageTime = Time.time;
+        rb = GetComponent<Rigidbody2D>(); // for physics movement 
     }
 
 
@@ -41,7 +43,8 @@ public class Hazard : MonoBehaviour
         }
 
         // Apply Gravity
-        transform.position += gravity * Time.deltaTime;
+        rb.linearVelocity += new Vector2(0, gravity.y) * Time.deltaTime; // gravity collides with walls.
+
 
         // Follow the player if it is in follow Range
         if (isMoving)
@@ -58,7 +61,8 @@ public class Hazard : MonoBehaviour
             velocity.z = direction.z * moveSpeed;
 
             // move the hazard 
-            transform.position += velocity * Time.deltaTime;  // Moves the hazard along the direction vector.
+            rb.linearVelocity = new Vector2(velocity.x, rb.linearVelocity.y); //the rock collides with walls.
+
 
 
             // Apply rotation for natural falling effect
@@ -112,6 +116,8 @@ public class Hazard : MonoBehaviour
         transform.position = position;
         isMoving = false; // Reset movement state
         Debug.Log($"Rock spawned at {position}");
+   
+        World.Instance.GetTerrainHandler().DestroyInRadius(transform.position, 3);   // This prevents rock from spawning inside terrain.
 
     }
 

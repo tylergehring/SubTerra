@@ -8,6 +8,7 @@ public class skeletonEnemy : MonoBehaviour
     private bool playerInRange = false; // True when the player enters the detection range 
     private bool canThrow = true;  // Prevent bone spamming - cooldown
     private Animator animator;  // Animation controller
+    private Rigidbody2D rb; 
 
     [SerializeField] private float moveSpeed = 1.0f;   // Skeleton move speed 
     [SerializeField] private float stopRange = 2.0f;   // Range before the skeleton stops 
@@ -45,6 +46,8 @@ public class skeletonEnemy : MonoBehaviour
 
         animator = GetComponent<Animator>();
         currentHealth = maxHealth;
+
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void Update()
@@ -72,12 +75,9 @@ public class skeletonEnemy : MonoBehaviour
         if (distance > stopRange)
         {
             animator.SetFloat("Speed", 1f); // walking animation
-
-            transform.position = Vector2.MoveTowards(
-                transform.position,
-                playerTransform.position,
-                moveSpeed * Time.deltaTime
-            );
+            Vector2 direction = (playerTransform.position - transform.position).normalized;
+            rb.MovePosition(rb.position + direction * moveSpeed * Time.fixedDeltaTime);
+            
         }
         else
         {
