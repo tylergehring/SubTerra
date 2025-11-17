@@ -6,10 +6,44 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using static UnityEditor.PlayerSettings;
 
+/* Example of dynamic binding
+ 
+ */
+public class SpeedSuperC
+{
+    protected float _speed = 0f;
+
+    public void SetSpeed(float newSpeed)
+    {
+        _speed = newSpeed;
+    }
+
+    //    public float GetSpeed() { // static version
+    public virtual float GetSpeed() { // dynamic version
+        return 3*_speed;
+    }
+}
+
+public class Speed : SpeedSuperC
+{
+    //    public float GetSpeed() { // static version
+    public override float GetSpeed() { // dynamic version
+    
+        return _speed;
+    }
+}
+
 
 public class PlayerController : MonoBehaviour
 {
+
     // this script handles systems for the player (Arjun)
+
+    // static instance (thread-safe lazy intialization)
+    [HideInInspector] public static PlayerController Instance { get; private set; }
+
+    [Header("BC mode toggle")]
+    [SerializeField] public bool isBCMode = false; // public so other scripts and change/set bcmode
 
     // public as to be able to change the key binds in other scripts
     // using Old Unity Input systems
@@ -35,18 +69,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _raycastRange;
     // stamina
     [Header("Stamina Settings")]
-    [Tooltip("Max Stamina is 1.0f, This is the drain rate when sprinting")]
-    [SerializeField] private float _sprintSRate = 0.2f;
-    [Tooltip("Max Stamina is 1.0f, This is the drain rate when climbing")]
-    [SerializeField] private float _climbRate = 0.1f;
-    [SerializeField] private float _staminaRegenRate = 0.1f; 
-    [SerializeField] private int _staminaRegenDelay = 2;
+    [Tooltip("Max Stamina is 100f, This is the drain rate when sprinting")]
+    [SerializeField] private float _sprintSRate = 20f;
+    [Tooltip("Max Stamina is 100f, This is the drain rate when climbing")]
+    [SerializeField] private float _climbSRate = 15f;
+  //  [SerializeField] private float _staminaRegenRate = 10f; 
+//    [SerializeField] private float _staminaRegenDelay = 3f;
     // player health
     [Header("Health settings")]
     [SerializeField] private byte _health = (byte)3; // Unsigned 8bit integer (0 to 255)
     // player score
     [Header("Score settings")]
-    [SerializeField] private uint _playerScore = 0;
+    [SerializeField] private uint _playerScore = 0; // serialized so it can be viewed in inspector
     // player components that help the player move
     [Header("Player components")]
     [SerializeField] private Rigidbody2D _rb;
@@ -59,6 +93,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private GameObject _camera;
     [SerializeField] private GameObject _flashlight;
     [SerializeField] private InventoryHotBarScript _inventoryHotBar;
+    [SerializeField] private StaminaWheelScript _staminaWheel;
 
 
     // booleans for checking movement and position states
@@ -69,21 +104,27 @@ public class PlayerController : MonoBehaviour
     private bool _isPaused = false;
     private bool _isJumping = false;
     private bool _isSprinting = false;
-    private bool _canStamina = true; // turn off stamina for a moment if stamina reaches 0
+    private bool _staminaExhausted = true; // turn off stamina for a moment if stamina reaches 0
     private bool _wasRight = true; // used in animation/flip control
     private bool _playerAlive = true;
     private float _horizontalMovement;
     private float _halfHeight; // used with raycasting to determine bounds
     private float _halfWidth;
     private float _animTimer = 0f;
-    private float _currStamina = 1f;
+    private float _currStamina = 100f;
     private float _staminaRegenTimer = 0f;
 
     // The inventory for the player
     private QuickAccess _inventory = new QuickAccess();
 
+    // Speed class (used to showcase static vs. dynamic binding to meet class requirements)
+    private SpeedSuperC _movementSpeed = new Speed();
+
+
     void Start()
     {
+        _movementSpeed.SetSpeed(_moveSpeed);
+
         _health = 100;  // Player health start form 100
         // if the key's are not set / set in inspector, I set them manually here
         if (mvRightKey == KeyCode.None) // right: D
@@ -121,11 +162,35 @@ public class PlayerController : MonoBehaviour
         if (!_inventoryHotBar)
             _inventoryHotBar = GetComponentInChildren<InventoryHotBarScript>();
 
-//        if (_stamina == 0)
-  //          _stamina = 0.1f;
+        if (!_staminaWheel)
+            _staminaWheel = GetComponentInChildren<StaminaWheelScript>();
 
+        if (!_camera)
+        {
+//            _camera = ();
+        }
     }
 
+    /* in Awake:
+     we check that there is only one instance of the player on the screen
+     */
+    private void Awake()
+    {
+        if (Instance != null && Instance != null)
+            Destroy(this.gameObject);
+
+        Instance = this;
+        Debug.Log($"instance == {Instance.name}");
+    }
+
+    /* in OnDestroy()
+        prevent false duplicates in the scene
+     */
+    private void OnDestroy()
+    {
+        if (Instance == this)
+            Instance = null;
+    }
 
     /* in Update:
         - We get input
@@ -147,7 +212,7 @@ public class PlayerController : MonoBehaviour
     */
     void FixedUpdate()
     {
-        CheckHealth();
+        _CheckHealth();
         if (_isPaused) return;
         _CheckSurface(); // raycasting is expensive, now only runs when we intend to use it
         _GoundMove();
@@ -171,15 +236,7 @@ public class PlayerController : MonoBehaviour
 
         _horizontalMovement = rightMv - leftMv;
 
-
-
-
-        if (Input.GetKey(jumpKey))
-            _isJumping = true;
-        else
-            _isJumping= false;
-
-        //    Debug.Log("_isJumping == " + _isJumping);
+        _isJumping = Input.GetKey(jumpKey);
 
         // inventory actions
         if (Input.GetKeyDown(dropKey))
@@ -215,14 +272,49 @@ public class PlayerController : MonoBehaviour
     // move the player if its on the ground
     private void _GoundMove()
     {
+        // to meet the requirements of the class I must use the defined class in code to showcase the differences in static vs. dynamic
+        float setSpeed = _movementSpeed.GetSpeed();
+        if (isBCMode)
+        {
+            _rb.linearVelocityX = !_isSprinting ? _horizontalMovement * setSpeed : _horizontalMovement * setSpeed * 2f;
+            if (_isJumping)
+                _rb.linearVelocityY = _jumpStrength;
+            return;
+        }
 
-    
-        _rb.linearVelocityX = !_isSprinting ? _horizontalMovement * _moveSpeed : _horizontalMovement * _moveSpeed * 2f;
+
+        if (!_staminaWheel.IsExhausted())
+        {
+            _rb.linearVelocityX = !_isSprinting ? _horizontalMovement * setSpeed : _horizontalMovement * setSpeed * 2f;
+            if (_isSprinting && _horizontalMovement != 0)
+                _staminaWheel.ChangeStamina((-1f * _sprintSRate) * Time.deltaTime);
+        }
+        else
+        {
+            _rb.linearVelocityX = _horizontalMovement * setSpeed;
+            _isSprinting = false;
+        }
+
+        _rb.linearVelocityX = !_isSprinting ? _horizontalMovement * setSpeed : _horizontalMovement * setSpeed * 2f;
 
         if (_isJumping && _onGround)
-            _rb.linearVelocityY = _jumpStrength;
+        {
+            if (!_staminaWheel.IsExhausted())
+                _rb.linearVelocityY = _jumpStrength;
+            else
+                _rb.linearVelocityY = _jumpStrength * 0.5f;
+
+            // Mikayla  -   Jump Sound
+            SoundEvents.PlayerJump();
+        }
         else if (!_isJumping && _rb.linearVelocityY > 0)
             _rb.linearVelocityY = 0f;
+        
+        // Mikayla  -   Trigger Footstep sounds once horizontal velocity is applied
+        if (_onGround && Mathf.Abs(_horizontalMovement) > 0.1f){
+            SoundEvents.Footstep();
+        }
+
     }
 
     private void _WallMove()
@@ -230,9 +322,11 @@ public class PlayerController : MonoBehaviour
         if (_onGround)
             return;
 
-        if (_isJumping && _onWall)
+        if (_isJumping && _onWall && (!_staminaWheel.IsExhausted() || isBCMode))
         {
             _rb.linearVelocityY = _climbSpeed;
+            if (!isBCMode)
+                _staminaWheel.ChangeStamina((-1f * _climbSRate) * Time.deltaTime);
         }
      
 
@@ -244,8 +338,6 @@ public class PlayerController : MonoBehaviour
         _onGround = Physics2D.Raycast(transform.position, Vector2.down, _halfHeight + _raycastRange, LayerMask.GetMask("Environment"));
         _onWall = (Physics2D.Raycast(transform.position, Vector2.left, _halfWidth + _raycastRange, LayerMask.GetMask("Environment")) ||
             Physics2D.Raycast(transform.position, Vector2.right, _halfWidth + _raycastRange, LayerMask.GetMask("Environment")));
-//        _onLeftWall = Physics2D.Raycast(transform.position, Vector2.left, _halfWidth + 0.1f, LayerMask.GetMask("Environment"));
-  //      _onRightWall = Physics2D.Raycast(transform.position, Vector2.right, _halfWidth + 0.1f, LayerMask.GetMask("Environment"));
     }
 
     private void _UseCurrentItem()
@@ -257,15 +349,9 @@ public class PlayerController : MonoBehaviour
         NonReusableTools nrTool = current.GetComponent<NonReusableTools>();
         if (nrTool) {
             nrTool.Use(this);
+            SoundEvents.ToolUse();
             return;
         }
-
-
-// didn't work due to assembly defs
-//        PickaxeTool axe = current.GetComponent<PickaxeTool>();
-
-
-
     }
 
     // drop an item from the inventory
@@ -309,10 +395,8 @@ public class PlayerController : MonoBehaviour
         if (_horizontalMovement != 0)
         {
             if ((_horizontalMovement < 0 && _wasRight) || (_horizontalMovement > 0 && !_wasRight))
-            {
                 _playerAnimator.Play("Player Turn Around");
 
-            }
             _wasRight = (_horizontalMovement > 0);
             _playerSprite.flipX = (_horizontalMovement < 0);
         }
@@ -332,19 +416,13 @@ public class PlayerController : MonoBehaviour
             if (_horizontalMovement == 0)
             {
                 if (_animTimer <= 25)
-                {
                     _animTimer += Time.deltaTime;
-                }
                 else
-                {
                     _playerAnimator.SetBool("doIdleC", true);
-                }
 
                 int randNum = Random.Range(-1000, 1000);
                 if (randNum == 0)
-                {
                     _playerAnimator.SetBool("doIdleB", true);
-                }
 
             }
             else // running / sprinting
@@ -363,25 +441,17 @@ public class PlayerController : MonoBehaviour
         else /*if (_isJumping)*/ // in air
         {
             if (_rb.linearVelocityY > 0)
-            {
                 _playerAnimator.SetBool("isJumping", true);
-            }
             else if (_rb.linearVelocityY < 0)
-            {
                 _playerAnimator.SetBool("isFalling", true);
-            }
-
         }
-
-
     }
 
-    private void StaminaCheck()
+    private void _CheckHealth()
     {
-    }
+        if (isBCMode)
+            return;
 
-    private void CheckHealth()
-    {
         if (_health == 0 && _playerAlive)
         {
             if (_deadPlayerBodyPrefab && _camera)
@@ -429,26 +499,19 @@ public class PlayerController : MonoBehaviour
     {
         Debug.Log($"PlayerController: ChangeHealth -> amount == {amount}\n" +
                   $"& -> _health == {_health}");
-   
-        if (_health + amount < byte.MinValue)
-        {
-            _health = byte.MinValue;
-            return;
-        }
-        else if (_health + amount > byte.MaxValue) {
-            _health = byte.MaxValue;
-            return;
-        }
+
+        int healthCheck = _health - amount;
 
     
         int previousHealth = _health;
         int newHealth = _health - amount;
-
-        if (newHealth < 0)
-            newHealth = 0;
-        if (newHealth > 255)
-            newHealth = 255;
-
+        newHealth = Mathf.Clamp(newHealth, byte.MinValue,  byte.MaxValue);
+/*
+        if (newHealth < byte.MinValue)
+            newHealth = byte.MinValue;
+        if (newHealth > byte.MaxValue)
+            newHealth = byte.MaxValue;
+*/
 
         _health = (byte)newHealth;            
 
@@ -469,9 +532,9 @@ public class PlayerController : MonoBehaviour
 
         GameObject removed = _inventory.SetItem(null);
         if (destroyInstance && removed)
+        {
             Destroy(removed);
-        else if (destroyInstance && !removed && tool)
-            Destroy(tool.gameObject);
+        }
 
         _inventoryHotBar.UpdateSlotItem(_inventory.GetIndex(), null);
     }
@@ -484,17 +547,19 @@ public class PlayerController : MonoBehaviour
 
     public void ChangeScore(int change)
     {
-        if (change + _playerScore > uint.MaxValue)
-        {
-            _playerScore = uint.MaxValue;
-            return;
-        } else if (change + _playerScore < uint.MinValue)
-        {
-            _playerScore = uint.MinValue;
-            return;
-        }
-        
-        _playerScore += (uint)change;
+        /*        if (change + _playerScore > uint.MaxValue)
+                {
+                    _playerScore = uint.MaxValue;
+                    return;
+                } else if (change + _playerScore < uint.MinValue)
+                {
+                    _playerScore = uint.MinValue;
+                    return;
+                }
+          */
+        long newScore = (long)_playerScore + change;
+        newScore = (uint)Mathf.Clamp(_playerScore, uint.MinValue, uint.MaxValue);
+        _playerScore = (uint)newScore;
     }
 
     public uint GetScore()
@@ -505,30 +570,89 @@ public class PlayerController : MonoBehaviour
     // pick up an item and add it to the open inventory slot
     public GameObject PickUp(GameObject newItem)
     {
-        if (newItem)
-        {
-            newItem.transform.SetParent(null);
-        }
+        if (newItem == null) return null;
 
-        GameObject previous = _inventory.SetItem(newItem);
+        // This single line fixes BOTH your prefab errors forever
+        GameObject item = ItemFactory.CreateItem(newItem);
 
-        if (newItem)
-        {
-            NonReusableTools newTool = newItem.GetComponent<NonReusableTools>();
-            if (newTool)
-                newTool.OnPickup(this);
-        }
+        item.transform.SetParent(null);
+        item.SetActive(false);
+
+        // Rest of your logic (unchanged)
+        var tool = item.GetComponent<NonReusableTools>();
+        tool?.OnPickup(this);
+
+        GameObject previous = _inventory.SetItem(item);
 
         if (previous)
         {
-            NonReusableTools previousTool = previous.GetComponent<NonReusableTools>();
-            if (previousTool)
-                previousTool.OnDropped(this);
+            var prevTool = previous.GetComponent<NonReusableTools>();
+            prevTool?.OnDropped(this);
         }
 
-        Sprite tempSprite = newItem.GetComponent<SpriteRenderer>().sprite;
-        _inventoryHotBar.UpdateSlotItem(_inventory.GetIndex(), tempSprite);
+        var sr = item.GetComponent<SpriteRenderer>();
+        if (sr)
+            _inventoryHotBar.UpdateSlotItem(_inventory.GetIndex(), sr.sprite);
 
         return previous;
+        /*
+                if (newItem)
+                {
+                    newItem.transform.SetParent(null);
+                }
+
+                GameObject previous = _inventory.SetItem(newItem);
+
+                if (newItem)
+                {
+                    NonReusableTools newTool = newItem.GetComponent<NonReusableTools>();
+                    if (newTool)
+                        newTool.OnPickup(this);
+                }
+
+                if (previous)
+                {
+                    NonReusableTools previousTool = previous.GetComponent<NonReusableTools>();
+                    if (previousTool)
+                        previousTool.OnDropped(this);
+                }
+
+                Sprite tempSprite = newItem.GetComponent<SpriteRenderer>().sprite;
+                _inventoryHotBar.UpdateSlotItem(_inventory.GetIndex(), tempSprite);
+
+                return previous;
+        */
+    }
+
+    public void Victory()
+    {
+        int scoreMultiplier = 1;
+        for (int i = 0; i < 4; i++)
+        {
+            _inventory.Tab(i);
+            GameObject item = _inventory.GetItem();
+            if (item)
+                scoreMultiplier += 1;
+        }
+
+
+        ChangeScore((int)(_playerScore * scoreMultiplier));
+
+        /* Victory Sceeen stuff*/
+
+        Pause(true);
+
+    }
+
+    public void ChangeStamina(float amount)
+    {
+        _staminaWheel.ChangeStamina(amount);
+    }
+
+    public GameObject GetObject()
+    {
+        return this.gameObject;
     }
 }
+
+

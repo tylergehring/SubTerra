@@ -9,56 +9,78 @@ public class BoundaryTests
 {
     const int TERRAIN_TEST_SIZE = 100;
 
+    private TerrainHandler world;
+
     [UnitySetUp]
     public IEnumerator Setup()
     {
-        // Load test scene asynchronously
-        var loadOp = SceneManager.LoadSceneAsync("TerrainDestructionTest");
-        yield return new WaitUntil(() => loadOp.isDone);
-        yield return null; // wait one frame so scene Awake/Start complete
-        GameObject.Destroy(GameObject.FindFirstObjectByType<StaticChunk>().gameObject);
+        var loadOp = SceneManager.LoadSceneAsync("MultiChunkTest", LoadSceneMode.Single);
+        yield return loadOp;
+
+        world = GameObject.FindFirstObjectByType<TerrainHandler>();
+        Assert.IsNotNull(world, "Could not find TerrainHandler in the scene!");
+
+        world.gameObject.SetActive(false);
+
+        yield return null;
     }
 
     [UnityTest]
-    public IEnumerator NoiseThreshold_Extremes_ProduceValidMap()
+    public IEnumerator BoundaryTest_NoiseThreshold_Extremes()
     {
-        // Create chunk *inactive* so Awake() doesn’t run yet
-        var chunkGO = new GameObject("Test Chunk");
-        chunkGO.SetActive(false);
+        Debug.Log("Running test for extreme noise values");
 
-        var chunk = chunkGO.AddComponent<StaticChunk>();
-        chunk.transform.Translate(Vector3.left * TERRAIN_TEST_SIZE / 2);
-        chunk.transform.Translate(Vector3.down * TERRAIN_TEST_SIZE / 2);
-        chunk.terrainHandler = GameObject.FindFirstObjectByType<TerrainHandler>();
-        chunk.chunkSize = TERRAIN_TEST_SIZE;
-        Debug.Log("Generating terrain with noise threshold of -100");
-        chunk.terrainHandler.noiseHandler.terrainThreshold = -100;
-        yield return new WaitForSeconds(1);
-        chunkGO.SetActive(true);
-        yield return new WaitForSeconds(1);
+        world.SetWorldHeight(100);
+        world.SetWorldWidth(100);
+        world.SetViewDistance(5);
+        world.GetComponent<NoiseHandler>().SetTerrainThreshold(1000);
+        world.gameObject.SetActive(true);
+        world.GenerateTerrain();
+        Debug.Log($"Created terrain with terrain threshold {world.GetComponent<NoiseHandler>().GetTerrainThreshold()}");
+
+        yield return new WaitForSeconds(1.0f);
         Assert.Pass();
         yield return null;
     }
 
+    [UnityTest]
+    public IEnumerator BoundaryTest_DestroyOutsideChunk()
+    {
+        Debug.Log("Running test for destroying terrain outside chunks");
+
+        world.SetWorldHeight(100);
+        world.SetWorldWidth(100);
+        world.SetViewDistance(5);
+        world.gameObject.SetActive(true);
+        world.GenerateTerrain();
+        Debug.Log("Created terrain");
+
+        yield return new WaitForSeconds(1.0f);
+        world.DestroyInRadius(Vector3.one * 100000, 100);
+        Debug.Log($"Attempted to destroy terrain out of bounds");
+        yield return new WaitForSeconds(1.0f);
+
+        Assert.Pass();
+        yield return null;
+    }
 
     [UnityTest]
-    public IEnumerator DestroyOutsideChunk_DoesNothing()
+    public IEnumerator BoundaryTest_DestroyAllTerrain()
     {
-        // Create chunk *inactive* so Awake() doesn’t run yet
-        var chunkGO = new GameObject("Test Chunk");
-        chunkGO.SetActive(false);
+        Debug.Log("Running test for destroying terrain outside chunks");
 
-        var chunk = chunkGO.AddComponent<StaticChunk>();
-        chunk.transform.Translate(Vector3.left * TERRAIN_TEST_SIZE / 2);
-        chunk.transform.Translate(Vector3.down * TERRAIN_TEST_SIZE / 2);
-        chunk.terrainHandler.noiseHandler = GameObject.FindFirstObjectByType<NoiseHandler>();
-        chunk.chunkSize = TERRAIN_TEST_SIZE;
-        chunkGO.SetActive(true);
+        world.SetWorldHeight(100);
+        world.SetWorldWidth(100);
+        world.SetViewDistance(5);
+        world.gameObject.SetActive(true);
+        world.GenerateTerrain();
+        Debug.Log("Created terrain");
 
-        yield return new WaitForSeconds(1);
-        Debug.Log("Attempting to destroy parts of a chunk outside of chunk bounds...");
-        chunk.DestroyInRadius(Vector3.up * 1001, 20);
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(1.0f);
+        world.DestroyInRadius(Vector3.zero, 1000);
+        Debug.Log($"Attempted to destroy entirety of terrain");
+        yield return new WaitForSeconds(1.0f);
+
         Assert.Pass();
         yield return null;
     }

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="8" result="Failed(Child)" total="8" passed="0" failed="8" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2025-11-15 19:42:08Z" end-time="2025-11-15 19:42:10Z" duration="1.6028614">
+  <test-suite type="TestSuite" id="1086" name="SubTerra" fullname="SubTerra" runstate="Runnable" testcasecount="68" result="Failed" site="Child" start-time="2025-11-15 19:42:08Z" end-time="2025-11-15 19:42:10Z" duration="1.602861" total="8" passed="0" failed="8" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1027" name="CW_PlayMode.dll" fullname="C:/Users/Conno/OneDrive/MyProjects/Echos Of Subterra/RepoFolder/SubTerra/Library/ScriptAssemblies/CW_PlayMode.dll" runstate="Runnable" testcasecount="20" result="Failed" site="Child" start-time="2025-11-15 19:42:08Z" end-time="2025-11-15 19:42:10Z" duration="1.577239" total="8" passed="0" failed="8" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="21304" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestFixture" id="1006" name="Testing" fullname="Testing" classname="Testing" runstate="Runnable" testcasecount="20" result="Failed" site="Child" start-time="2025-11-15 19:42:08Z" end-time="2025-11-15 19:42:10Z" duration="1.573676" total="8" passed="0" failed="8" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-case id="1019" name="Drop_RemovesItemAndSpawnsHandler" fullname="Testing.Drop_RemovesItemAndSpawnsHandler" methodname="Drop_RemovesItemAndSpawnsHandler" classname="Testing" runstate="Runnable" seed="47726755" result="Failed" label="Error" start-time="2025-11-15 19:42:08Z" end-time="2025-11-15 19:42:08Z" duration="0.398392" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : System.Reflection.TargetException : Non-static field requires a target
+TearDown : System.NullReferenceException : Object reference not set to an instance of an object]]></message>
+            <stack-trace><![CDATA[--SetUp
+  at System.Reflection.RuntimeFieldInfo.GetValue (System.Object obj) [0x0000b] in <59bd7c40c082431db25e1e728ab62789>:0 
+  at Testing+<Setup>d__3.MoveNext () [0x0007c] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:41 
+  at UnityEngine.TestTools.EnumeratorHelper+<ProgressOnEnumerator>d__5.MoveNext () [0x00017] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\EnumeratorHelper.cs:35 
+  at UnityEngine.TestTools.BeforeAfterTestCommandBase`1+<ExecuteEnumerable>d__16[T].MoveNext () [0x00132] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Commands\BeforeAfterTestCommandBase.cs:155 
+--TearDown
+  at Testing+<Cleanup>d__4.MoveNext () [0x00022] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:72 
+  at UnityEngine.TestTools.EnumeratorHelper+<ProgressOnEnumerator>d__5.MoveNext () [0x00017] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\EnumeratorHelper.cs:35 
+  at UnityEngine.TestTools.BeforeAfterTestCommandBase`1+<ExecuteEnumerable>d__16[T].MoveNext () [0x0043e] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Commands\BeforeAfterTestCommandBase.cs:248 ]]></stack-trace>
+          </failure>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+]]></output>
+        </test-case>
+        <test-case id="1012" name="Health_BoundaryHealthTests" fullname="Testing.Health_BoundaryHealthTests" methodname="Health_BoundaryHealthTests" classname="Testing" runstate="Runnable" seed="450819362" result="Failed" label="Error" start-time="2025-11-15 19:42:08Z" end-time="2025-11-15 19:42:09Z" duration="0.180446" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : System.Reflection.TargetException : Non-static field requires a target
+TearDown : System.NullReferenceException : Object reference not set to an instance of an object]]></message>
+            <stack-trace><![CDATA[--SetUp
+  at System.Reflection.RuntimeFieldInfo.GetValue (System.Object obj) [0x0000b] in <59bd7c40c082431db25e1e728ab62789>:0 
+  at Testing+<Setup>d__3.MoveNext () [0x0007c] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:41 
+  at UnityEngine.TestTools.EnumeratorHelper+<ProgressOnEnumerator>d__5.MoveNext () [0x00017] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\EnumeratorHelper.cs:35 
+  at UnityEngine.TestTools.BeforeAfterTestCommandBase`1+<ExecuteEnumerable>d__16[T].MoveNext () [0x00132] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Commands\BeforeAfterTestCommandBase.cs:155 
+--TearDown
+  at Testing+<Cleanup>d__4.MoveNext () [0x00022] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:72 
+  at UnityEngine.TestTools.EnumeratorHelper+<ProgressOnEnumerator>d__5.MoveNext () [0x00017] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\EnumeratorHelper.cs:35 
+  at UnityEngine.TestTools.BeforeAfterTestCommandBase`1+<ExecuteEnumerable>d__16[T].MoveNext () [0x0043e] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Commands\BeforeAfterTestCommandBase.cs:248 ]]></stack-trace>
+          </failure>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+]]></output>
+        </test-case>
+        <test-case id="1009" name="Inventory_GetItemNeverReturnsDestroyed" fullname="Testing.Inventory_GetItemNeverReturnsDestroyed" methodname="Inventory_GetItemNeverReturnsDestroyed" classname="Testing" runstate="Runnable" seed="439234536" result="Failed" label="Error" start-time="2025-11-15 19:42:09Z" end-time="2025-11-15 19:42:09Z" duration="0.166110" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : System.Reflection.TargetException : Non-static field requires a target
+TearDown : System.NullReferenceException : Object reference not set to an instance of an object]]></message>
+            <stack-trace><![CDATA[--SetUp
+  at System.Reflection.RuntimeFieldInfo.GetValue (System.Object obj) [0x0000b] in <59bd7c40c082431db25e1e728ab62789>:0 
+  at Testing+<Setup>d__3.MoveNext () [0x0007c] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:41 
+  at UnityEngine.TestTools.EnumeratorHelper+<ProgressOnEnumerator>d__5.MoveNext () [0x00017] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\EnumeratorHelper.cs:35 
+  at UnityEngine.TestTools.BeforeAfterTestCommandBase`1+<ExecuteEnumerable>d__16[T].MoveNext () [0x00132] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Commands\BeforeAfterTestCommandBase.cs:155 
+--TearDown
+  at Testing+<Cleanup>d__4.MoveNext () [0x00022] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:72 
+  at UnityEngine.TestTools.EnumeratorHelper+<ProgressOnEnumerator>d__5.MoveNext () [0x00017] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\EnumeratorHelper.cs:35 
+  at UnityEngine.TestTools.BeforeAfterTestCommandBase`1+<ExecuteEnumerable>d__16[T].MoveNext () [0x0043e] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Commands\BeforeAfterTestCommandBase.cs:248 ]]></stack-trace>
+          </failure>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+]]></output>
+        </test-case>
+        <test-case id="1016" name="Movement_HorizontalInputChangesVelocity" fullname="Testing.Movement_HorizontalInputChangesVelocity" methodname="Movement_HorizontalInputChangesVelocity" classname="Testing" runstate="Runnable" seed="22756829" result="Failed" label="Error" start-time="2025-11-15 19:42:09Z" end-time="2025-11-15 19:42:09Z" duration="0.164687" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : System.Reflection.TargetException : Non-static field requires a target
+TearDown : System.NullReferenceException : Object reference not set to an instance of an object]]></message>
+            <stack-trace><![CDATA[--SetUp
+  at System.Reflection.RuntimeFieldInfo.GetValue (System.Object obj) [0x0000b] in <59bd7c40c082431db25e1e728ab62789>:0 
+  at Testing+<Setup>d__3.MoveNext () [0x0007c] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:41 
+  at UnityEngine.TestTools.EnumeratorHelper+<ProgressOnEnumerator>d__5.MoveNext () [0x00017] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\EnumeratorHelper.cs:35 
+  at UnityEngine.TestTools.BeforeAfterTestCommandBase`1+<ExecuteEnumerable>d__16[T].MoveNext () [0x00132] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Commands\BeforeAfterTestCommandBase.cs:155 
+--TearDown
+  at Testing+<Cleanup>d__4.MoveNext () [0x00022] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:72 
+  at UnityEngine.TestTools.EnumeratorHelper+<ProgressOnEnumerator>d__5.MoveNext () [0x00017] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\EnumeratorHelper.cs:35 
+  at UnityEngine.TestTools.BeforeAfterTestCommandBase`1+<ExecuteEnumerable>d__16[T].MoveNext () [0x0043e] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Commands\BeforeAfterTestCommandBase.cs:248 ]]></stack-trace>
+          </failure>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+]]></output>
+        </test-case>
+        <test-case id="1017" name="Movement_JumpOnlyWhenOnGround" fullname="Testing.Movement_JumpOnlyWhenOnGround" methodname="Movement_JumpOnlyWhenOnGround" classname="Testing" runstate="Runnable" seed="1159195506" result="Failed" label="Error" start-time="2025-11-15 19:42:09Z" end-time="2025-11-15 19:42:09Z" duration="0.157362" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : System.Reflection.TargetException : Non-static field requires a target
+TearDown : System.NullReferenceException : Object reference not set to an instance of an object]]></message>
+            <stack-trace><![CDATA[--SetUp
+  at System.Reflection.RuntimeFieldInfo.GetValue (System.Object obj) [0x0000b] in <59bd7c40c082431db25e1e728ab62789>:0 
+  at Testing+<Setup>d__3.MoveNext () [0x0007c] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:41 
+  at UnityEngine.TestTools.EnumeratorHelper+<ProgressOnEnumerator>d__5.MoveNext () [0x00017] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\EnumeratorHelper.cs:35 
+  at UnityEngine.TestTools.BeforeAfterTestCommandBase`1+<ExecuteEnumerable>d__16[T].MoveNext () [0x00132] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Commands\BeforeAfterTestCommandBase.cs:155 
+--TearDown
+  at Testing+<Cleanup>d__4.MoveNext () [0x00022] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:72 
+  at UnityEngine.TestTools.EnumeratorHelper+<ProgressOnEnumerator>d__5.MoveNext () [0x00017] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\EnumeratorHelper.cs:35 
+  at UnityEngine.TestTools.BeforeAfterTestCommandBase`1+<ExecuteEnumerable>d__16[T].MoveNext () [0x0043e] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Commands\BeforeAfterTestCommandBase.cs:248 ]]></stack-trace>
+          </failure>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+]]></output>
+        </test-case>
+        <test-case id="1014" name="Score_ChangeScoreClampsToUIntRange" fullname="Testing.Score_ChangeScoreClampsToUIntRange" methodname="Score_ChangeScoreClampsToUIntRange" classname="Testing" runstate="Runnable" seed="864423620" result="Failed" label="Error" start-time="2025-11-15 19:42:09Z" end-time="2025-11-15 19:42:09Z" duration="0.157767" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : System.Reflection.TargetException : Non-static field requires a target
+TearDown : System.NullReferenceException : Object reference not set to an instance of an object]]></message>
+            <stack-trace><![CDATA[--SetUp
+  at System.Reflection.RuntimeFieldInfo.GetValue (System.Object obj) [0x0000b] in <59bd7c40c082431db25e1e728ab62789>:0 
+  at Testing+<Setup>d__3.MoveNext () [0x0007c] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:41 
+  at UnityEngine.TestTools.EnumeratorHelper+<ProgressOnEnumerator>d__5.MoveNext () [0x00017] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\EnumeratorHelper.cs:35 
+  at UnityEngine.TestTools.BeforeAfterTestCommandBase`1+<ExecuteEnumerable>d__16[T].MoveNext () [0x00132] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Commands\BeforeAfterTestCommandBase.cs:155 
+--TearDown
+  at Testing+<Cleanup>d__4.MoveNext () [0x00022] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:72 
+  at UnityEngine.TestTools.EnumeratorHelper+<ProgressOnEnumerator>d__5.MoveNext () [0x00017] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\EnumeratorHelper.cs:35 
+  at UnityEngine.TestTools.BeforeAfterTestCommandBase`1+<ExecuteEnumerable>d__16[T].MoveNext () [0x0043e] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Commands\BeforeAfterTestCommandBase.cs:248 ]]></stack-trace>
+          </failure>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+]]></output>
+        </test-case>
+        <test-case id="1015" name="Score_GetScoreMatchesInternal" fullname="Testing.Score_GetScoreMatchesInternal" methodname="Score_GetScoreMatchesInternal" classname="Testing" runstate="Runnable" seed="105420455" result="Failed" label="Error" start-time="2025-11-15 19:42:09Z" end-time="2025-11-15 19:42:09Z" duration="0.159794" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : System.Reflection.TargetException : Non-static field requires a target
+TearDown : System.NullReferenceException : Object reference not set to an instance of an object]]></message>
+            <stack-trace><![CDATA[--SetUp
+  at System.Reflection.RuntimeFieldInfo.GetValue (System.Object obj) [0x0000b] in <59bd7c40c082431db25e1e728ab62789>:0 
+  at Testing+<Setup>d__3.MoveNext () [0x0007c] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:41 
+  at UnityEngine.TestTools.EnumeratorHelper+<ProgressOnEnumerator>d__5.MoveNext () [0x00017] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\EnumeratorHelper.cs:35 
+  at UnityEngine.TestTools.BeforeAfterTestCommandBase`1+<ExecuteEnumerable>d__16[T].MoveNext () [0x00132] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Commands\BeforeAfterTestCommandBase.cs:155 
+--TearDown
+  at Testing+<Cleanup>d__4.MoveNext () [0x00022] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:72 
+  at UnityEngine.TestTools.EnumeratorHelper+<ProgressOnEnumerator>d__5.MoveNext () [0x00017] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\EnumeratorHelper.cs:35 
+  at UnityEngine.TestTools.BeforeAfterTestCommandBase`1+<ExecuteEnumerable>d__16[T].MoveNext () [0x0043e] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Commands\BeforeAfterTestCommandBase.cs:248 ]]></stack-trace>
+          </failure>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+]]></output>
+        </test-case>
+        <test-case id="1020" name="Victory_MultipliesScoreByInventoryCountPlusOne" fullname="Testing.Victory_MultipliesScoreByInventoryCountPlusOne" methodname="Victory_MultipliesScoreByInventoryCountPlusOne" classname="Testing" runstate="Runnable" seed="1649017054" result="Failed" label="Error" start-time="2025-11-15 19:42:09Z" end-time="2025-11-15 19:42:10Z" duration="0.161094" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[SetUp : System.Reflection.TargetException : Non-static field requires a target
+TearDown : System.NullReferenceException : Object reference not set to an instance of an object]]></message>
+            <stack-trace><![CDATA[--SetUp
+  at System.Reflection.RuntimeFieldInfo.GetValue (System.Object obj) [0x0000b] in <59bd7c40c082431db25e1e728ab62789>:0 
+  at Testing+<Setup>d__3.MoveNext () [0x0007c] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:41 
+  at UnityEngine.TestTools.EnumeratorHelper+<ProgressOnEnumerator>d__5.MoveNext () [0x00017] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\EnumeratorHelper.cs:35 
+  at UnityEngine.TestTools.BeforeAfterTestCommandBase`1+<ExecuteEnumerable>d__16[T].MoveNext () [0x00132] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Commands\BeforeAfterTestCommandBase.cs:155 
+--TearDown
+  at Testing+<Cleanup>d__4.MoveNext () [0x00022] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:72 
+  at UnityEngine.TestTools.EnumeratorHelper+<ProgressOnEnumerator>d__5.MoveNext () [0x00017] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\EnumeratorHelper.cs:35 
+  at UnityEngine.TestTools.BeforeAfterTestCommandBase`1+<ExecuteEnumerable>d__16[T].MoveNext () [0x0043e] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Commands\BeforeAfterTestCommandBase.cs:248 ]]></stack-trace>
+          </failure>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+Saving results to: C:/Users/Conno/AppData/LocalLow/Sandstorm Games/SubTerra\TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

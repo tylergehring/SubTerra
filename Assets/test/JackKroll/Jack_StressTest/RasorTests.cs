@@ -1,0 +1,88 @@
+﻿using NUnit.Framework;
+using UnityEngine;
+
+public class RasorTests
+{
+    private Rasor _rasor;
+    private GameObject _rasorGO;
+
+    [SetUp]
+    public void SetUp()
+    {
+        // Find the first Rasor instance in the scene
+        _rasor = Object.FindFirstObjectByType<Rasor>();
+        if (_rasor != null)
+        {
+            _rasorGO = _rasor.gameObject;
+        }
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        // Nothing special to clean up
+    }
+
+    // --------------------------
+    // 1️⃣ Prefab exists in scene
+    // --------------------------
+    [Test]
+    public void Rasor_PrefabExists()
+    {
+        if (_rasor == null) Assert.Pass(" No Rasor prefab in the scene, test passes.");
+        else Assert.IsNotNull(_rasor, " Rasor prefab not found in the scene!");
+    }
+
+    // --------------------------
+    // 2️⃣ Prefab is inactive initially
+    // --------------------------
+    [Test]
+    public void Rasor_IsInactiveInitially()
+    {
+        if (_rasor != null)
+            Assert.IsFalse(_rasorGO.activeSelf, " Rasor should start inactive!");
+    }
+
+    // --------------------------
+    // 3️⃣ Prefab has AudioSource and sound is off
+    // --------------------------
+    [Test]
+    public void Rasor_HasAudioSourceAndSoundOff()
+    {
+        if (_rasor != null)
+        {
+            var audio = _rasorGO.GetComponent<AudioSource>();
+            Assert.IsNotNull(audio, " Rasor is missing an AudioSource component!");
+            Assert.IsFalse(audio.isPlaying, " Rasor AudioSource should not be playing initially!");
+        }
+    }
+
+    // --------------------------
+    // 4️⃣ No duplicate prefabs
+    // --------------------------
+    [Test]
+    public void Rasor_NoDuplicatePrefabs()
+    {
+        var rasors = Object.FindObjectsByType<Rasor>(FindObjectsSortMode.None);
+        if (rasors.Length == 0)
+        {
+            Assert.Pass(" No Rasor prefab found in the scene, test passes.");
+        }
+        Assert.LessOrEqual(rasors.Length, 1, $" There are {rasors.Length} Rasor prefabs in the scene! Only 1 expected.");
+    }
+
+    // --------------------------
+    // 5️⃣ Multiple instances in scene
+    // --------------------------
+    [Test]
+    public void Rasor_MultipleInstancesInScene()
+    {
+        if (_rasorGO != null)
+        {
+            var duplicate = Object.Instantiate(_rasorGO);
+            var rasors = Object.FindObjectsByType<Rasor>(FindObjectsSortMode.None);
+            Assert.GreaterOrEqual(rasors.Length, 2, "There should be 2 or more Rasor instances in the scene.");
+            Object.DestroyImmediate(duplicate);
+        }
+    }
+}

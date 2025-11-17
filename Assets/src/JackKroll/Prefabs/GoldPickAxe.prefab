@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2427335502894352531
 Transform:
   m_ObjectHideFlags: 0
@@ -103,10 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 499800bcc6909624d825685f8017dce9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: JackKroll_Scripts::GoldPickAxe
-  _toolName: Tool
   _toolDamage: 20
-  _toolWallDamage: 10
+  _toolTerLeval: 10
   flashlight: {fileID: 0}
   durability: 1000
-  breakRadius: 3.5
-  player: {fileID: 0}

@@ -2,18 +2,54 @@ using UnityEngine;
 
 public class PickaxeTool : UtilityTool
 {
-    private AudioSource audioSource;
-    public float breakRadius = 10f; // Radius to destroy chunks
+    //I use the facade pattern for the pickaxes 
+    //varible defnitions
+    private PickaxeFacade _facade;
+    private Transform _player;
+    private AudioSource _audioSource;
+    private TerrainHandler _terrain;
+    //speed of the pickax movment when being used 
+    [SerializeField] private float _rotationSpeed = 40f;
+    //The varible that defines the radius that will brake in the destry chunk function
+    [SerializeField] private float _breakRadius = 2.5f;
+    //the varible that defins the time that it takes before the destry chunk function can be used.
+    [SerializeField] private float _mineDelay = 1.2f;
+
+    private void Start()
+    {
+        _audioSource = GetComponent<AudioSource>();
+        _terrain = FindFirstObjectByType<TerrainHandler>();
+        //NEW WAY TO GET PLAYER POSITION. 
+        _player = PlayerController.Instance.transform;
+        // _player = GameObject.FindGameObjectWithTag("Player").transform;
+        // uses facade pattern to reduce the redundent code with helps with errors and keeps things consistent
+        _facade = new PickaxeFacade(_audioSource, _terrain);
+    }
+
+    private void Update()
+    {
+        _facade.UpdatePickaxe(transform, _player, Time.deltaTime, _rotationSpeed, _breakRadius, _mineDelay);
+    }
+}
+
+/*
+using UnityEngine;
+
+public class PickaxeTool : UtilityTool
+{
+    private float _mineTimer;
+    private AudioSource _audioSource;
+    private float _breakRadius = 1.6f; // Radius to destroy chunks
 
     private TerrainHandler _terrain;
 
-    public Transform player;
-    private float rotationSpeed = 40f; // degrees per second
+    private Transform player;
+    private float _rotationSpeed = 40f; // degrees per second
 
 
     private void Start()
     {
-        audioSource = GetComponent<AudioSource>();
+        _audioSource = GetComponent<AudioSource>();
 
         _terrain = FindFirstObjectByType<TerrainHandler>();
 
@@ -26,7 +62,7 @@ public class PickaxeTool : UtilityTool
 
 void Update()
     {
-
+        _mineTimer += Time.deltaTime;
         //cnages position 
         if (gameObject.activeSelf) // checks if the prefab (this GameObject) is active
         {
@@ -40,51 +76,52 @@ void Update()
             pos.y = player.position.y + 0.1f;
             pos.z = -1f;
             transform.position = pos;
-
-            if (Input.GetMouseButton(0)) // Left mouse button held down
+           
+            if ((Input.GetMouseButton(0) && !Input.GetKeyDown(KeyCode.F)) || ((!Input.GetMouseButton(0) && Input.GetKeyDown(KeyCode.F)))) // Left mouse button held down
             {
                 // Rotate around the Y axis (you can change to X/Z as needed)
-                transform.Rotate(0f, rotationSpeed * Time.deltaTime, 90f);
+                transform.Rotate(0f, _rotationSpeed * Time.deltaTime, 90f);
 
 
-                if (!audioSource.isPlaying)
+                if (!_audioSource.isPlaying)
                 {
-                    audioSource.Play();
+                    _audioSource.Play();
                 }
 
 
             }
             else
             {
-                if (audioSource.isPlaying)
+                if (_audioSource.isPlaying)
                 {
-                    audioSource.Stop();
+                    _audioSource.Stop();
                 }
             }
         }
-              
-            
 
-        
 
-        if (Input.GetMouseButtonDown(0))
+
+
+
+        if ((Input.GetMouseButton(0) && !Input.GetKeyDown(KeyCode.F)) || ((!Input.GetMouseButton(0) && Input.GetKeyDown(KeyCode.F)))) // Left mouse button held down
         {
-            DestroyChunksAtPosition();
+            if (_mineTimer > 1f)
+            {
+                _mineTimer = 0;
+                DestroyChunksAtPosition();
+            }
         }
 
     }
 
-    // added by Connor
-    public void DoThing()
-    {
-        DestroyChunksAtPosition();
-    }
+    
 
     private void DestroyChunksAtPosition()
     {
         if (_terrain != null)
         {
-            _terrain.DestroyInRadius(transform.position, breakRadius);
+            _terrain.DestroyInRadius(transform.position, _breakRadius);
         }
     }
 }
+*/

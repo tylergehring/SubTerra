@@ -13,8 +13,10 @@ public class TextureAtlas
 [RequireComponent(typeof(ChunkCollider))]
 public class StaticChunk : MonoBehaviour
 {
-    public TerrainHandler terrainHandler;
-    public int chunkSize = 10;
+    [SerializeField]
+    private NoiseHandler noiseHandler;
+    [SerializeField]
+    private int chunkSize = 10;
 
     // Private variables
     private bool[,] nodeMap;
@@ -31,10 +33,12 @@ public class StaticChunk : MonoBehaviour
     private MeshFilter filter;
     private MeshRenderer rend;
     private ChunkCollider coll;
+    private TerrainHandler terrainHandler;
 
     void Start()
     {
         // Initialize chunk renderer information
+        terrainHandler = World.Instance.GetTerrainHandler();
         mesh = new Mesh();
 
         filter = GetComponent<MeshFilter>();
@@ -78,14 +82,23 @@ public class StaticChunk : MonoBehaviour
         }
     }
 
+    public void SetChunkSize(int size)
+    {
+        chunkSize = size;
+    }
+    public void SetTerrainHandler(TerrainHandler handler)
+    {
+        terrainHandler = handler;
+    }
+
     void _ChunkSetup()
     {
-        terrainHandler = FindFirstObjectByType<TerrainHandler>();
+        noiseHandler = terrainHandler.GetComponent<NoiseHandler>();
         nodeMap = new bool[chunkSize + 1, chunkSize + 1];
 
         for (int x = 0; x < chunkSize + 1; x++)
             for (int y = 0; y < chunkSize + 1; y++)
-                nodeMap[x, y] = terrainHandler.noiseHandler.TerrainNoiseValue(transform.position.x + x, transform.position.y + y) > terrainHandler.noiseHandler.terrainThreshold;
+                nodeMap[x, y] = noiseHandler.TerrainNoiseValue(transform.position.x + x, transform.position.y + y) > noiseHandler.GetTerrainThreshold();
     }
 
     void _RenderMesh()
@@ -292,10 +305,11 @@ public class StaticChunk : MonoBehaviour
 
     private Vector2 GetAtlasUV(Vector2 baseUV, int tileIndex)
     {
-        int tileX = tileIndex % terrainHandler.textureAtlas.tilesX;
-        int tileY = tileIndex / terrainHandler.textureAtlas.tilesX;
+        TextureAtlas atlas = terrainHandler.GetTextureAtlas();
+        int tileX = tileIndex % atlas.tilesX;
+        int tileY = tileIndex / atlas.tilesX;
 
-        Vector2 uvScale = new Vector2(1f / terrainHandler.textureAtlas.tilesX, 1f / terrainHandler.textureAtlas.tilesY);
+        Vector2 uvScale = new Vector2(1f / atlas.tilesX, 1f / atlas.tilesY);
         Vector2 uvOffset = new Vector2(tileX * uvScale.x, tileY * uvScale.y);
 
         // Flip Y because Unity's UV origin is bottom-left

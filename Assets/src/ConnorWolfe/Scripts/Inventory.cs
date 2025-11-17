@@ -34,6 +34,7 @@ public class Inventory
             newItem.SetActive(false);
             _inventory.Add(newItem);
             Debug.Log($"INFORMATION: {newItem.name} added successfully to inventory!");
+            SoundEvents.ToolPickup();
             return true;
         }
 

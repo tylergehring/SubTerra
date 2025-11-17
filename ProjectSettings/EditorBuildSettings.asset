@@ -6,21 +6,21 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/src/ConnorWolfe/Scenes/MVP.unity
+    guid: 3405dbd8481cbf34fa80b2ad6fc6e2a4
+  - enabled: 1
     path: Assets/src/ArjunRai/Scenes/MyTestSceneCopy.unity
     guid: 5cdf5cd657b5de34693725aa832ce7e3
   - enabled: 1
     path: Assets/src/MatthewBrisset/TerrainDestructionTest.unity
     guid: f6fea666539197b439be0eee27c1f435
   - enabled: 1
-    path: Assets/src/ConnorWolfe/Scenes/MVP.unity
-    guid: 3405dbd8481cbf34fa80b2ad6fc6e2a4
-  - enabled: 1
-    path: Assets/src/ConnorWolfe/Scenes/MyTestScene.unity
+    path: Assets/src/ConnorWolfe/Scenes/CW_testingScene.unity
     guid: 15c01d5b3beb225409e17e2124d1ade4
   - enabled: 1
     path: Assets/src/ConnorWolfe/Scenes/TerrainTestCopy.unity
     guid: d5eef4d60c996f946ad09735e03c932e
-  - enabled: 1
+  - enabled: 0
     path: Assets/src/LukeZawis/Scenes/UI Menus.unity
     guid: ba54688e1219fc0409b3e6c5af6cc3d1
   - enabled: 1
@@ -41,5 +41,11 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/src/JackKroll/Scripts/MVP.unity
     guid: 6185cbc34c8a8c24099e85471ec9b586
+  - enabled: 1
+    path: Assets/src/MatthewBrisset/MultiChunkTest.unity
+    guid: f0e909fc9da85864083ad4775c7d3997
+  - enabled: 1
+    path: Assets/src/JackKroll/Scenes Folder/MVP_Jack.unity
+    guid: 1bb8681e5cb174f48aa8af4734e4a6cb
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

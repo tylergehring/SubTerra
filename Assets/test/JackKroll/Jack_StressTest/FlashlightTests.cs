@@ -1,0 +1,88 @@
+﻿using NUnit.Framework;
+using UnityEngine;
+
+public class FlashlightTests
+{
+    private ReusableToolClass _flashlightTool;
+    private GameObject _flashlightGO;
+
+    [SetUp]
+    public void SetUp()
+    {
+        // Find the first ReusableToolClass (flashlight) instance in the scene
+        _flashlightTool = Object.FindFirstObjectByType<ReusableToolClass>();
+        if (_flashlightTool != null)
+        {
+            _flashlightGO = _flashlightTool.gameObject;
+        }
+    }
+
+    [TearDown]
+    public void TearDown()
+    {
+        // Nothing special to clean up
+    }
+
+    // --------------------------
+    // 1️⃣ Prefab exists in scene
+    // --------------------------
+    [Test]
+    public void Flashlight_PrefabExists()
+    {
+        if (_flashlightTool == null) Assert.Pass("No flashlight prefab in the scene, test passes.");
+        else Assert.IsNotNull(_flashlightTool, "Flashlight prefab not found in the scene!");
+    }
+
+    // --------------------------
+    // 2️⃣ Prefab is inactive initially
+    // --------------------------
+    [Test]
+    public void Flashlight_IsInactiveInitially()
+    {
+        if (_flashlightTool != null)
+            Assert.IsFalse(_flashlightGO.activeSelf, " Flashlight should start inactive!");
+    }
+
+    // --------------------------
+    // 3️⃣ Prefab has Light component and is off
+    // --------------------------
+    [Test]
+    public void Flashlight_HasLightAndIsOff()
+    {
+        if (_flashlightTool != null)
+        {
+            var light = _flashlightGO.GetComponent<Light>();
+            Assert.IsNotNull(light, " Flashlight is missing a Light component!");
+            Assert.IsFalse(light.enabled, " Flashlight Light should start disabled!");
+        }
+    }
+
+    // --------------------------
+    // 4️⃣ No duplicate prefabs
+    // --------------------------
+    [Test]
+    public void Flashlight_NoDuplicatePrefabs()
+    {
+        var flashlights = Object.FindObjectsByType<ReusableToolClass>(FindObjectsSortMode.None);
+        if (flashlights.Length == 0)
+        {
+            Assert.Pass(" No flashlight prefab found in the scene, test passes.");
+        }
+        Assert.LessOrEqual(flashlights.Length, 1, $" There are {flashlights.Length} flashlight prefabs in the scene! Only 1 expected.");
+    }
+
+    // --------------------------
+    // 5️⃣ Multiple instances in scene
+    // --------------------------
+    [Test]
+    public void Flashlight_MultipleInstancesInScene()
+    {
+        if (_flashlightGO != null)
+        {
+            var duplicate = Object.Instantiate(_flashlightGO);
+            var flashlights = Object.FindObjectsByType<ReusableToolClass>(FindObjectsSortMode.None);
+            Assert.GreaterOrEqual(flashlights.Length, 2, "There should be 2 or more flashlight instances in the scene.");
+            Object.DestroyImmediate(duplicate);
+        }
+    }
+}

@@ -1,0 +1,387 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="20" result="Failed(Child)" total="20" passed="13" failed="7" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2025-11-15 19:05:10Z" end-time="2025-11-15 19:05:45Z" duration="34.8981858">
+  <test-suite type="TestSuite" id="1086" name="SubTerra" fullname="SubTerra" runstate="Runnable" testcasecount="68" result="Failed" site="Child" start-time="2025-11-15 19:05:10Z" end-time="2025-11-15 19:05:45Z" duration="34.898186" total="20" passed="13" failed="7" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1027" name="CW_PlayMode.dll" fullname="C:/Users/Conno/OneDrive/MyProjects/Echos Of Subterra/RepoFolder/SubTerra/Library/ScriptAssemblies/CW_PlayMode.dll" runstate="Runnable" testcasecount="20" result="Failed" site="Child" start-time="2025-11-15 19:05:10Z" end-time="2025-11-15 19:05:45Z" duration="34.880983" total="20" passed="13" failed="7" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="21304" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestFixture" id="1006" name="Testing" fullname="Testing" classname="Testing" runstate="Runnable" testcasecount="20" result="Failed" site="Child" start-time="2025-11-15 19:05:10Z" end-time="2025-11-15 19:05:45Z" duration="34.876763" total="20" passed="13" failed="7" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-case id="1022" name="Animator_FlipXWhenMovingLeft" fullname="Testing.Animator_FlipXWhenMovingLeft" methodname="Animator_FlipXWhenMovingLeft" classname="Testing" runstate="Runnable" seed="1347723334" result="Failed" start-time="2025-11-15 19:05:10Z" end-time="2025-11-15 19:05:11Z" duration="0.293906" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[  Sprite must flip when moving left
+  Expected: True
+  But was:  False
+]]></message>
+            <stack-trace><![CDATA[at Testing+<Animator_FlipXWhenMovingLeft>d__20.MoveNext () [0x00065] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:380
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:44
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1019" name="Drop_RemovesItemAndSpawnsHandler" fullname="Testing.Drop_RemovesItemAndSpawnsHandler" methodname="Drop_RemovesItemAndSpawnsHandler" classname="Testing" runstate="Runnable" seed="545974879" result="Failed" start-time="2025-11-15 19:05:11Z" end-time="2025-11-15 19:05:11Z" duration="0.209653" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[  Drop must remove item from inventory
+  Expected: null
+  But was:  <Droppable (UnityEngine.GameObject)>
+]]></message>
+            <stack-trace><![CDATA[at Testing+<Drop_RemovesItemAndSpawnsHandler>d__17.MoveNext () [0x0007b] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:334
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:44
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+INFORMATION: Added Droppable to inventory at slot 0
+]]></output>
+        </test-case>
+        <test-case id="1026" name="Edge_SingletonEnforcesOneInstance" fullname="Testing.Edge_SingletonEnforcesOneInstance" methodname="Edge_SingletonEnforcesOneInstance" classname="Testing" runstate="Runnable" seed="204170281" result="Passed" start-time="2025-11-15 19:05:11Z" end-time="2025-11-15 19:05:11Z" duration="0.194610" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+instance == Arjun (the Explorer) V8.5(Clone)
+]]></output>
+        </test-case>
+        <test-case id="1012" name="Health_BoundaryHealthTests" fullname="Testing.Health_BoundaryHealthTests" methodname="Health_BoundaryHealthTests" classname="Testing" runstate="Runnable" seed="1040343804" result="Failed" start-time="2025-11-15 19:05:11Z" end-time="2025-11-15 19:05:12Z" duration="0.367926" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[  -! Health Test Failure!:
+ -> health should be 0
+ -> health is instead 255
+  Expected: 255
+  But was:  0
+]]></message>
+            <stack-trace><![CDATA[at Testing+<Health_BoundaryHealthTests>d__10.MoveNext () [0x000ad] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:219
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:44
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+PlayerController: ChangeHealth -> amount == -6958
+& -> _health == 100
+Player health changed by -6958. Previous: 100, Current: 255
+]]></output>
+        </test-case>
+        <test-case id="1013" name="Health_GetHealthReturnsCurrentValue" fullname="Testing.Health_GetHealthReturnsCurrentValue" methodname="Health_GetHealthReturnsCurrentValue" classname="Testing" runstate="Runnable" seed="1903693092" result="Passed" start-time="2025-11-15 19:05:12Z" end-time="2025-11-15 19:05:12Z" duration="0.353549" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+PlayerController: ChangeHealth -> amount == -42
+& -> _health == 0
+Player health changed by -42. Previous: 0, Current: 42
+]]></output>
+        </test-case>
+        <test-case id="1010" name="Inventory_BoundaryInventoryBounds" fullname="Testing.Inventory_BoundaryInventoryBounds" methodname="Inventory_BoundaryInventoryBounds" classname="Testing" runstate="Runnable" seed="754564233" result="Passed" start-time="2025-11-15 19:05:12Z" end-time="2025-11-15 19:05:12Z" duration="0.374439" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+WARNING: tried to add BadObject at slot -1, but failed since max capacity is 4!
+WARNING: tried to add BadObject at slot 10, but failed since max capacity is 4!
+WARNING: tried to add BadObject at slot 5, but failed since max capacity is 4!
+WARNING: tried to add BadObject at slot 6, but failed since max capacity is 4!
+WARNING: tried to add BadObject at slot 7, but failed since max capacity is 4!
+WARNING: tried to add BadObject at slot 8, but failed since max capacity is 4!
+WARNING: tried to add BadObject at slot 9, but failed since max capacity is 4!
+WARNING: tried to add BadObject at slot 10, but failed since max capacity is 4!
+WARNING: tried to add BadObject at slot 11, but failed since max capacity is 4!
+WARNING: tried to add BadObject at slot 12, but failed since max capacity is 4!
+WARNING: tried to add BadObject at slot 13, but failed since max capacity is 4!
+WARNING: tried to add BadObject at slot 14, but failed since max capacity is 4!
+WARNING: tried to add BadObject at slot 15, but failed since max capacity is 4!
+WARNING: tried to add BadObject at slot 16, but failed since max capacity is 4!
+WARNING: tried to add BadObject at slot 17, but failed since max capacity is 4!
+WARNING: tried to add BadObject at slot 18, but failed since max capacity is 4!
+WARNING: tried to add BadObject at slot 19, but failed since max capacity is 4!
+]]></output>
+        </test-case>
+        <test-case id="1009" name="Inventory_GetItemNeverReturnsDestroyed" fullname="Testing.Inventory_GetItemNeverReturnsDestroyed" methodname="Inventory_GetItemNeverReturnsDestroyed" classname="Testing" runstate="Runnable" seed="1909989" result="Failed" start-time="2025-11-15 19:05:12Z" end-time="2025-11-15 19:05:13Z" duration="0.369163" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[  GetItem must return null for destroyed objects
+  Expected: null
+  But was:  <null>
+]]></message>
+            <stack-trace><![CDATA[at Testing+<Inventory_GetItemNeverReturnsDestroyed>d__7.MoveNext () [0x00053] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:107
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:44
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+INFORMATION: Added Temp to inventory at slot 0
+]]></output>
+        </test-case>
+        <test-case id="1007" name="Inventory_InitialSlotIsZero" fullname="Testing.Inventory_InitialSlotIsZero" methodname="Inventory_InitialSlotIsZero" classname="Testing" runstate="Runnable" seed="2058725134" result="Passed" start-time="2025-11-15 19:05:13Z" end-time="2025-11-15 19:05:13Z" duration="0.364168" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1011" name="Inventory_StressLoading" fullname="Testing.Inventory_StressLoading" methodname="Inventory_StressLoading" classname="Testing" runstate="Runnable" seed="607433686" result="Passed" start-time="2025-11-15 19:05:13Z" end-time="2025-11-15 19:05:43Z" duration="30.185926" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+-! Tab Change Stress Test (10000 tabs over 29.83439s):
+ -> Average FPS: 335.18
+ -> Min FPS: 25.54
+ -> Max FPS: 594.71
+]]></output>
+        </test-case>
+        <test-case id="1008" name="Inventory_TabWrapsAround" fullname="Testing.Inventory_TabWrapsAround" methodname="Inventory_TabWrapsAround" classname="Testing" runstate="Runnable" seed="1254560264" result="Passed" start-time="2025-11-15 19:05:43Z" end-time="2025-11-15 19:05:43Z" duration="0.200924" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1025" name="ItemFactory_HandlesNull" fullname="Testing.ItemFactory_HandlesNull" methodname="ItemFactory_HandlesNull" classname="Testing" runstate="Runnable" seed="1973525" result="Passed" start-time="2025-11-15 19:05:43Z" end-time="2025-11-15 19:05:44Z" duration="0.195595" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1016" name="Movement_HorizontalInputChangesVelocity" fullname="Testing.Movement_HorizontalInputChangesVelocity" methodname="Movement_HorizontalInputChangesVelocity" classname="Testing" runstate="Runnable" seed="32266862" result="Passed" start-time="2025-11-15 19:05:44Z" end-time="2025-11-15 19:05:44Z" duration="0.197937" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1017" name="Movement_JumpOnlyWhenOnGround" fullname="Testing.Movement_JumpOnlyWhenOnGround" methodname="Movement_JumpOnlyWhenOnGround" classname="Testing" runstate="Runnable" seed="1747989137" result="Failed" start-time="2025-11-15 19:05:44Z" end-time="2025-11-15 19:05:44Z" duration="0.205111" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[  Jump must be ignored when not on ground
+  Expected: 0.0d +/- 0.0099999997764825821d
+  But was:  -0.5885998010635376d
+]]></message>
+            <stack-trace><![CDATA[at Testing+<Movement_JumpOnlyWhenOnGround>d__15.MoveNext () [0x0009f] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:299
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:44
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1021" name="Pause_StopsMovement" fullname="Testing.Pause_StopsMovement" methodname="Pause_StopsMovement" classname="Testing" runstate="Runnable" seed="1438215995" result="Passed" start-time="2025-11-15 19:05:44Z" end-time="2025-11-15 19:05:44Z" duration="0.200188" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1018" name="Pickup_AddsItemToNextEmptySlot" fullname="Testing.Pickup_AddsItemToNextEmptySlot" methodname="Pickup_AddsItemToNextEmptySlot" classname="Testing" runstate="Runnable" seed="94631504" result="Passed" start-time="2025-11-15 19:05:44Z" end-time="2025-11-15 19:05:44Z" duration="0.199795" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+INFORMATION: Added PickupItem to inventory at slot 0
+]]></output>
+        </test-case>
+        <test-case id="1014" name="Score_ChangeScoreClampsToUIntRange" fullname="Testing.Score_ChangeScoreClampsToUIntRange" methodname="Score_ChangeScoreClampsToUIntRange" classname="Testing" runstate="Runnable" seed="364994073" result="Failed" start-time="2025-11-15 19:05:44Z" end-time="2025-11-15 19:05:45Z" duration="0.189830" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[  Score must clamp to uint.MaxValue
+  Expected: 4294967295
+  But was:  2147483647
+]]></message>
+            <stack-trace><![CDATA[at Testing+<Score_ChangeScoreClampsToUIntRange>d__12.MoveNext () [0x00031] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:248
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:44
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1015" name="Score_GetScoreMatchesInternal" fullname="Testing.Score_GetScoreMatchesInternal" methodname="Score_GetScoreMatchesInternal" classname="Testing" runstate="Runnable" seed="1350835455" result="Passed" start-time="2025-11-15 19:05:45Z" end-time="2025-11-15 19:05:45Z" duration="0.186120" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1024" name="StaminaWheel_ExhaustionDisablesGreenWheel" fullname="Testing.StaminaWheel_ExhaustionDisablesGreenWheel" methodname="StaminaWheel_ExhaustionDisablesGreenWheel" classname="Testing" runstate="Runnable" seed="1364362594" result="Passed" start-time="2025-11-15 19:05:45Z" end-time="2025-11-15 19:05:45Z" duration="0.184706" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1023" name="StaminaWheel_InitializesAtMax" fullname="Testing.StaminaWheel_InitializesAtMax" methodname="StaminaWheel_InitializesAtMax" classname="Testing" runstate="Runnable" seed="2013103956" result="Passed" start-time="2025-11-15 19:05:45Z" end-time="2025-11-15 19:05:45Z" duration="0.185127" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+]]></output>
+        </test-case>
+        <test-case id="1020" name="Victory_MultipliesScoreByInventoryCountPlusOne" fullname="Testing.Victory_MultipliesScoreByInventoryCountPlusOne" methodname="Victory_MultipliesScoreByInventoryCountPlusOne" classname="Testing" runstate="Runnable" seed="1198382704" result="Failed" start-time="2025-11-15 19:05:45Z" end-time="2025-11-15 19:05:45Z" duration="0.184316" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <failure>
+            <message><![CDATA[  Victory must apply multiplier correctly
+  Expected: 300
+  But was:  200
+]]></message>
+            <stack-trace><![CDATA[at Testing+<Victory_MultipliesScoreByInventoryCountPlusOne>d__18.MoveNext () [0x0006b] in C:\Users\Conno\OneDrive\MyProjects\Echos Of Subterra\RepoFolder\SubTerra\Assets\test\ConnorWolfe\CW_PlayMode\Testing.cs:353
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in .\Library\PackageCache\com.unity.test-framework@a6f5be5f149c\UnityEngine.TestRunner\NUnitExtensions\Attributes\TestEnumerator.cs:44
+]]></stack-trace>
+          </failure>
+          <output><![CDATA[instance == Arjun (the Explorer) V8.5
+INFORMATION: Added TestingObj0 to inventory at slot 0
+INFORMATION: Added TestingObj1 to inventory at slot 1
+INFORMATION: Added TestingObj2 to inventory at slot 2
+INFORMATION: Added TestingObj3 to inventory at slot 3
+INFORMATION: Added VictoryItem0 to inventory at slot 0
+INFORMATION: Added VictoryItem1 to inventory at slot 0
+Saving results to: C:/Users/Conno/AppData/LocalLow/Sandstorm Games/SubTerra\TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

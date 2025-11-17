@@ -55,7 +55,7 @@ public abstract class NonReusableTools : MonoBehaviour
 
         _owner = user;
         Debug.Log($"INFORMATION: {user.name} is attempting to use {_toolName}.");
-        bool consume = OnUse(user);
+        bool consume = OnUse(user); //CALL CHILD FUNCTION
         if (consume)
         {
             _consumed = true;

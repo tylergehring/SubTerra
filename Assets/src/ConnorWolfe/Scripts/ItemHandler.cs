@@ -1,5 +1,6 @@
 using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class ItemHandler : MonoBehaviour
 {
@@ -22,7 +23,7 @@ public class ItemHandler : MonoBehaviour
     }
 
     // built in / Unity functions //
-    private void Awake()
+    private void Start()
     {
         if (_interactKey == KeyCode.None)
             _interactKey = KeyCode.E;
@@ -57,7 +58,10 @@ public class ItemHandler : MonoBehaviour
         if (collision.CompareTag("Player") && Input.GetKey(_interactKey) && !_onCooldown)
         {
             _onCooldown = true;
-            _heldItem = collision.GetComponent<PlayerController>().PickUp(_heldItem);
+            // without singleton
+  //          _heldItem = collision.GetComponent<PlayerController>().PickUp(_heldItem);
+            // with singleton
+            _heldItem = PlayerController.Instance.PickUp(_heldItem);
             if (!_heldItem)
                 Destroy(this.gameObject);
             else
@@ -94,8 +98,8 @@ public class ItemHandler : MonoBehaviour
         spriteRen.color = itemRen.color;
         spriteRen.flipX = itemRen.flipX;
         spriteRen.flipY = itemRen.flipY;
-        if (itemRen.material)
-            spriteRen.material = itemRen.material;
+        if (itemRen.sharedMaterial)
+            spriteRen.material = itemRen.sharedMaterial;
 
     }
 
