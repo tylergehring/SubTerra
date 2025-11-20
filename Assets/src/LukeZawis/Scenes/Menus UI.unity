@@ -482,7 +482,7 @@ MonoBehaviour:
   useTool: {fileID: 0}
   addTool: {fileID: 0}
   background_clip: {fileID: 8300000, guid: 7548a97d30a474a95bfa87f6f0a39c96, type: 3}
-  background_volume: 0
+  background_volume: 100
 --- !u!4 &1862690024
 Transform:
   m_ObjectHideFlags: 0
