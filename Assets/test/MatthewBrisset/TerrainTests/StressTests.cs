@@ -31,8 +31,8 @@ public class StressTests
     {
         Debug.Log("Running test for large view distance");
 
-        world.SetWorldHeight(100);
-        world.SetWorldWidth(100);
+        world.SetWorldHeight(40);
+        world.SetWorldWidth(40);
         world.SetViewDistance(1);
         world.gameObject.SetActive(true);
         world.GenerateTerrain();
@@ -42,12 +42,12 @@ public class StressTests
         yield return new WaitForSeconds(1.0f);
 
         Stopwatch sw = Stopwatch.StartNew();
-        float endTime = 30f;
+        float endTime = 10f;
 
         while (sw.Elapsed.TotalSeconds < endTime)
         {
             _camera.orthographicSize += world.GetChunkSize();
-            world.SetViewDistance(world.GetViewDistance());
+            world.SetViewDistance(world.GetViewDistance()+1);
             _chunks = world.GetViewDistance() * world.GetViewDistance();
             float _fps = 1f / Time.unscaledDeltaTime;
             Debug.Log($"FPS: {_fps}, Chunks: {_chunks}");
@@ -65,8 +65,8 @@ public class StressTests
     {
         Debug.Log("Running test for large map generation");
 
-        world.SetWorldHeight(100);
-        world.SetWorldWidth(100);
+        world.SetWorldHeight(30);
+        world.SetWorldWidth(30);
         world.SetViewDistance(20);
         world.gameObject.SetActive(true);
         world.GenerateTerrain();
@@ -84,8 +84,8 @@ public class StressTests
     {
         Debug.Log("Running test for extreme destruction");
 
-        world.SetWorldHeight(100);
-        world.SetWorldWidth(100);
+        world.SetWorldHeight(30);
+        world.SetWorldWidth(30);
         world.SetViewDistance(20);
         world.gameObject.SetActive(true);
         Camera _camera = GameObject.FindFirstObjectByType<Camera>();

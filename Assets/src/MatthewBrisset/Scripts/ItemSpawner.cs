@@ -62,6 +62,11 @@ public class ItemSpawner : MonoBehaviour
 
     Vector3 RandomSpawnPoint(Item item)
     {
+        if (_terrain == null)
+            _terrain = World.Instance.GetTerrainHandler();
+        if (_noise == null)
+            _noise = World.Instance.GetNoiseHandler();
+
         float minY = _terrain.GetWorldHeight() * _terrain.GetChunkSize() * item.minDepth;
         float maxY = _terrain.GetWorldHeight() * _terrain.GetChunkSize() * item.maxDepth;
         float minX = _noise.GetEdgeThickness();
