@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿//jack kroll
+using NUnit.Framework;
 using UnityEngine;
 
 public class PickaxeToolTests
@@ -9,7 +10,7 @@ public class PickaxeToolTests
     [SetUp]
     public void SetUp()
     {
-        // Use modern API
+        
         _pickaxe = Object.FindFirstObjectByType<PickaxeTool>();
         if (_pickaxe != null)
         {
@@ -20,31 +21,43 @@ public class PickaxeToolTests
     [TearDown]
     public void TearDown()
     {
-        // Nothing to clean up
+        // no clean up jsut in case 
     }
 
     // --------------------------
-    // 1️⃣ Prefab exists in scene
+    // 1️ Prefab exists in scene
     // --------------------------
+  
+    // This test checks whether a PickaxeTool prefab exists in the scene.
+    // If none exists, the test passes because the project allows it.
+    // Otherwise it confirms that the pickaxe object is properly found.
+    // -------------------------
     [Test]
     public void Pickaxe_PrefabExists()
     {
-        if (_pickaxe == null) Assert.Pass("✅ No pickaxe prefab in the scene, test passes.");
-        else Assert.IsNotNull(_pickaxe, "❌ Pickaxe prefab not found in the scene!");
+        if (_pickaxe == null) Assert.Pass(" No pickaxe prefab in the scene, test passes.");
+        else Assert.IsNotNull(_pickaxe, " Pickaxe prefab not found in the scene!");
     }
 
     // --------------------------
-    // 2️⃣ Prefab is inactive initially
+    // 2️ Prefab is inactive initially
+
+    // Ensures that the pickaxe GameObject starts inactive.
+    // This is important because tools may be hidden until the player equips them
     // --------------------------
     [Test]
     public void Pickaxe_IsInactiveInitially()
     {
         if (_pickaxe != null)
-            Assert.IsFalse(_pickaxe.gameObject.activeSelf, "❌ Pickaxe should start inactive!");
+            Assert.IsFalse(_pickaxe.gameObject.activeSelf, " Pickaxe should start inactive!");
     }
 
     // --------------------------
-    // 3️⃣ Prefab has AudioSource and sound is off
+    // 3️ Prefab has AudioSource and sound is off
+
+    // 1. The tool has an AudioSource component.
+    // 2. The sound is NOT playing at the start.
+    // Prevents audio from playing prematurely and ensures the prefab is set up correctly.
     // --------------------------
     [Test]
     public void Pickaxe_HasAudioSourceAndSoundOff()
@@ -52,13 +65,15 @@ public class PickaxeToolTests
         if (_pickaxe != null)
         {
             var audio = _pickaxe.GetComponent<AudioSource>();
-            Assert.IsNotNull(audio, "❌ Pickaxe is missing an AudioSource component!");
-            Assert.IsFalse(audio.isPlaying, "❌ Pickaxe AudioSource should not be playing initially!");
+            Assert.IsNotNull(audio, " Pickaxe is missing an AudioSource component!");
+            Assert.IsFalse(audio.isPlaying, " Pickaxe AudioSource should not be playing initially!");
         }
     }
 
     // --------------------------
-    // 4️⃣ No duplicate prefabs
+    // 4️ No duplicate prefabs
+    // This test verifies that only one tool prefab exists in the scene.
+    // Helps prevent bugs caused by accidentally placing multiple prefabs.
     // --------------------------
     [Test]
     public void Pickaxe_NoDuplicatePrefabs()
@@ -66,13 +81,17 @@ public class PickaxeToolTests
         var pickaxes = Object.FindObjectsByType<PickaxeTool>(FindObjectsSortMode.None);
         if (pickaxes.Length == 0)
         {
-            Assert.Pass("✅ No pickaxe prefab found in the scene, test passes.");
+            Assert.Pass(" No pickaxe prefab found in the scene, test passes.");
         }
-        Assert.LessOrEqual(pickaxes.Length, 1, $"❌ There are {pickaxes.Length} pickaxe prefabs in the scene! Only 1 expected.");
+        Assert.LessOrEqual(pickaxes.Length, 1, $" There are {pickaxes.Length} pickaxe prefabs in the scene! Only 1 expected.");
     }
 
     // --------------------------
-    // 5️⃣ Multiple pickaxes in scene
+    // 5️ Multiple pickaxes in scene
+
+    // Verifies that the tool can be safely instantiated multiple times.
+    // A duplicate is created, and the test ensures that 2+ tools instances exist.
+   
     // --------------------------
     [Test]
     public void Pickaxe_MultipleInstancesInScene()

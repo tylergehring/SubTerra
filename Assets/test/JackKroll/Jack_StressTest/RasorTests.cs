@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿//jack kroll
+using NUnit.Framework;
 using UnityEngine;
 
 public class RasorTests
@@ -24,7 +25,10 @@ public class RasorTests
     }
 
     // --------------------------
-    // 1️⃣ Prefab exists in scene
+    // 1️ Prefab exists in scene
+    // This test checks whether a tool prefab exists in the scene.
+    // If none exists, the test passes because the project allows it.
+    // Otherwise it confirms that the tool object is properly found.
     // --------------------------
     [Test]
     public void Rasor_PrefabExists()
@@ -34,7 +38,11 @@ public class RasorTests
     }
 
     // --------------------------
-    // 2️⃣ Prefab is inactive initially
+    // 2️ Prefab is inactive initially
+
+
+    // Ensures that the pickaxe GameObject starts inactive.
+    // This is important because tools may be hidden until the player equips them
     // --------------------------
     [Test]
     public void Rasor_IsInactiveInitially()
@@ -44,7 +52,11 @@ public class RasorTests
     }
 
     // --------------------------
-    // 3️⃣ Prefab has AudioSource and sound is off
+    // 3️ Prefab has AudioSource and sound is off
+
+    // 1. The tool has an AudioSource component.
+    // 2. The sound is NOT playing at the start.
+    // Prevents audio from playing prematurely and ensures the prefab is set up correctly.
     // --------------------------
     [Test]
     public void Rasor_HasAudioSourceAndSoundOff()
@@ -58,7 +70,10 @@ public class RasorTests
     }
 
     // --------------------------
-    // 4️⃣ No duplicate prefabs
+    // 4️ No duplicate prefabs
+
+    // This test verifies that only one tool prefab exists in the scene.
+    // Helps prevent bugs caused by accidentally placing multiple prefabs.
     // --------------------------
     [Test]
     public void Rasor_NoDuplicatePrefabs()
@@ -72,7 +87,11 @@ public class RasorTests
     }
 
     // --------------------------
-    // 5️⃣ Multiple instances in scene
+    // 5️ Multiple instances in scene
+
+
+    // Verifies that the tool can be safely instantiated multiple times.
+    // A duplicate is created, and the test ensures that 2+ tools instances exist.
     // --------------------------
     [Test]
     public void Rasor_MultipleInstancesInScene()
