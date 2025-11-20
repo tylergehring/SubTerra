@@ -21,7 +21,7 @@ public class UIPauseMenuController : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    private void Start()
+    private void OnEnable()
     {
         if (pauseUIDocumentGO == null)
         {
@@ -36,8 +36,77 @@ public class UIPauseMenuController : MonoBehaviour
             return;
         }
 
+        var root = pauseUIDocument.rootVisualElement;
+        if (root == null)
+        {
+            Debug.LogError("UIPauseMenuController: rootVisualElement is null.");
+            return;
+        }
+
+        // Query panels
+        pauseMenuPanel = root.Q<VisualElement>("PauseMenuPanel");
+        settingsPanel = root.Q<VisualElement>("SettingsPanel");
+        controlsPanel = root.Q<VisualElement>("ControlsPanel");
+
+        // Query sliders/toggles
+        volumeSlider = root.Q<Slider>("VolumeSlider");
+        godModeToggle = root.Q<Toggle>("GodModeToggle");
+
+        // Bind callbacks if elements exist
+        var resumeBtn = root.Q<Button>("ResumeSettingsButton");
+        if (resumeBtn != null) resumeBtn.clicked += ResumeGame;
+
+        var settingsBtn = root.Q<Button>("SettingsButton");
+        if (settingsBtn != null) settingsBtn.clicked += OpenSettings;
+
+        var controlsBtn = root.Q<Button>("ControlsButton");
+        if (controlsBtn != null) controlsBtn.clicked += OpenControls;
+
+        var exitBtn = root.Q<Button>("QuitToMainMenuButton");
+        if (exitBtn != null) exitBtn.clicked += QuitToMainMenu;
+
+        var backSettingsBtn = root.Q<Button>("BackFromSettingsButton");
+        if (backSettingsBtn != null) backSettingsBtn.clicked += BackToPause;
+
+        var backControlsBtn = root.Q<Button>("BackFromControlsButton");
+        if (backControlsBtn != null) backControlsBtn.clicked += BackToPause;
+
+        if (volumeSlider != null) volumeSlider.RegisterValueChangedCallback(OnVolumeChange);
+        if (godModeToggle != null) godModeToggle.RegisterValueChangedCallback(OnGodModeChange);
+
+        // Load settings
+        LoadSettings();
+
         // Keep active — we will show/hide panels manually
         pauseUIDocumentGO.SetActive(true);
+    }
+
+    private void OnDisable()
+    {
+        var root = pauseUIDocument.rootVisualElement;
+        if (root == null) return;
+
+        // Unbind to prevent leaks
+        var resumeBtn = root.Q<Button>("ResumeSettingsButton");
+        if (resumeBtn != null) resumeBtn.clicked -= ResumeGame;
+
+        var settingsBtn = root.Q<Button>("PauseSettingsButton");
+        if (settingsBtn != null) settingsBtn.clicked -= OpenSettings;
+
+        var controlsBtn = root.Q<Button>("ControlsButton");
+        if (controlsBtn != null) controlsBtn.clicked -= OpenControls;
+
+        var backSettingsBtn = root.Q<Button>("BackFromSettingsButton");
+        if (backSettingsBtn != null) backSettingsBtn.clicked -= BackToPause;
+
+        var backControlsBtn = root.Q<Button>("BackFromControlsButton");
+        if (backControlsBtn != null) backControlsBtn.clicked -= BackToPause;
+
+        var exitBtn = root.Q<Button>("QuitToMainMenuButton");
+        if (exitBtn != null) exitBtn.clicked -= QuitToMainMenu;
+
+        if (volumeSlider != null) volumeSlider.UnregisterValueChangedCallback(OnVolumeChange);
+        if (godModeToggle != null) godModeToggle.UnregisterValueChangedCallback(OnGodModeChange);
     }
 
     private void Update()
@@ -53,7 +122,7 @@ public class UIPauseMenuController : MonoBehaviour
         }
         else
         {
-            PauseGame(); // ← This sets up and shows pause menu
+            PauseGame();
         }
     }
 
@@ -63,42 +132,9 @@ public class UIPauseMenuController : MonoBehaviour
         Time.timeScale = 0f;
         AudioListener.pause = true;
 
-        var root = pauseUIDocument.rootVisualElement;
-
-        // Re-query every time (in case scene reload)
-        pauseMenuPanel = root.Q<VisualElement>("PauseMenuPanel");
-        settingsPanel = root.Q<VisualElement>("SettingsPanel");
-        controlsPanel = root.Q<VisualElement>("ControlsPanel");
-        volumeSlider = root.Q<Slider>("VolumeSlider");
-        godModeToggle = root.Q<Toggle>("GodModeToggle");
-
-        // Show only pause menu
         pauseMenuPanel.style.display = DisplayStyle.Flex;
         settingsPanel.style.display = DisplayStyle.None;
         controlsPanel.style.display = DisplayStyle.None;
-
-        // Re-bind buttons every time
-        var resumeBtn = root.Q<Button>("ResumeButton");
-        if (resumeBtn != null) resumeBtn.clicked += ResumeGame;
-
-        var settingsBtn = root.Q<Button>("PauseSettingsButton");
-        if (settingsBtn != null) settingsBtn.clicked += OpenSettings;
-
-        var controlsBtn = root.Q<Button>("ControlsButton");
-        if (controlsBtn != null) controlsBtn.clicked += OpenControls;
-
-        var quitBtn = root.Q<Button>("QuitToMainButton");
-        if (quitBtn != null) quitBtn.clicked += QuitToMain;
-
-        var backSettingsBtn = root.Q<Button>("BackFromSettingsButton");
-        if (backSettingsBtn != null) backSettingsBtn.clicked += BackToPause;
-
-        var backControlsBtn = root.Q<Button>("BackFromControlsButton");
-        if (backControlsBtn != null) backControlsBtn.clicked += BackToPause;
-
-        LoadSettings();
-        volumeSlider?.RegisterValueChangedCallback(OnVolumeChange);
-        godModeToggle?.RegisterValueChangedCallback(OnGodModeChange);
     }
 
     private void ResumeGame()
@@ -107,21 +143,15 @@ public class UIPauseMenuController : MonoBehaviour
         Time.timeScale = 1f;
         AudioListener.pause = false;
 
-        // Hide all panels
-        if (pauseMenuPanel != null) pauseMenuPanel.style.display = DisplayStyle.None;
-        if (settingsPanel != null) settingsPanel.style.display = DisplayStyle.None;
-        if (controlsPanel != null) controlsPanel.style.display = DisplayStyle.None;
+        pauseMenuPanel.style.display = DisplayStyle.None;
+        settingsPanel.style.display = DisplayStyle.None;
+        controlsPanel.style.display = DisplayStyle.None;
     }
 
-    private void QuitToMain()
+    private void QuitToMainMenu()
     {
         ResumeGame();
-
-        if (SafeTerrainHandler.TryGetComponent(out _))
-            Debug.Log("UIPauseMenuController: Referenced team TerrainHandler for reset.");
-
-        var mainGO = GameObject.Find("MainMenuUI");
-        if (mainGO != null) mainGO.SetActive(true);
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Menus UI"); // ← change only if your main menu scene has a different name
     }
 
     private void OpenSettings()
@@ -145,8 +175,8 @@ public class UIPauseMenuController : MonoBehaviour
 
     private bool IsInSubMenu()
     {
-        return (settingsPanel != null && settingsPanel.style.display == DisplayStyle.Flex) ||
-               (controlsPanel != null && controlsPanel.style.display == DisplayStyle.Flex);
+        return settingsPanel.style.display == DisplayStyle.Flex ||
+               controlsPanel.style.display == DisplayStyle.Flex;
     }
 
     private void OnVolumeChange(ChangeEvent<float> evt)
@@ -163,13 +193,17 @@ public class UIPauseMenuController : MonoBehaviour
 
     private void LoadSettings()
     {
-        if (volumeSlider == null || godModeToggle == null) return;
+        if (volumeSlider != null)
+        {
+            float vol = PlayerPrefs.GetFloat("Volume", 50f);
+            volumeSlider.value = vol;
+            SafeSoundManager.SetBackgroundVolume(vol / 100f);
+        }
 
-        float vol = PlayerPrefs.GetFloat("Volume", 50f);
-        volumeSlider.value = vol;
-        SafeSoundManager.SetBackgroundVolume(vol / 100f);
-
-        bool god = PlayerPrefs.GetInt("GodMode", 0) == 1;
-        godModeToggle.value = god;
+        if (godModeToggle != null)
+        {
+            bool god = PlayerPrefs.GetInt("GodMode", 0) == 1;
+            godModeToggle.value = god;
+        }
     }
 }
