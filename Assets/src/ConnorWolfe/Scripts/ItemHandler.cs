@@ -62,8 +62,11 @@ public class ItemHandler : MonoBehaviour
   //          _heldItem = collision.GetComponent<PlayerController>().PickUp(_heldItem);
             // with singleton
             _heldItem = PlayerController.Instance.PickUp(_heldItem);
-            if (!_heldItem)
+            if (!_heldItem) {
+                SoundEvents.ToolPickup();
                 Destroy(this.gameObject);
+            }
+                
             else
             {
                 this.transform.position = collision.transform.position;

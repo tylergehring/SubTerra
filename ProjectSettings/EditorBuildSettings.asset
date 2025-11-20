@@ -24,7 +24,7 @@ EditorBuildSettings:
     path: Assets/src/LukeZawis/Scenes/UI Menus.unity
     guid: ba54688e1219fc0409b3e6c5af6cc3d1
   - enabled: 1
-    path: Assets/src/MikaylaDeCuire/MyTestScene.unity
+    path: Assets/src/MikaylaDeCuire/scenes/MyTestScene.unity
     guid: 52be0c48b78745e4cb80a8adcff3196f
   - enabled: 1
     path: Assets/src/TylerGehring/scenes/MyTestScene 1.unity

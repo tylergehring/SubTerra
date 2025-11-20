@@ -16,6 +16,7 @@ public class SoundManagerExtendedTests
         field.SetValue(soundManager, value);
     }
 
+    // Runs before each test
     [SetUp]
     public void Setup()
     {
@@ -30,11 +31,16 @@ public class SoundManagerExtendedTests
 
     /* ---------------- Singleton Tests ---------------- */
 
-    // Verify SoundManager. Instance is assigned after Awake.
+    /* Verify SoundManager. Instance is assigned after Awake.
+    Wait a frame for Awake to run
+    Check that a SoundManager Instance was created
+    Check that the test object is the Instance
+    */
     [UnityTest]
     public IEnumerator Singleton_InstanceIsSetOnAwake()
     {
         yield return null;
+
         Assert.IsNotNull(SoundManager.Instance);
         Assert.AreEqual(soundManager, SoundManager.Instance);
     }
@@ -44,11 +50,17 @@ public class SoundManagerExtendedTests
     public IEnumerator Singleton_DestroyDuplicateManager()
     {
         var duplicate = new GameObject("DuplicateSM").AddComponent<SoundManager>();
+        
         yield return null;
+
         Assert.AreNotEqual(duplicate, SoundManager.Instance);
     }
 
-    // Load a new scene and check that the same Instance persists
+    /* Load a new scene and check that the same Instance persists
+    Save the real SM Instance
+    Make a new GameObject and give it another SoundManager
+    Wait 1 Frame for Awake to run when it will self delete
+    */
     [UnityTest]
     public IEnumerator Singleton_PersistsAcrossScenes()
     {
@@ -71,7 +83,12 @@ public class SoundManagerExtendedTests
     /* ---------------- Observer Tests ---------------- */
 
 
-    // Call SoundEvents.PlayerJump() and confirm jump sound plays
+    /* Call SoundEvents.PlayerJump() and confirm jump sound plays
+    Make fake clip
+    Broadcast Sound Event
+    Grab AudioSources (background music and sfx)
+    Check if SFX is playing
+    */
     [UnityTest]
     public IEnumerator Observer_PlayerJumpEventTriggersSound()
     {
@@ -85,12 +102,13 @@ public class SoundManagerExtendedTests
         Assert.IsTrue(sources[1].isPlaying);
     }
 
-    // Call SoundEvents.EnemyDamage() and confirm sound plays.
+    // Call SoundEvents.EnemyDamage()
     [UnityTest]
     public IEnumerator Observer_EnemyDamageEventTriggersSound()
     {
         var clip = AudioClip.Create("EnemyDamage", 44100, 1, 44100, false);
         SetPrivateField("enemyDamageClip", clip);
+
         SoundEvents.EnemyDamage();
         yield return null;
 
@@ -99,7 +117,7 @@ public class SoundManagerExtendedTests
     }
 
 
-    // Call SoundEvents.ToolUse() and confirm tool-use sound plays
+    // Call SoundEvents.ToolUse()
     [UnityTest]
     public IEnumerator Observer_ToolUseEventTriggersSound()
     {
@@ -113,7 +131,7 @@ public class SoundManagerExtendedTests
         Assert.IsTrue(sources[1].isPlaying);
     }
 
-    // Call SoundEvents.ToolPickup() and confirm tool-pickup sound plays
+    // Call SoundEvents.ToolPickup()
     [UnityTest]
     public IEnumerator Observer_ToolPickupEventTriggersSound()
     {
@@ -171,6 +189,7 @@ public class SoundManagerExtendedTests
     /* ---------------- Background Music Tests ---------------- */
 
     /* Ensure no playback occurs when background_clip is null
+
     Result: Throws MissingReferenceException
     Explanation: The singleton was destroyed but the code still tried to access its methods
     Fix: Add a null check for backgroundSource in code
@@ -232,6 +251,7 @@ public class SoundManagerExtendedTests
     }
 
     // Stop background music manually, then call BackgroundMusic() again to restart
+    // Make sure its safe to stop and restart
     [UnityTest]
     public IEnumerator BackgroundMusic_StopAndRestart()
     {
@@ -264,11 +284,12 @@ public class SoundManagerExtendedTests
         Assert.IsTrue(sources[1].isPlaying);
     }
 
-    // Assign damage clip and confirm playback
+    // Enemy Damage
     [UnityTest]
     public IEnumerator SFX_EnemyDamageClipPlaysCorrectly(){
         var clip = AudioClip.Create("EnemyDamage", 44100, 1, 44100, false);
         SetPrivateField("enemyDamageClip", clip);
+        
         SoundEvents.EnemyDamage();
         yield return null;
 
@@ -277,7 +298,7 @@ public class SoundManagerExtendedTests
     }
 
 
-    // Assign tool-use clip and confirm playback.
+    // Tool-use
     [UnityTest]
     public IEnumerator SFX_ToolUseClipPlaysCorrectly()
     {
@@ -291,7 +312,7 @@ public class SoundManagerExtendedTests
         Assert.IsTrue(sources[1].isPlaying);
     }
 
-    // Assign tool-pickup clip and confirm playback
+    // Tool-pickup
     [UnityTest]
     public IEnumerator SFX_ToolPickupClipPlaysCorrectly()
     {
@@ -316,7 +337,6 @@ public class SoundManagerExtendedTests
         var sources = testObject.GetComponents<AudioSource>();
         Assert.IsFalse(sources[1].isPlaying);
     }
-    /* ---------------- SFX SEQUENCE/OVERLAP Tests ---------------- */
 
     // Play jump, tool-add, tool-use in sequence and confirm all play
     [UnityTest]
@@ -348,6 +368,11 @@ public class SoundManagerExtendedTests
 
     // Play multiple clips rapidly and confirm overlapping playback works
     // Note: PlayOneShot mixes internally; AudioSource.clip may be null or unchanged. isPlaying is the reliable indicator.
+
+    /* Bug 3: We actually dont want the same clip to overlap a bunch it sounds horrific
+    Fix: Control the times that certain SoundEvents are broadcasted in PlayerController
+    Have cooldown for footsteps and jump
+    */
     [UnityTest]
     public IEnumerator SFX_PlayMultipleClipsOverlap()
     {
@@ -372,6 +397,7 @@ public class SoundManagerExtendedTests
     /* ---------------- Boundary & Edge Cases ---------------- */
 
     // Set volume = 0 and confirm muted playback
+    // i.e. make sure clip is still playing but at zero volume
     [UnityTest]
     public IEnumerator Boundary_BackgroundVolumeZero()
     {
@@ -404,6 +430,7 @@ public class SoundManagerExtendedTests
     }
 
     // Ensure no crash when footstep array is emptys
+    // Give it an Audio Clip with no items
     [UnityTest]
     public IEnumerator Boundary_FootstepArrayEmpty()
     {
@@ -411,7 +438,7 @@ public class SoundManagerExtendedTests
         yield return null;
 
         var managers = Object.FindObjectsByType<SoundManager>(FindObjectsSortMode.None);
-        Assert.AreEqual(1, managers.Length, "Manager should remain stable with empty footstep array");
+        Assert.AreEqual(1, managers.Length, "Manager should be fine with empty footstep array");
     }
 
     // Ensure no crash when footstep array is null.
@@ -422,13 +449,13 @@ public class SoundManagerExtendedTests
         yield return null;
 
         var managers = Object.FindObjectsByType<SoundManager>(FindObjectsSortMode.None);
-        Assert.AreEqual(1, managers.Length, "Manager should remain stable with null footstep array");
+        Assert.AreEqual(1, managers.Length, "Manager should be fine with null footstep array");
     }
 
     /* ---------------- Stress & Performance Tests ---------------- */
 
     // Call BackgroundMusic() 50 times rapidly and confirm only one AudioSource is used
-    // Actually two expected AudioSources exist (background + sfx) and background is playing
+    // Technically two expected AudioSources exist (background + sfx)s
     [UnityTest]
     public IEnumerator Stress_BackgroundMusicRapidRestart()
     {
@@ -484,6 +511,7 @@ public class SoundManagerExtendedTests
     [TearDown]
     public void Cleanup()
     {
+        // Make sure no duplicate singletons pile up after tests
         if (SoundManager.Instance != null)
         {
             UnityEngine.Object.DestroyImmediate(SoundManager.Instance.gameObject);

@@ -120,6 +120,12 @@ public class PlayerController : MonoBehaviour
     // Speed class (used to showcase static vs. dynamic binding to meet class requirements)
     private SpeedSuperC _movementSpeed = new Speed();
 
+    // Mikayla - For Sound Cooldown betwen steps/jumps
+    private float footstepCooldown = 0.3f;
+    private float lastFootstepTime = 0f;
+    private float jumpCooldown = 0.5f;
+    private float lastJumpTime = 0f;
+
 
     void Start()
     {
@@ -304,17 +310,26 @@ public class PlayerController : MonoBehaviour
             else
                 _rb.linearVelocityY = _jumpStrength * 0.5f;
 
-            // Mikayla  -   Jump Sound
-            SoundEvents.PlayerJump();
+            if (Time.time - lastJumpTime >= jumpCooldown)
+            {
+                SoundEvents.PlayerJump();
+                lastJumpTime = Time.time;
+            }
         }
         else if (!_isJumping && _rb.linearVelocityY > 0)
             _rb.linearVelocityY = 0f;
-        
-        // Mikayla  -   Trigger Footstep sounds once horizontal velocity is applied
-        if (_onGround && Mathf.Abs(_horizontalMovement) > 0.1f){
-            SoundEvents.Footstep();
-        }
 
+        // Mikayla - Trigger Footstep sounds once horizontal velocity is applied + delay
+        // Time.time = time since start of game (seconds) 
+        // LastFootstepTime = time last sound was played at
+        if (_onGround && Mathf.Abs(_horizontalMovement) > 0.1f)
+        {
+            if (Time.time - lastFootstepTime >= footstepCooldown)
+            {
+                SoundEvents.Footstep();
+                lastFootstepTime = Time.time;
+            }
+        }
     }
 
     private void _WallMove()
@@ -349,6 +364,7 @@ public class PlayerController : MonoBehaviour
         NonReusableTools nrTool = current.GetComponent<NonReusableTools>();
         if (nrTool) {
             nrTool.Use(this);
+            // Mikayla - can remove this if using ItemHandler
             SoundEvents.ToolUse();
             return;
         }
@@ -382,7 +398,8 @@ public class PlayerController : MonoBehaviour
             handler.SetPickupCooldown(1f);
             handler.UpdateSprite();
         }
-
+        // Mikayla
+        SoundEvents.ToolPickup();
         _inventoryHotBar.UpdateSlotItem(_inventory.GetIndex(), null);
         return newHandler;
     }
@@ -502,21 +519,25 @@ public class PlayerController : MonoBehaviour
 
         int healthCheck = _health - amount;
 
-    
+
         int previousHealth = _health;
         int newHealth = _health - amount;
-        newHealth = Mathf.Clamp(newHealth, byte.MinValue,  byte.MaxValue);
-/*
-        if (newHealth < byte.MinValue)
-            newHealth = byte.MinValue;
-        if (newHealth > byte.MaxValue)
-            newHealth = byte.MaxValue;
-*/
+        newHealth = Mathf.Clamp(newHealth, byte.MinValue, byte.MaxValue);
+        /*
+                if (newHealth < byte.MinValue)
+                    newHealth = byte.MinValue;
+                if (newHealth > byte.MaxValue)
+                    newHealth = byte.MaxValue;
+        */
 
-        _health = (byte)newHealth;            
-
+        _health = (byte)newHealth;
         Debug.Log($"Player health changed by {amount}. Previous: {previousHealth}, Current: {_health}");
 
+        // Mikayla - Play damage sound onlu if health decreased
+        if (_health < previousHealth)
+        {
+            SoundEvents.EnemyDamage();
+        }
     }
     public byte getHealth()
     {
@@ -593,6 +614,9 @@ public class PlayerController : MonoBehaviour
         var sr = item.GetComponent<SpriteRenderer>();
         if (sr)
             _inventoryHotBar.UpdateSlotItem(_inventory.GetIndex(), sr.sprite);
+
+        // Mikayla 
+        SoundEvents.ToolPickup();
 
         return previous;
         /*

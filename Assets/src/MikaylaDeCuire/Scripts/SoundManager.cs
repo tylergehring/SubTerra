@@ -9,17 +9,16 @@ public class SoundManager : MonoBehaviour
     Static - Belongs to this class not individual objects
     Instance - One shared across the whole program
     set is private so that only the SoundManager class can reassign to Instance
-    get is left public by default so other scripts can read SoundManager.Instance
+    get is public so other scripts can read SoundManager.Instance
     */
     public static SoundManager Instance { get; private set; }
-
-    // The Headers show up in Unity, Added for readability since I'm adding SO many sound files
 
     [Header("Player Clips")]
     [SerializeField] private AudioClip playerJump;
     [SerializeField] private AudioClip[] footStep;
     [SerializeField] private AudioClip enemyDamage;
     [SerializeField] private AudioClip enemyThrow;
+    [SerializeField] private AudioClip playerDeath;
 
     [Header("Tool Clips")]
     [SerializeField] private AudioClip useTool;
@@ -33,9 +32,7 @@ public class SoundManager : MonoBehaviour
     private AudioSource sfxSource;
 
     /* Runs once when script is loaded (before Start and OnEnable)
-    Use for initialization that must happen before anything else
-    Singleton check - Ensure only one SM exists (if another is already active --> destory yourself)
-    DontDestroyOnLoad keeps the manager across scene changes (persistent audio like background music)
+    Singleton - Ensure only one SM exists (if another is already active --> destory yourself)
     */
     private void Awake()
     {
@@ -52,10 +49,9 @@ public class SoundManager : MonoBehaviour
         sfxSource = gameObject.AddComponent<AudioSource>();
     }
 
-    /* Runs whenever the gameObject is in the scene
-    Observer check  -  Subscribe SoundManager to events
-    SoundEvents.PlayerJump() is called --> SoundManager reacts with PlayJumpSound()
-    Things here need to be done after Awake once scene is fully initialized 
+    /* Runs whenever the gameObject is in the scene after Awake
+    Observer  -  Subscribe SoundManager to events
+    SoundEvents.PlayerJump() is broadcasted --> SoundManager reacts with PlayJumpSound()
     */
     private void OnEnable()
     {
@@ -65,11 +61,12 @@ public class SoundManager : MonoBehaviour
         SoundEvents.OnFootstep += PlayFootstep;
         SoundEvents.OnEnemyDamage += PlayEnemyDamageSound;
         SoundEvents.OnEnemyThrow += PlayEnemyThrowSound;
+        SoundEvents.OnPlayerDeath += PlayDeathSound;
     }
 
 
     /* Runs when the gameObject = destroyed
-    Unsubscribe to events so that Unity doesnt keep references to destroyed objects
+    Unsubscribe to events
     */
     private void OnDisable()
     {
@@ -79,6 +76,7 @@ public class SoundManager : MonoBehaviour
         SoundEvents.OnFootstep -= PlayFootstep;
         SoundEvents.OnEnemyDamage -= PlayEnemyDamageSound;
         SoundEvents.OnEnemyThrow -= PlayEnemyThrowSound;
+        SoundEvents.OnPlayerDeath -= PlayDeathSound;
     }
 
     // Runs once after Awake when scene is fully initialized
@@ -93,12 +91,15 @@ public class SoundManager : MonoBehaviour
         backgroundSource.volume = Mathf.Clamp(background_volume, 0f, 0.5f);
         backgroundSource.Play();
     }
+
+    // Add an array of footstep audio clips
     private void PlayFootstep()
     {
         if (footStep == null || footStep.Length == 0) return;
 
         var idx = UnityEngine.Random.Range(0, footStep.Length);
         var clip = footStep[idx];
+
         if (clip != null) PlaySFX(clip);
     }
 
@@ -107,6 +108,7 @@ public class SoundManager : MonoBehaviour
     private void PlayToolPickupSound() { PlaySFX(addTool); }
     private void PlayEnemyDamageSound() { PlaySFX(enemyDamage); }
     private void PlayEnemyThrowSound() { PlaySFX(enemyThrow); }
+    private void PlayDeathSound() { PlaySFX(playerDeath); }
 
 
     /* Helper Method
@@ -119,7 +121,7 @@ public class SoundManager : MonoBehaviour
         if (clip == null) return;
         sfxSource.PlayOneShot(clip);
     }
-    
+
     /* Hypothetical code from another developer's repo
     private void PlaySFX(AudioClip clip)
         {
@@ -127,4 +129,8 @@ public class SoundManager : MonoBehaviour
             CustomAudioPool.Instance.Play(clip);
         }
     */
+    
+    /* Copyright would also be purchasing a sound clip "not intended for commercial use"
+    In a game that I plan to sell or monetize. In that case I would be exceeding the licensing terms
+    */  
 }
