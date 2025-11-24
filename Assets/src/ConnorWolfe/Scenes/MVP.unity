@@ -434,6 +434,10 @@ PrefabInstance:
       propertyPath: respawnDelay
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 8715000275816168348, guid: ae49c6f785347fd4e8e6cba5d8ed7c96, type: 3}
+      propertyPath: damageInterval
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
