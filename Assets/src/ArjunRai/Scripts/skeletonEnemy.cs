@@ -8,8 +8,8 @@ public class skeletonEnemy : MonoBehaviour
     private bool playerInRange = false; // True when the player enters the detection range 
     private bool canThrow = true;  // Prevent bone spamming - cooldown
     private Animator animator;  // Animation controller
-    private Rigidbody2D rb; 
-
+    private Rigidbody2D rb;
+    private bool isDead = false;
     [SerializeField] private float moveSpeed = 1.0f;   // Skeleton move speed 
     [SerializeField] private float stopRange = 2.0f;   // Range before the skeleton stops 
     [SerializeField] private float throwRange = 4f;   // Range for the skeleton to throw the bone 
@@ -52,6 +52,9 @@ public class skeletonEnemy : MonoBehaviour
 
     private void Update()
     {
+
+        if (isDead) return;
+
         // Prevent null crashes
         if (playerTransform == null) return;
 
@@ -103,8 +106,6 @@ public class skeletonEnemy : MonoBehaviour
 
         Destroy(attack, 3f); // Remove the bone after 3 seconds
 
-        Destroy(attack, 3f);   // Destroy bone after 3 seconds
-
         SoundEvents.EnemyThrow();   // Mikayla  -   Trigger Sound Event
 
         yield return new WaitForSeconds(throwCooldown);   // Wait for cooldown
@@ -140,6 +141,25 @@ public class skeletonEnemy : MonoBehaviour
 
     private void Die()
     {
-        //
+        if (isDead) return;  // Prevent double death
+        isDead = true;
+
+        animator.SetTrigger("Die"); // animation for enemy dying 
+
+        // stop movement 
+        rb.velocity = Vector2.zero;
+        rb.isKinematic = true;
+
+        // Disable colliders so no more interactions
+        foreach (Collider2D col in GetComponentsInChildren<Collider2D>())
+            col.enabled = false;
+
+        // Stop attacking
+        canThrow = false;
+        StopAllCoroutines();
+
+        // Destroy after animation
+        Destroy(gameObject, 1.2f);
+
     }
 }
