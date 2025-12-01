@@ -104,16 +104,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3bdc8f58790ac644bb57b1aaaa031511, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Hazard
-  damage: 2
   activationRange: 2
   damageInterval: 1
   followRange: 5
   moveSpeed: 5
   moveDuration: 2
   gravity: {x: 0, y: 0, z: 0}
-  spawnMin: {x: 0, y: 0, z: 0}
-  spawnMax: {x: 0, y: 0, z: 0}
-  respawnDelay: 5
+  spawnMin: {x: -5, y: 10, z: -5}
+  spawnMax: {x: -10, y: 10, z: 10}
+  respawnDelay: 10
 --- !u!58 &-1231373285420920044
 CircleCollider2D:
   m_ObjectHideFlags: 0

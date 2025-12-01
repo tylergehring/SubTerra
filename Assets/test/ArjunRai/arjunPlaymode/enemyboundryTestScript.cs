@@ -1,52 +1,68 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.TestTools;
+using UnityEngine.SceneManagement;
 using NUnit.Framework;
 using System.Collections;
-using UnityEngine.SceneManagement;
 
 public class HazardBoundaryTest
 {
-    private GameObject enemyObject;
     private Hazard hazard;
-    private PlayerController PC;
-    private GameObject playerObject;
+    private PlayerController player;
 
-    [OneTimeSetUp]
-    public void Setup()
+    private IEnumerator PrepareScene()
     {
-        // Load the test scene once before running the tests
         SceneManager.LoadScene("MyTestSceneCopy");
+        yield return null;
+
+        hazard = Object.FindFirstObjectByType<Hazard>();
+        player = Object.FindFirstObjectByType<PlayerController>();
+
+        Assert.NotNull(hazard, "Hazard not found in scene.");
+        Assert.NotNull(player, "PlayerController not found in scene.");
+
+        // Freeze movement
+        hazard.SetActivationRange(999f);
+        hazard.SetFollowRange(0f);
+
+        hazard.transform.position = player.transform.position;
     }
 
     [UnityTest]
-    public IEnumerator DamageBoundaryTest()
+    public IEnumerator Hazard_PositiveDamage_DecreasesHealth()
     {
-        // Wait one frame for scene to load
-        yield return null;
+        yield return PrepareScene();
 
-        // Find objects in scene
-        enemyObject = GameObject.Find("Stone");
-        playerObject = GameObject.Find("LegacyPlayerV2");
+        int before = player.getHealth();
+        hazard.setDamage(10);
 
-        hazard = enemyObject.GetComponent<Hazard>();
-        PC = playerObject.GetComponent<PlayerController>();
+        yield return new WaitForSeconds(1.05f);
 
-        // --- Test 1: Positive Damage
-        int previousHealth = PC.getHealth();
-        hazard.setDamage(2f);                      // Apply positive damage
-        yield return new WaitForSeconds(1.1f);     // Wait enough time for damage to apply
-        Assert.Less(previousHealth, PC.getHealth(), "Player health did not increase with positive damage!");
+        Assert.Less(player.getHealth(), before, "Positive damage did NOT reduce player health!");
+    }
 
-        // --- Test 2: Zero Damage 
-        previousHealth = PC.getHealth();
-        hazard.setDamage(0f);
-        yield return new WaitForSeconds(1.1f);
-        Assert.AreEqual(previousHealth, PC.getHealth(), "Player health changed when damage = 0!");
+    [UnityTest]
+    public IEnumerator Hazard_ZeroDamage_NoChange()
+    {
+        yield return PrepareScene();
 
-        // --- Test 3: Negative Damage 
-        previousHealth = PC.getHealth();
-        hazard.setDamage(-2f);
-        yield return new WaitForSeconds(1.1f);
-        Assert.Greater(previousHealth, PC.getHealth(), "Player health did not decrease with negative damage!");
+        int before = player.getHealth();
+        hazard.setDamage(0);
+
+        yield return new WaitForSeconds(1.05f);
+
+        Assert.AreEqual(before, player.getHealth(), "Zero damage should not change health!");
+    }
+
+    [UnityTest]
+    public IEnumerator Hazard_NegativeDamage_IncreasesHealth()
+    {
+        yield return PrepareScene();
+
+        int before = player.getHealth();
+        hazard.setDamage(-10);
+
+        yield return new WaitForSeconds(1.05f);
+
+        Assert.Greater(player.getHealth(), before, "Negative damage should HEAL player!");
     }
 }

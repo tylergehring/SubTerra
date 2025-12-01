@@ -23,7 +23,7 @@ public class HazardStressTest
     public IEnumerator maxEnemycount()
     {
 
-        enemyObject = GameObject.Find("Stone");
+        enemyObject = GameObject.Find("HazardPrefab");
 
         // Wait for a few frames to stabilize the framerate
         for (int i = 0; i < 5; i++)

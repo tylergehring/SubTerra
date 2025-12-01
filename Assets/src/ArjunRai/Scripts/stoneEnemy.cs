@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Hazard : MonoBehaviour
 {
-    //[SerializeField] private float damage = 20f; // Damage dealt to player
+   // [SerializeField] private float damage = 20f; // Damage dealt to player
     [SerializeField] private float activationRange = 1f; // Range to trigger hazard
     [SerializeField] private float damageInterval = 1f; // Seconds between damage ticks
     [SerializeField] private float followRange = 5f;
@@ -12,6 +12,9 @@ public class Hazard : MonoBehaviour
     [SerializeField] private Vector3 spawnMin; // minimum corner of the spawn Area
     [SerializeField] private Vector3 spawnMax;  // Maximum corner of the spawn area
     [SerializeField] private float respawnDelay = 5f; // Time before a new rock spawns
+    public void SetActivationRange(float r) => activationRange = r;
+    public void SetFollowRange(float r) => followRange = r;
+
     private float respawnTimer = 0f;
     private Vector3 velocity;
     private bool isMoving = false; // Flag if the hazard is currently moving 
@@ -95,7 +98,7 @@ public class Hazard : MonoBehaviour
         {
             if (Time.time - lastDamageTime >= damageInterval) // current game time in seconds - when the hazard last dealt damage.
             {
-                player.ChangeHealth((int)damageObject.getDamage()); // Deal damage to player
+                player.ChangeHealth((int)damageObject.getDamage()); // Deal damage to player     // (int)damageObject.getDamage()
                 lastDamageTime = Time.time;  // Record the last time when the player got damaged.
             }
         }
@@ -117,7 +120,7 @@ public class Hazard : MonoBehaviour
         isMoving = false; // Reset movement state
         Debug.Log($"Rock spawned at {position}");
    
-        World.Instance.GetTerrainHandler().DestroyInRadius(transform.position, 3);   // This prevents rock from spawning inside terrain.
+      // World.Instance.GetTerrainHandler().DestroyInRadius(transform.position, 3);   // This prevents rock from spawning inside terrain.
 
     }
 
@@ -131,8 +134,8 @@ public class Hazard : MonoBehaviour
 
     public void setDamage(float damage1)
     {
-       // damage = damage1;
-       damageObject.setDamage(damage1);
+        //damage = damage1;
+      damageObject.setDamage(damage1);
     }
 }
 
@@ -145,7 +148,7 @@ public class DamageSuper
         damage = damage1;
     }
      public virtual float getDamage()   //Dynamic // runs at a runtimr 
-   // public float getDamage()     // Static
+    // public float getDamage()     // Static
     {
         Debug.Log($"DamageSuper: 10000f");
 
@@ -157,8 +160,8 @@ public class DamageSuper
 
 public class Damage : DamageSuper
 {
-    public override float getDamage()  // Dynamic
-    //public float getDamage()         // Static
+     public override float getDamage()  // Dynamic
+   // public float getDamage()         // Static
     {
         Debug.Log($"Damage : {damage}");
    
