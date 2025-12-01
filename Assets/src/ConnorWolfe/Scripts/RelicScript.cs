@@ -6,6 +6,7 @@ public class RelicScript : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
+            SoundEvents.ToolPickup();
             // without Sigleton pattern
             //            collision.gameObject.GetComponent<PlayerController>().Victory();
             // with singleton pattern

@@ -18,11 +18,12 @@ public static class SoundEvents
     public static event Action OnFootstep;
     public static event Action OnEnemyDamage;
     public static event Action OnEnemyThrow;
+    public static event Action OnPlayerDeath;
 
     /* Methods to trigger events
     OnPlayerJump?.Invoke();  means "if OnPlayerJump is NOT null -> call Invoke(); else do nothing"
     I need this null reference check because events in C# are null unless there is a listener
-    So this line would throw a Null Reference Exception. Unless I check it first?
+
     (?) Replaces this VERY long statement:
         if (OnPlayerJump != null) { OnPlayerJump.Invoke();}
     */
@@ -33,6 +34,7 @@ public static class SoundEvents
     public static void Footstep() => OnFootstep?.Invoke();
     public static void EnemyDamage() => OnEnemyDamage?.Invoke();
     public static void EnemyThrow() => OnEnemyThrow?.Invoke();
+    public static void PlayerDeath() => OnPlayerDeath?.Invoke();
 
     /* --------------------------------
         STATIC vs DYNAMIC BINDING DEMO
@@ -70,11 +72,11 @@ public static class SoundEvents
         /* Dynamic calls are resolved @ RUNTIME 
         Changing the object's type now changes which function gets called
         */
-        /*
-        action.PlayDynamic();               // "Super Dynamic" 
-        jumpAction.PlayDynamic();           // "Dynamic Jump!"
-        toolAction.PlayDynamic();           // "Dynamic Tool!" 
-    }
-    */
+    /*
+    action.PlayDynamic();               // "Super Dynamic" 
+    jumpAction.PlayDynamic();           // "Dynamic Jump!"
+    toolAction.PlayDynamic();           // "Dynamic Tool!" 
+}
+*/
     //--------------------------------------------------------------------------------DemoDone
 }

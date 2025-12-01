@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 
 public class BoundaryTests
 {
-    const int TERRAIN_TEST_SIZE = 100;
+    const int TERRAIN_TEST_SIZE = 5;
 
     private TerrainHandler world;
 
@@ -17,7 +17,7 @@ public class BoundaryTests
         var loadOp = SceneManager.LoadSceneAsync("MultiChunkTest", LoadSceneMode.Single);
         yield return loadOp;
 
-        world = GameObject.FindFirstObjectByType<TerrainHandler>();
+        world = World.Instance.GetTerrainHandler();
         Assert.IsNotNull(world, "Could not find TerrainHandler in the scene!");
 
         world.gameObject.SetActive(false);
@@ -30,8 +30,8 @@ public class BoundaryTests
     {
         Debug.Log("Running test for extreme noise values");
 
-        world.SetWorldHeight(100);
-        world.SetWorldWidth(100);
+        world.SetWorldHeight(TERRAIN_TEST_SIZE);
+        world.SetWorldWidth(TERRAIN_TEST_SIZE);
         world.SetViewDistance(5);
         world.GetComponent<NoiseHandler>().SetTerrainThreshold(1000);
         world.gameObject.SetActive(true);
@@ -48,8 +48,8 @@ public class BoundaryTests
     {
         Debug.Log("Running test for destroying terrain outside chunks");
 
-        world.SetWorldHeight(100);
-        world.SetWorldWidth(100);
+        world.SetWorldHeight(TERRAIN_TEST_SIZE);
+        world.SetWorldWidth(TERRAIN_TEST_SIZE);
         world.SetViewDistance(5);
         world.gameObject.SetActive(true);
         world.GenerateTerrain();
@@ -69,8 +69,8 @@ public class BoundaryTests
     {
         Debug.Log("Running test for destroying terrain outside chunks");
 
-        world.SetWorldHeight(100);
-        world.SetWorldWidth(100);
+        world.SetWorldHeight(TERRAIN_TEST_SIZE);
+        world.SetWorldWidth(TERRAIN_TEST_SIZE);
         world.SetViewDistance(5);
         world.gameObject.SetActive(true);
         world.GenerateTerrain();

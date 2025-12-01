@@ -12,6 +12,9 @@ public class UIMainMenuController : MonoBehaviour
     private Slider volumeSlider;
     private Toggle godModeToggle;
 
+    // suppress programmatic UI updates from re-triggering handlers
+    private bool _suppressUiChange = false;
+
     private void Start()
     {
         if (mainUIDocumentGO == null)
@@ -19,6 +22,8 @@ public class UIMainMenuController : MonoBehaviour
             Debug.LogError("UIMainMenuController: mainUIDocumentGO not assigned.");
             return;
         }
+
+        if (!mainUIDocumentGO.activeInHierarchy) mainUIDocumentGO.SetActive(true);
 
         mainUIDocument = mainUIDocumentGO.GetComponent<UIDocument>();
         if (mainUIDocument == null)
@@ -28,18 +33,37 @@ public class UIMainMenuController : MonoBehaviour
         }
 
         var root = mainUIDocument.rootVisualElement;
+        if (root == null)
+        {
+            Debug.LogError("UIMainMenuController: rootVisualElement is null.");
+            return;
+        }
+
         mainMenuPanel = root.Q<VisualElement>("MainMenuPanel");
         settingsPanel = root.Q<VisualElement>("SettingsPanel");
         volumeSlider = root.Q<Slider>("VolumeSlider");
         godModeToggle = root.Q<Toggle>("GodModeToggle");
 
+        if (volumeSlider == null) Debug.LogError("UIMainMenuController: VolumeSlider not found.");
+        else Debug.Log("UIMainMenuController: VolumeSlider bound.");
+
         root.Q<Button>("PlayButton")?.RegisterCallback<ClickEvent>(e => StartGame());
         root.Q<Button>("MainSettingsButton")?.RegisterCallback<ClickEvent>(e => OpenSettings());
         root.Q<Button>("BackFromSettingsButton")?.RegisterCallback<ClickEvent>(e => BackToMain());
 
-        LoadSettings();
-        volumeSlider?.RegisterValueChangedCallback(OnVolumeChange);
-        godModeToggle?.RegisterValueChangedCallback(OnGodModeChange);
+        // Ensure no duplicate registrations
+        if (volumeSlider != null) volumeSlider.UnregisterValueChangedCallback(OnVolumeChange);
+        if (godModeToggle != null) godModeToggle.UnregisterValueChangedCallback(OnGodModeChange);
+
+        if (volumeSlider != null) volumeSlider.RegisterValueChangedCallback(OnVolumeChange);
+        if (godModeToggle != null) godModeToggle.RegisterValueChangedCallback(OnGodModeChange);
+
+        // Subscribe to centralized settings manager
+        SettingsManager.Instance.OnVolumeChanged += OnSettingsVolumeChanged;
+        SettingsManager.Instance.OnGodModeChanged += OnSettingsGodModeChanged;
+
+        // Initialize UI from settings manager
+        SettingsManager.Instance.SendCurrentStateToSubscriber(OnSettingsVolumeChanged, OnSettingsGodModeChanged);
     }
 
     private void StartGame()
@@ -47,47 +71,60 @@ public class UIMainMenuController : MonoBehaviour
         if (SafeTerrainHandler.TryGetComponent(out _))
             Debug.Log("UIMainMenuController: Referenced team TerrainHandler for level gen.");
 
-        // Just hide main menu — DO NOT deactivate GO
         mainUIDocumentGO.SetActive(false);
-
-        // OPTIONAL: Show a "Game Started" message or load scene
     }
 
-    // --------------------------------------------------------------------
-    // FIXED: Full method bodies – NO => statements
-    // --------------------------------------------------------------------
     private void OpenSettings()
     {
-        mainMenuPanel.style.display = DisplayStyle.None;
-        settingsPanel.style.display = DisplayStyle.Flex;
+        if (mainMenuPanel != null) mainMenuPanel.style.display = DisplayStyle.None;
+        if (settingsPanel != null) settingsPanel.style.display = DisplayStyle.Flex;
     }
 
     private void BackToMain()
     {
-        settingsPanel.style.display = DisplayStyle.None;
-        mainMenuPanel.style.display = DisplayStyle.Flex;
+        if (settingsPanel != null) settingsPanel.style.display = DisplayStyle.None;
+        if (mainMenuPanel != null) mainMenuPanel.style.display = DisplayStyle.Flex;
     }
-    // --------------------------------------------------------------------
 
+    // User changed slider -> push to SettingsManager
     private void OnVolumeChange(ChangeEvent<float> evt)
     {
+        if (_suppressUiChange) return;
         float vol = evt.newValue;
-        SafeSoundManager.SetBackgroundVolume(vol / 100f);
-        PlayerPrefs.SetFloat("Volume", vol);
+        Debug.Log($"UIMainMenuController: User changed volume to {vol}");
+        SettingsManager.Instance.SetVolume(vol);
+    }
+
+    // Programmatic update from SettingsManager -> update UI without re-triggering
+    private void OnSettingsVolumeChanged(float vol)
+    {
+        _suppressUiChange = true;
+        if (volumeSlider != null) volumeSlider.value = vol;
+        _suppressUiChange = false;
     }
 
     private void OnGodModeChange(ChangeEvent<bool> evt)
     {
-        PlayerPrefs.SetInt("GodMode", evt.newValue ? 1 : 0);
+        if (_suppressUiChange) return;
+        SettingsManager.Instance.SetGodMode(evt.newValue);
     }
 
-    private void LoadSettings()
+    private void OnSettingsGodModeChanged(bool enabled)
     {
-        float vol = PlayerPrefs.GetFloat("Volume", 50f);
-        if (volumeSlider != null) volumeSlider.value = vol;
-        SafeSoundManager.SetBackgroundVolume(vol / 100f);
+        _suppressUiChange = true;
+        if (godModeToggle != null) godModeToggle.value = enabled;
+        _suppressUiChange = false;
+    }
 
-        bool god = PlayerPrefs.GetInt("GodMode", 0) == 1;
-        if (godModeToggle != null) godModeToggle.value = god;
+    private void OnDestroy()
+    {
+        if (SettingsManager.Instance != null)
+        {
+            SettingsManager.Instance.OnVolumeChanged -= OnSettingsVolumeChanged;
+            SettingsManager.Instance.OnGodModeChanged -= OnSettingsGodModeChanged;
+        }
+
+        if (volumeSlider != null) volumeSlider.UnregisterValueChangedCallback(OnVolumeChange);
+        if (godModeToggle != null) godModeToggle.UnregisterValueChangedCallback(OnGodModeChange);
     }
 }

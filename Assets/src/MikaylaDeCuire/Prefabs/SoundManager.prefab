@@ -50,6 +50,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a14502dfd7eca42cfbecb20a3d754bb5, type: 3}
   enemyDamage: {fileID: 8300000, guid: 0ca6d651d8e1748a88d504e5aed25509, type: 3}
   enemyThrow: {fileID: 8300000, guid: b2cb8b53c0c0c4695a5c4175fb8af943, type: 3}
+  playerDeath: {fileID: 8300000, guid: b5908ad0abbe24b88b30c5c882a6f4a9, type: 3}
   useTool: {fileID: 8300000, guid: 0c903cd7d5b36422785b221dd093010a, type: 3}
   addTool: {fileID: 8300000, guid: d38c2af8f1bd74049a13b37fbad38b11, type: 3}
   background_clip: {fileID: 8300000, guid: 7548a97d30a474a95bfa87f6f0a39c96, type: 3}

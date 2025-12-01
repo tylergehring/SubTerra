@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+﻿//jack kroll
+using NUnit.Framework;
 using UnityEngine;
 
 public class ABetterGameTests
@@ -24,27 +25,39 @@ public class ABetterGameTests
     }
 
     // --------------------------
-    // 1️⃣ Prefab exists in scene
+    // 1️ Prefab exists in scene
+
+    // This test checks whether a tool prefab exists in the scene.
+    // If none exists, the test passes because the project allows it.
+    // Otherwise it confirms that the tool object is properly found.
     // --------------------------
     [Test]
     public void Weapon_PrefabExists()
     {
-        if (_weapon == null) Assert.Pass("✅ No ABetterGame prefab in the scene, test passes.");
-        else Assert.IsNotNull(_weapon, "❌ ABetterGame prefab not found in the scene!");
+        if (_weapon == null) Assert.Pass(" No ABetterGame prefab in the scene, test passes.");
+        else Assert.IsNotNull(_weapon, " ABetterGame prefab not found in the scene!");
     }
 
     // --------------------------
-    // 2️⃣ Prefab is inactive initially
+    // 2️ Prefab is inactive initially
+
+
+    // Ensures that the pickaxe GameObject starts inactive.
+    // This is important because tools may be hidden until the player equips them
     // --------------------------
     [Test]
     public void Weapon_IsInactiveInitially()
     {
         if (_weapon != null)
-            Assert.IsFalse(_weaponGO.activeSelf, "❌ ABetterGame should start inactive!");
+            Assert.IsFalse(_weaponGO.activeSelf, " ABetterGame should start inactive!");
     }
 
     // --------------------------
-    // 3️⃣ Prefab has AudioSource and sound is off
+    // 3️ Prefab has AudioSource and sound is off
+
+    // 1. The tool has an AudioSource component.
+    // 2. The sound is NOT playing at the start.
+    // Prevents audio from playing prematurely and ensures the prefab is set up correctly.
     // --------------------------
     [Test]
     public void Weapon_HasAudioSourceAndSoundOff()
@@ -52,13 +65,16 @@ public class ABetterGameTests
         if (_weapon != null)
         {
             var audio = _weaponGO.GetComponent<AudioSource>();
-            Assert.IsNotNull(audio, "❌ ABetterGame is missing an AudioSource component!");
-            Assert.IsFalse(audio.isPlaying, "❌ ABetterGame AudioSource should not be playing initially!");
+            Assert.IsNotNull(audio, " ABetterGame is missing an AudioSource component!");
+            Assert.IsFalse(audio.isPlaying, " ABetterGame AudioSource should not be playing initially!");
         }
     }
 
     // --------------------------
-    // 4️⃣ No duplicate prefabs
+    // 4️ No duplicate prefabs
+
+    // This test verifies that only one tool prefab exists in the scene.
+    // Helps prevent bugs caused by accidentally placing multiple prefabs.
     // --------------------------
     [Test]
     public void Weapon_NoDuplicatePrefabs()
@@ -66,13 +82,17 @@ public class ABetterGameTests
         var weapons = Object.FindObjectsByType<ABetterGame>(FindObjectsSortMode.None);
         if (weapons.Length == 0)
         {
-            Assert.Pass("✅ No ABetterGame prefab found in the scene, test passes.");
+            Assert.Pass(" No ABetterGame prefab found in the scene, test passes.");
         }
-        Assert.LessOrEqual(weapons.Length, 1, $"❌ There are {weapons.Length} ABetterGame prefabs in the scene! Only 1 expected.");
+        Assert.LessOrEqual(weapons.Length, 1, $" There are {weapons.Length} ABetterGame prefabs in the scene! Only 1 expected.");
     }
 
     // --------------------------
-    // 5️⃣ Multiple instances in scene
+    // 5️ Multiple instances in scene
+
+
+    // Verifies that the tool can be safely instantiated multiple times.
+    // A duplicate is created, and the test ensures that 2+ tools instances exist.
     // --------------------------
     [Test]
     public void Weapon_MultipleInstancesInScene()
