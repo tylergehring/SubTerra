@@ -120,7 +120,7 @@ public class Hazard : MonoBehaviour
         isMoving = false; // Reset movement state
         Debug.Log($"Rock spawned at {position}");
    
-      // World.Instance.GetTerrainHandler().DestroyInRadius(transform.position, 3);   // This prevents rock from spawning inside terrain.
+       World.Instance.GetTerrainHandler().DestroyInRadius(transform.position, 3);   // This prevents rock from spawning inside terrain.
 
     }
 
