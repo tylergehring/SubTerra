@@ -889,7 +889,7 @@ PrefabInstance:
     - target: {fileID: 6812292034956268252, guid: 48f0d4a8567c4a641a6a8d08c9dac25f, type: 3}
       propertyPath: items.Array.data[11].prefab
       value: 
-      objectReference: {fileID: 8579225258270759508, guid: 6f5b10fdef3504b4588f3975c1005e9c, type: 3}
+      objectReference: {fileID: 7913279740308284237, guid: c128f98ac56b3044d97070a574069a3f, type: 3}
     - target: {fileID: 6812292034956268252, guid: 48f0d4a8567c4a641a6a8d08c9dac25f, type: 3}
       propertyPath: items.Array.data[12].prefab
       value: 
@@ -1333,6 +1333,7 @@ MonoBehaviour:
   footStep: []
   enemyDamage: {fileID: 0}
   enemyThrow: {fileID: 0}
+  playerDeath: {fileID: 0}
   useTool: {fileID: 0}
   addTool: {fileID: 0}
   background_clip: {fileID: 8300000, guid: 7548a97d30a474a95bfa87f6f0a39c96, type: 3}
