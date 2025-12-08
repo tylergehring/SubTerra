@@ -125,7 +125,7 @@ public class PlayerController : MonoBehaviour
     private float lastFootstepTime = 0f;
     private float jumpCooldown = 0.5f;
     private float lastJumpTime = 0f;
-
+    public HealthBar healthBar;   // for the health bar
 
     void Start()
     {
@@ -175,6 +175,11 @@ public class PlayerController : MonoBehaviour
         {
 //            _camera = ();
         }
+
+        // initialize HealthBar
+        if (healthBar != null)
+            healthBar.SetMaxHealth(_health);  // _health is starting health
+
     }
 
     /* in Awake:
@@ -532,6 +537,11 @@ public class PlayerController : MonoBehaviour
 
         _health = (byte)newHealth;
         Debug.Log($"Player health changed by {amount}. Previous: {previousHealth}, Current: {_health}");
+
+        // update HealthBar
+        if (healthBar != null)
+            healthBar.SetHealth(_health);
+
 
         // Mikayla - Play damage sound onlu if health decreased
         if (_health < previousHealth)
