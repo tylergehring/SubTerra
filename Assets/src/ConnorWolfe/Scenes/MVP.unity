@@ -847,6 +847,10 @@ PrefabInstance:
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 6812292034956268252, guid: 48f0d4a8567c4a641a6a8d08c9dac25f, type: 3}
+      propertyPath: items.Array.data[0].prefab
+      value: 
+      objectReference: {fileID: 6370700475403072387, guid: 2a3e8b683c96c6c4a8af24a2c577db3e, type: 3}
+    - target: {fileID: 6812292034956268252, guid: 48f0d4a8567c4a641a6a8d08c9dac25f, type: 3}
       propertyPath: items.Array.data[1].prefab
       value: 
       objectReference: {fileID: 8925047236830602446, guid: ad5cd2dff205107478a222d3bef45314, type: 3}
@@ -2224,6 +2228,7 @@ MonoBehaviour:
   _flashlight: {fileID: 0}
   _inventoryHotBar: {fileID: 0}
   _staminaWheel: {fileID: 0}
+  healthBar: {fileID: 0}
 --- !u!114 &7470561958761811119
 MonoBehaviour:
   m_ObjectHideFlags: 0
