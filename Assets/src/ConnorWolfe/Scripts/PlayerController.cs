@@ -126,6 +126,7 @@ public class PlayerController : MonoBehaviour
     private float jumpCooldown = 0.5f;
     private float lastJumpTime = 0f;
     public HealthBar healthBar;   // for the health bar
+    public bool useAI = false;  // for Ai Demo
 
     void Start()
     {
@@ -235,6 +236,10 @@ public class PlayerController : MonoBehaviour
     // get input, apply inventory actions
     private void _GetInput()
     {
+
+        if (useAI) return;  // for Ai Demo
+
+
         // horizontal movement
         float rightMv = 0f;
         float leftMv = 0f;
@@ -687,6 +692,8 @@ public class PlayerController : MonoBehaviour
     {
         return this.gameObject;
     }
+
+
 }
 
 
