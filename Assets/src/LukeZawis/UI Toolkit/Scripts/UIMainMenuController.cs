@@ -74,8 +74,9 @@ public class UIMainMenuController : MonoBehaviour
 
         mainUIDocumentGO.SetActive(false);
 
-        // Load gameplay scene additively so managers persist
-        SceneManager.LoadScene("Final", LoadSceneMode.Additive);
+        // Load the gameplay scene (replace "GameScene" with your actual scene name)
+        SceneManager.LoadScene("MVP", LoadSceneMode.Additive);
+       
     }
 
     private void OpenSettings()
