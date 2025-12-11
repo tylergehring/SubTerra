@@ -148,7 +148,7 @@ public class UIPauseMenuController : MonoBehaviour
         Time.timeScale = 0f;
 
         // keep audio running while paused
-        AudioListener.pause = false;
+        AudioListener.pause = true;
 
         if (pauseMenuPanel != null) pauseMenuPanel.style.display = DisplayStyle.Flex;
         if (settingsPanel != null) settingsPanel.style.display = DisplayStyle.None;
