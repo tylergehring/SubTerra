@@ -57,6 +57,27 @@ public class UIPauseMenuController : MonoBehaviour
         if (volumeSlider == null) Debug.LogError("UIPauseMenuController: VolumeSlider not found.");
         else Debug.Log("UIPauseMenuController: VolumeSlider bound.");
 
+        // ✅ MOBILE-ONLY PAUSE BUTTON SUPPORT
+        var pauseBtn = root.Q<Button>("PauseButton");
+        if (pauseBtn != null)
+        {
+            // Hide on non-mobile
+            if (Application.platform != RuntimePlatform.Android &&
+                Application.platform != RuntimePlatform.IPhonePlayer)
+            {
+                pauseBtn.style.display = DisplayStyle.None;
+            }
+            else
+            {
+                pauseBtn.clicked += () =>
+                {
+                    if (!isPaused)
+                        PauseGame();
+                };
+            }
+        }
+
+
         var resumeBtn = root.Q<Button>("ResumeSettingsButton");
         if (resumeBtn != null) resumeBtn.clicked += ResumeGame;
 

@@ -1,0 +1,3 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <ui:Button name="PauseButton" style="background-image: url(&quot;project://database/Assets/src/LukeZawis/Assets/DEVNIK%202D/2D%20UI%20PIXEL%20BUTTONS/UI%20SIMPLE%20PIXEL%20UNSPLIT.png?fileID=-708245964&amp;guid=a37e8466236089c45b610370218b5353&amp;type=3#PAUSE_BUTTON&quot;); position: absolute; top: 3%; right: 5%;" />
+</ui:UXML>
