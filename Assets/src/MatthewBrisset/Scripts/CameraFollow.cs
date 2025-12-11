@@ -8,6 +8,11 @@ public class CameraFollow : MonoBehaviour
 
     private Transform _player;
 
+    private void Start()
+    {
+        transform.parent = null;
+    }
+
     void Update()
     {
         // Keep searching for camera if not in scene yet
