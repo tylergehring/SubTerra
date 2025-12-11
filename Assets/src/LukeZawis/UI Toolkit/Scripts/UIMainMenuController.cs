@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UIElements;
-using UnityEngine.SceneManagement;  // <-- Added for scene loading
 
 public class UIMainMenuController : MonoBehaviour
 {
@@ -73,10 +72,6 @@ public class UIMainMenuController : MonoBehaviour
             Debug.Log("UIMainMenuController: Referenced team TerrainHandler for level gen.");
 
         mainUIDocumentGO.SetActive(false);
-
-        // Load the gameplay scene (replace "GameScene" with your actual scene name)
-        SceneManager.LoadScene("MVP", LoadSceneMode.Additive);
-       
     }
 
     private void OpenSettings()
