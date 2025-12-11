@@ -1,3 +1,0 @@
-<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <ui:VisualElement name="DPad" style="flex-grow: 1; position: absolute; left: 2%; bottom: 2%; width: 25%; height: 25%; align-items: flex-start; align-content: center; align-self: center; background-color: rgba(0, 0, 0, 0.38);" />
-</ui:UXML>

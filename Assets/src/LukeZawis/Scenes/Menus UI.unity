@@ -135,7 +135,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!114 &476741882
 MonoBehaviour:
@@ -479,7 +479,6 @@ MonoBehaviour:
   footStep: []
   enemyDamage: {fileID: 0}
   enemyThrow: {fileID: 0}
-  playerDeath: {fileID: 0}
   useTool: {fileID: 0}
   addTool: {fileID: 0}
   background_clip: {fileID: 8300000, guid: 7548a97d30a474a95bfa87f6f0a39c96, type: 3}
