@@ -2,7 +2,8 @@
     "name": "GameScripts",
     "rootNamespace": "",
     "references": [
-        "GUID:2cc0bd34870831f47830523257f16729"
+        "GUID:2cc0bd34870831f47830523257f16729",
+        "GUID:07bd9dcc10ed35346bbf127bb2440b7c"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -21,76 +21,64 @@ public class SpeedSuperC
         _speed = newSpeed;
     }
 
-    //    public float GetSpeed() { // static version
-    public virtual float GetSpeed() { // dynamic version
-        return 3*_speed;
+    public virtual float GetSpeed()
+    {
+        return 3 * _speed;
     }
 }
 
 public class Speed : SpeedSuperC
 {
-    //    public float GetSpeed() { // static version
-    public override float GetSpeed() { // dynamic version
-    
+    public override float GetSpeed()
+    {
         return _speed;
     }
 }
 
-
 public class PlayerController : MonoBehaviour
 {
-
-    // this script handles systems for the player (Arjun)
-
-    // static instance (thread-safe lazy intialization)
     [HideInInspector] public static PlayerController Instance { get; private set; }
 
     [Header("BC mode toggle")]
-    [SerializeField] public bool isBCMode = false; // public so other scripts and change/set bcmode
+    [SerializeField] public bool isBCMode = false;
 
-    // public as to be able to change the key binds in other scripts
-    // using Old Unity Input systems
     [Header("Keybind settings")]
     public KeyCode mvRightKey = KeyCode.D;
     public KeyCode mvLeftKey = KeyCode.A;
     public KeyCode jumpKey = KeyCode.Space;
-    public KeyCode pickUpKey = KeyCode.E; // picking up actions moved to ItemHandler script/GameObject
+    public KeyCode pickUpKey = KeyCode.E;
     public KeyCode dropKey = KeyCode.Q;
     public KeyCode tabKey = KeyCode.Tab;
     public KeyCode useKey = KeyCode.F;
-    public KeyCode sprintKey = KeyCode.LeftShift; 
+    public KeyCode sprintKey = KeyCode.LeftShift;
     public List<KeyCode> invenHotKeys = new List<KeyCode> { KeyCode.Alpha1, KeyCode.Alpha2, KeyCode.Alpha3, KeyCode.Alpha4 };
 
-    // movement values
     [Header("Movement Settings")]
     [SerializeField] private float _jumpStrength;
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _climbSpeed;
-    // raycast value(s)
+
     [Header("Raycast Settings")]
     [Tooltip("This is the range that the raycast will look outside the player")]
     [SerializeField] private float _raycastRange;
-    // stamina
+
     [Header("Stamina Settings")]
-    [Tooltip("Max Stamina is 100f, This is the drain rate when sprinting")]
     [SerializeField] private float _sprintSRate = 20f;
-    [Tooltip("Max Stamina is 100f, This is the drain rate when climbing")]
     [SerializeField] private float _climbSRate = 15f;
-  //  [SerializeField] private float _staminaRegenRate = 10f; 
-//    [SerializeField] private float _staminaRegenDelay = 3f;
-    // player health
+
     [Header("Health settings")]
-    [SerializeField] private byte _health = (byte)3; // Unsigned 8bit integer (0 to 255)
-    // player score
+    [SerializeField] private byte _health = (byte)3;
+
     [Header("Score settings")]
-    [SerializeField] private uint _playerScore = 0; // serialized so it can be viewed in inspector
-    // player components that help the player move
+    [SerializeField] private uint _playerScore = 0;
+
     [Header("Player components")]
     [SerializeField] private Rigidbody2D _rb;
     [SerializeField] private SpriteRenderer _playerSprite;
     [SerializeField] private Animator _playerAnimator;
+
     [Header("External components")]
-    [SerializeField] private GameObject _itemHandlerPrefab; // Lets us drop items into the world
+    [SerializeField] private GameObject _itemHandlerPrefab;
     [SerializeField] private GameObject _deadPlayerBodyPrefab;
     [SerializeField] private GameObject _deadPlayerHelmetPrefab;
     [SerializeField] private GameObject _camera;
@@ -98,70 +86,63 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private InventoryHotBarScript _inventoryHotBar;
     [SerializeField] private StaminaWheelScript _staminaWheel;
 
-
-    // booleans for checking movement and position states
     private bool _onGround = false;
     private bool _onWall = false;
-    //private bool _onLeftWall = false;
-    //private bool _onRightWall = false;
     private bool _isPaused = false;
     private bool _isJumping = false;
     private bool _isSprinting = false;
-    private bool _staminaExhausted = true; // turn off stamina for a moment if stamina reaches 0
-    private bool _wasRight = true; // used in animation/flip control
+    private bool _staminaExhausted = true;
+    private bool _wasRight = true;
     private bool _playerAlive = true;
+
     private float _horizontalMovement;
-    private float _halfHeight; // used with raycasting to determine bounds
+    private float _halfHeight;
     private float _halfWidth;
     private float _animTimer = 0f;
     private float _currStamina = 100f;
     private float _staminaRegenTimer = 0f;
 
-    // The inventory for the player
     private QuickAccess _inventory = new QuickAccess();
-
-    // Speed class (used to showcase static vs. dynamic binding to meet class requirements)
     private SpeedSuperC _movementSpeed = new Speed();
 
-    // Mikayla - For Sound Cooldown betwen steps/jumps
     private float footstepCooldown = 0.3f;
     private float lastFootstepTime = 0f;
     private float jumpCooldown = 0.5f;
     private float lastJumpTime = 0f;
-    public HealthBar healthBar;   // for the health bar
-    public bool useAI = false;  // for Ai Demo
+
+    public HealthBar healthBar;
+    public bool useAI = false;
 
     void Start()
     {
         _movementSpeed.SetSpeed(_moveSpeed);
 
-        _health = 100;  // Player health start form 100
-        // if the key's are not set / set in inspector, I set them manually here
-        if (mvRightKey == KeyCode.None) // right: D
+        _health = 100;
+
+        if (mvRightKey == KeyCode.None)
             mvRightKey = KeyCode.D;
-        if (mvLeftKey == KeyCode.None) // left: A
+        if (mvLeftKey == KeyCode.None)
             mvLeftKey = KeyCode.A;
-        if (jumpKey == KeyCode.None) // jump: SPACE
+        if (jumpKey == KeyCode.None)
             jumpKey = KeyCode.Space;
-        if (pickUpKey == KeyCode.None) // pickUp: E
+        if (pickUpKey == KeyCode.None)
             pickUpKey = KeyCode.E;
-        if (dropKey == KeyCode.None) // drop: Q
+        if (dropKey == KeyCode.None)
             dropKey = KeyCode.Q;
-        if (tabKey == KeyCode.None) // tab: TAB
+        if (tabKey == KeyCode.None)
             tabKey = KeyCode.Tab;
-        if (useKey == KeyCode.None) // use tool: F
+        if (useKey == KeyCode.None)
             useKey = KeyCode.F;
-         if (sprintKey == KeyCode.None)
+        if (sprintKey == KeyCode.None)
             sprintKey = KeyCode.LeftShift;
 
-
-        // getting the rigibody manually if is not set in inspector
         if (!_rb)
             _rb = GetComponent<Rigidbody2D>();
 
         if (!_playerSprite)
             _playerSprite = GetComponent<SpriteRenderer>();
-        if (_playerSprite) {
+        if (_playerSprite)
+        {
             _halfHeight = _playerSprite.bounds.extents.y;
             _halfWidth = _playerSprite.bounds.extents.x;
         }
@@ -175,20 +156,10 @@ public class PlayerController : MonoBehaviour
         if (!_staminaWheel)
             _staminaWheel = GetComponentInChildren<StaminaWheelScript>();
 
-        if (!_camera)
-        {
-//            _camera = ();
-        }
-
-        // initialize HealthBar
         if (healthBar != null)
-            healthBar.SetMaxHealth(_health);  // _health is starting health
-
+            healthBar.SetMaxHealth(_health);
     }
 
-    /* in Awake:
-     we check that there is only one instance of the player on the screen
-     */
     private void Awake()
     {
         if (Instance != null && Instance != null)
@@ -198,19 +169,12 @@ public class PlayerController : MonoBehaviour
         Debug.Log($"instance == {Instance.name}");
     }
 
-    /* in OnDestroy()
-        prevent false duplicates in the scene
-     */
     private void OnDestroy()
     {
         if (Instance == this)
             Instance = null;
     }
 
-    /* in Update:
-        - We get input
-        - We check if the player is alive
-    */
     void Update()
     {
         _inventoryHotBar.UpdateSlotSelect(_inventory.GetIndex());
@@ -220,30 +184,25 @@ public class PlayerController : MonoBehaviour
             Pause(true);
     }
 
-    /* in Fixed Update
-      - We check if the player is paused
-      - check the surface the player is touching
-      - Move the player
-    */
     void FixedUpdate()
     {
         _CheckHealth();
         if (_isPaused) return;
-        _CheckSurface(); // raycasting is expensive, now only runs when we intend to use it
+        _CheckSurface();
         _GoundMove();
         _WallMove();
         _UpdateAnimatorAndFlip();
     }
 
-    // _privateFuntions //
-    // get input, apply inventory actions
     private void _GetInput()
     {
+#if UNITY_ANDROID || UNITY_IOS
+        if (FindObjectOfType<MobileControlsUI>() != null)
+            return;
+#endif
 
-        if (useAI) return;  // for Ai Demo
+        if (useAI) return;
 
-
-        // horizontal movement
         float rightMv = 0f;
         float leftMv = 0f;
         if (Input.GetKey(mvRightKey))
@@ -257,7 +216,6 @@ public class PlayerController : MonoBehaviour
 
         _isJumping = Input.GetKey(jumpKey);
 
-        // inventory actions
         if (Input.GetKeyDown(dropKey))
         {
             _Drop();
@@ -288,10 +246,8 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // move the player if its on the ground
     private void _GoundMove()
     {
-        // to meet the requirements of the class I must use the defined class in code to showcase the differences in static vs. dynamic
         float setSpeed = _movementSpeed.GetSpeed();
         if (isBCMode)
         {
@@ -300,7 +256,6 @@ public class PlayerController : MonoBehaviour
                 _rb.linearVelocityY = _jumpStrength;
             return;
         }
-
 
         if (!_staminaWheel.IsExhausted())
         {
@@ -332,9 +287,6 @@ public class PlayerController : MonoBehaviour
         else if (!_isJumping && _rb.linearVelocityY > 0)
             _rb.linearVelocityY = 0f;
 
-        // Mikayla - Trigger Footstep sounds once horizontal velocity is applied + delay
-        // Time.time = time since start of game (seconds) 
-        // LastFootstepTime = time last sound was played at
         if (_onGround && Mathf.Abs(_horizontalMovement) > 0.1f)
         {
             if (Time.time - lastFootstepTime >= footstepCooldown)
@@ -356,11 +308,8 @@ public class PlayerController : MonoBehaviour
             if (!isBCMode)
                 _staminaWheel.ChangeStamina((-1f * _climbSRate) * Time.deltaTime);
         }
-     
-
     }
 
-    // check if the player is on the ground or on a wall
     private void _CheckSurface()
     {
         _onGround = Physics2D.Raycast(transform.position, Vector2.down, _halfHeight + _raycastRange, LayerMask.GetMask("Environment"));
@@ -375,15 +324,14 @@ public class PlayerController : MonoBehaviour
             return;
 
         NonReusableTools nrTool = current.GetComponent<NonReusableTools>();
-        if (nrTool) {
+        if (nrTool)
+        {
             nrTool.Use(this);
-            // Mikayla - can remove this if using ItemHandler
             SoundEvents.ToolUse();
             return;
         }
     }
 
-    // drop an item from the inventory
     private GameObject _Drop()
     {
         if (!_itemHandlerPrefab)
@@ -411,7 +359,7 @@ public class PlayerController : MonoBehaviour
             handler.SetPickupCooldown(1f);
             handler.UpdateSprite();
         }
-        // Mikayla
+
         SoundEvents.ToolPickup();
         _inventoryHotBar.UpdateSlotItem(_inventory.GetIndex(), null);
         return newHandler;
@@ -421,7 +369,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!_playerSprite)
             return;
-     
+
         if (_horizontalMovement != 0)
         {
             if ((_horizontalMovement < 0 && _wasRight) || (_horizontalMovement > 0 && !_wasRight))
@@ -434,7 +382,6 @@ public class PlayerController : MonoBehaviour
         if (!_playerAnimator)
             return;
 
-        // reset parameters
         foreach (AnimatorControllerParameter parameter in _playerAnimator.parameters)
         {
             if (parameter.type == AnimatorControllerParameterType.Bool)
@@ -455,20 +402,18 @@ public class PlayerController : MonoBehaviour
                     _playerAnimator.SetBool("doIdleB", true);
 
             }
-            else // running / sprinting
+            else
             {
                 _animTimer = 0f;
                 _playerAnimator.SetBool("isRunning", true);
                 _playerAnimator.SetBool("isSprinting", _isSprinting);
             }
-
-
         }
         else if (_onWall)
         {
             _playerAnimator.SetBool("isClimbing", true);
-        } 
-        else /*if (_isJumping)*/ // in air
+        }
+        else
         {
             if (_rb.linearVelocityY > 0)
                 _playerAnimator.SetBool("isJumping", true);
@@ -490,14 +435,14 @@ public class PlayerController : MonoBehaviour
                 _camera.transform.SetParent(tempBody.transform, false);
                 Rigidbody2D tempRBB = tempBody.GetComponent<Rigidbody2D>();
                 if (tempRBB)
-                    tempRBB.linearVelocity = new Vector2(Random.Range(0f,3f), Random.Range(0f,3f));
+                    tempRBB.linearVelocity = new Vector2(Random.Range(0f, 3f), Random.Range(0f, 3f));
             }
             if (_deadPlayerHelmetPrefab && _flashlight)
-            {   
+            {
                 GameObject tempHelm = Instantiate(_deadPlayerHelmetPrefab, _flashlight.transform.position, Quaternion.identity);
                 _flashlight.transform.SetParent(tempHelm.transform, false);
                 Rigidbody2D tempRBH = tempHelm.GetComponent<Rigidbody2D>();
-                if (tempRBH) 
+                if (tempRBH)
                     tempRBH.linearVelocity = new Vector2(Random.Range(0f, 3f), Random.Range(0f, 3f));
             }
             for (int i = 0; i < 4; i++)
@@ -513,50 +458,32 @@ public class PlayerController : MonoBehaviour
 
             _playerAlive = false;
             Pause(true);
-            this.gameObject.SetActive(false);            
-
+            this.gameObject.SetActive(false);
         }
     }
 
-    //// PublicFunctions ////
-    // pause/unpause the player
-    public void Pause(bool newPause) {
+    public void Pause(bool newPause)
+    {
         _isPaused = newPause;
     }
 
-    // change the player health by a given amount
     public void ChangeHealth(int amount)
     {
-        Debug.Log($"PlayerController: ChangeHealth -> amount == {amount}\n" +
-                  $"& -> _health == {_health}");
-
-        int healthCheck = _health - amount;
-
-
         int previousHealth = _health;
         int newHealth = _health - amount;
         newHealth = Mathf.Clamp(newHealth, byte.MinValue, byte.MaxValue);
-        /*
-                if (newHealth < byte.MinValue)
-                    newHealth = byte.MinValue;
-                if (newHealth > byte.MaxValue)
-                    newHealth = byte.MaxValue;
-        */
 
         _health = (byte)newHealth;
-        Debug.Log($"Player health changed by {amount}. Previous: {previousHealth}, Current: {_health}");
 
-        // update HealthBar
         if (healthBar != null)
             healthBar.SetHealth(_health);
 
-
-        // Mikayla - Play damage sound onlu if health decreased
         if (_health < previousHealth)
         {
             SoundEvents.EnemyDamage();
         }
     }
+
     public byte getHealth()
     {
         return _health;
@@ -578,24 +505,13 @@ public class PlayerController : MonoBehaviour
         _inventoryHotBar.UpdateSlotItem(_inventory.GetIndex(), null);
     }
 
-    // Returns the player's current health value for testing or display purposes
     public float GetHealth()
     {
-        return _health; // _health is the internal variable storing player's health
+        return _health;
     }
 
     public void ChangeScore(int change)
     {
-        /*        if (change + _playerScore > uint.MaxValue)
-                {
-                    _playerScore = uint.MaxValue;
-                    return;
-                } else if (change + _playerScore < uint.MinValue)
-                {
-                    _playerScore = uint.MinValue;
-                    return;
-                }
-          */
         long newScore = (long)_playerScore + change;
         newScore = (uint)Mathf.Clamp(_playerScore, uint.MinValue, uint.MaxValue);
         _playerScore = (uint)newScore;
@@ -606,18 +522,15 @@ public class PlayerController : MonoBehaviour
         return _playerScore;
     }
 
-    // pick up an item and add it to the open inventory slot
     public GameObject PickUp(GameObject newItem)
     {
         if (newItem == null) return null;
 
-        // This single line fixes BOTH your prefab errors forever
         GameObject item = ItemFactory.CreateItem(newItem);
 
         item.transform.SetParent(null);
         item.SetActive(false);
 
-        // Rest of your logic (unchanged)
         var tool = item.GetComponent<NonReusableTools>();
         tool?.OnPickup(this);
 
@@ -633,37 +546,9 @@ public class PlayerController : MonoBehaviour
         if (sr)
             _inventoryHotBar.UpdateSlotItem(_inventory.GetIndex(), sr.sprite);
 
-        // Mikayla 
         SoundEvents.ToolPickup();
 
         return previous;
-        /*
-                if (newItem)
-                {
-                    newItem.transform.SetParent(null);
-                }
-
-                GameObject previous = _inventory.SetItem(newItem);
-
-                if (newItem)
-                {
-                    NonReusableTools newTool = newItem.GetComponent<NonReusableTools>();
-                    if (newTool)
-                        newTool.OnPickup(this);
-                }
-
-                if (previous)
-                {
-                    NonReusableTools previousTool = previous.GetComponent<NonReusableTools>();
-                    if (previousTool)
-                        previousTool.OnDropped(this);
-                }
-
-                Sprite tempSprite = newItem.GetComponent<SpriteRenderer>().sprite;
-                _inventoryHotBar.UpdateSlotItem(_inventory.GetIndex(), tempSprite);
-
-                return previous;
-        */
     }
 
     public void Victory()
@@ -677,13 +562,8 @@ public class PlayerController : MonoBehaviour
                 scoreMultiplier += 1;
         }
 
-
         ChangeScore((int)(_playerScore * scoreMultiplier));
-
-        /* Victory Sceeen stuff*/
-
         Pause(true);
-
     }
 
     public void ChangeStamina(float amount)
@@ -696,7 +576,20 @@ public class PlayerController : MonoBehaviour
         return this.gameObject;
     }
 
+    // ✅ ADDED METHOD #1
+    public void SetMobileInput(float horizontal, bool jumpPressed)
+    {
+        _horizontalMovement = horizontal;
 
+        if (jumpPressed)
+            _isJumping = true;
+        else if (horizontal == 0f)
+            _isJumping = false;
+    }
+
+    // ✅ ADDED METHOD #2
+    public void MobileUseCurrentItem()
+    {
+        _UseCurrentItem();
+    }
 }
-
-
