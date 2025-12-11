@@ -147,7 +147,7 @@ public class skeletonEnemy : MonoBehaviour
         animator.SetTrigger("Die"); // animation for enemy dying 
 
         // stop movement 
-        rb.velocity = Vector2.zero;
+        rb.linearVelocity = Vector2.zero;
         rb.isKinematic = true;
 
         // Disable colliders so no more interactions

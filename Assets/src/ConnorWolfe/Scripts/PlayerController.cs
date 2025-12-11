@@ -4,7 +4,10 @@ using System.Runtime.InteropServices;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UIElements;
+
+#if UNITY_EDITOR
 using static UnityEditor.PlayerSettings;
+#endif
 
 /* Example of dynamic binding
  
